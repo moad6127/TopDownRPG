@@ -13,5 +13,9 @@ UCLASS()
 class AURA_API ATopDownRPGCharacter : public ATopDownRPGCharacterBase
 {
 	GENERATED_BODY()
+
+public:
+	ATopDownRPGCharacter();
+
 	
 };
