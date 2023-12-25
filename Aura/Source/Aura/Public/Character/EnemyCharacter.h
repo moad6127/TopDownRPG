@@ -4,14 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Character/TopDownRPGCharacterBase.h"
+#include "Interaction/EnemyInterface.h"
 #include "EnemyCharacter.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class AURA_API AEnemyCharacter : public ATopDownRPGCharacterBase
+class AURA_API AEnemyCharacter : public ATopDownRPGCharacterBase , public IEnemyInterface
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void HighlightActor() override;
+	virtual void UnHighlightActor() override;
 };
