@@ -16,11 +16,8 @@ class AURA_API AEnemyCharacter : public ATopDownRPGCharacterBase , public IEnemy
 	GENERATED_BODY()
 	
 public:
+	AEnemyCharacter();
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
 
-private:
-
-	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	bool bHighlight = false;
 };
