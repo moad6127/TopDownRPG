@@ -13,6 +13,7 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class IEnemyInterface;
 
 UCLASS()
 class AURA_API ATopDownRPGPlayerController : public APlayerController
@@ -21,6 +22,7 @@ class AURA_API ATopDownRPGPlayerController : public APlayerController
 	
 public:
 	ATopDownRPGPlayerController();
+	virtual void PlayerTick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -38,10 +40,14 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
 
+	IEnemyInterface* LastActor;
+	IEnemyInterface* ThisActor;
+
 
 	/*
 	* Function
 	*/
 
 	void Move(const FInputActionValue& InputActionValue);
+	void CursorTrace();
 };
