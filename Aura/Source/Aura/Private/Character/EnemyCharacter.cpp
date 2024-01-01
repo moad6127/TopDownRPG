@@ -2,11 +2,19 @@
 
 
 #include "Character/EnemyCharacter.h"
+
+#include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
+#include "AbilitySystem/TopDownRPGAttributeSet.h"
 #include "Aura/Aura.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UTopDownRPGAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	AttributesSet = CreateDefaultSubobject<UTopDownRPGAttributeSet>("AttributeSet");
 }
 
 void AEnemyCharacter::HighlightActor()

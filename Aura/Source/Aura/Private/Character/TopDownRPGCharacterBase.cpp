@@ -11,6 +11,11 @@ ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+UAbilitySystemComponent* ATopDownRPGCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 void ATopDownRPGCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

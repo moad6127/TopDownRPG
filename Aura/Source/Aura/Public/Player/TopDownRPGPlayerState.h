@@ -3,19 +3,36 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/PlayerState.h"
 #include "TopDownRPGPlayerState.generated.h"
 
 /**
  * 
  */
+
+class UAbilitySystemComponent;
+class UAttributeSet;
+
+
 UCLASS()
-class AURA_API ATopDownRPGPlayerState : public APlayerState
+class AURA_API ATopDownRPGPlayerState : public APlayerState, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	ATopDownRPGPlayerState();
 
-	
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	UAttributeSet* GetAttributeSet() const { return AttributesSet; }
+
+
+protected:
+
+	UPROPERTY()
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<UAttributeSet> AttributesSet;
+
 };
