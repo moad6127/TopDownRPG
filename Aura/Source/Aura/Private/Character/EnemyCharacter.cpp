@@ -13,6 +13,8 @@ AEnemyCharacter::AEnemyCharacter()
 
 	AbilitySystemComponent = CreateDefaultSubobject<UTopDownRPGAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+
 
 	AttributesSet = CreateDefaultSubobject<UTopDownRPGAttributeSet>("AttributeSet");
 }

@@ -10,6 +10,7 @@ ATopDownRPGPlayerState::ATopDownRPGPlayerState()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UTopDownRPGAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
 	AttributesSet = CreateDefaultSubobject<UTopDownRPGAttributeSet>("AttributeSet");
 
