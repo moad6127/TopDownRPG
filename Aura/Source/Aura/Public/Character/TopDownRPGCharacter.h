@@ -17,5 +17,14 @@ class AURA_API ATopDownRPGCharacter : public ATopDownRPGCharacterBase
 public:
 	ATopDownRPGCharacter();
 
-	
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+private:
+	/*
+	* Functions
+	*/
+
+	void InitAbilityActorInfo();
+
 };
