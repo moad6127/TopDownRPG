@@ -2,12 +2,14 @@
 
 
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
-#include "AbilitySystemComponent.h"
 #include "Net/UnrealNetwork.h"
 
 UTopDownRPGAttributeSet::UTopDownRPGAttributeSet()
 {
-
+	InitHealth(100.f);
+	InitMaxHealth(110.f);
+	InitMana(120.f);
+	InitMaxMana(130.f);
 }
 
 void UTopDownRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
