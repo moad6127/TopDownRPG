@@ -5,6 +5,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Player/TopDownRPGPlayerState.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
+#include "Player/TopDownRPGPlayerController.h"
+#include "UI/HUD/TopDownRPGHUD.h"
 
 ATopDownRPGCharacter::ATopDownRPGCharacter()
 {
@@ -41,4 +43,13 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 	TopDownRPGPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(TopDownRPGPlayerState, this);
 	AbilitySystemComponent = TopDownRPGPlayerState->GetAbilitySystemComponent();
 	AttributesSet = TopDownRPGPlayerState->GetAttributeSet();
+
+	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
+	{
+		if (ATopDownRPGHUD* TopDownHUD = Cast<ATopDownRPGHUD>(TopDownPlayerController->GetHUD()))
+		{
+			TopDownHUD->InitOverlay(TopDownPlayerController, TopDownRPGPlayerState, AbilitySystemComponent, AttributesSet);
+		}
+	}
+
 }
