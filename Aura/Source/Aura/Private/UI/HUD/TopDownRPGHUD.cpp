@@ -27,9 +27,10 @@ void ATopDownRPGHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbili
 
 	const FWidgetControllerParams WidgetControllerParmas(PC,PS,ASC,AS);
 
-	UOverlayWidgetController* WidgtController = GetOverlayWidgetController(WidgetControllerParmas);
+	UOverlayWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParmas);
 
-	OverlayWidget->SetWidgetController(OverlayWidgetController);
+	OverlayWidget->SetWidgetController(WidgetController);
+	WidgetController->BroadcastInitialValue();
 
 	Widget->AddToViewport();
 }

@@ -7,9 +7,9 @@
 UTopDownRPGAttributeSet::UTopDownRPGAttributeSet()
 {
 	InitHealth(100.f);
-	InitMaxHealth(110.f);
-	InitMana(120.f);
-	InitMaxMana(130.f);
+	InitMaxHealth(100.f);
+	InitMana(100.f);
+	InitMaxMana(100.f);
 }
 
 void UTopDownRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

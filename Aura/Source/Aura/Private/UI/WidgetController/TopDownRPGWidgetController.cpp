@@ -10,3 +10,8 @@ void UTopDownRPGWidgetController::SetWidgetControllerParams(const FWidgetControl
 	AbilitySystemComponent = WCParams.AbilitySystemComponent;
 	AttributeSet = WCParams.AttributeSet;
 }
+
+void UTopDownRPGWidgetController::BroadcastInitialValue()
+{
+
+}
