@@ -27,6 +27,7 @@ void ATopDownRPGEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent,
 		
 		UTopDownRPGAttributeSet* MutableRPGAttributeSet = const_cast<UTopDownRPGAttributeSet*>(RPGAttributeSet);
 		MutableRPGAttributeSet->SetHealth(RPGAttributeSet->GetHealth() + 25.f);
+		MutableRPGAttributeSet->SetMana(RPGAttributeSet->GetMana() - 25.f);
 
 		Destroy();
 	}
