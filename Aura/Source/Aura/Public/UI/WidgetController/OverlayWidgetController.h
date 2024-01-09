@@ -13,6 +13,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float,
 /**
  * 
  */
+struct FOnAttributeChangeData;
+
 UCLASS(BlueprintType, Blueprintable)
 class AURA_API UOverlayWidgetController : public UTopDownRPGWidgetController
 {
@@ -20,10 +22,18 @@ class AURA_API UOverlayWidgetController : public UTopDownRPGWidgetController
 	
 public:
 	virtual void BroadcastInitialValue() override;
+	virtual void BindCallbacksToDependencies() override;
+
 
 	UPROPERTY(BlueprintAssignable,Category = "GAS|Attributes")
 	FOnHealthChangedSignature OnHealthChanged;
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FOnMaxHealthChangedSignature OnMaxHealthChanged;
+
+protected:
+
+	void HealthChanged(const FOnAttributeChangeData& Data) const;
+	void MaxHealthChanged(const FOnAttributeChangeData& Data) const;
+
 };

@@ -15,3 +15,7 @@ void UTopDownRPGWidgetController::BroadcastInitialValue()
 {
 
 }
+
+void UTopDownRPGWidgetController::BindCallbacksToDependencies()
+{
+}
