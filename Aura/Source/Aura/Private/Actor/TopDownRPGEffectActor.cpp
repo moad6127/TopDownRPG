@@ -19,9 +19,9 @@ void ATopDownRPGEffectActor::BeginPlay()
 	Super::BeginPlay();
 }
 
-void ATopDownRPGEffectActor::ApplayEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+void ATopDownRPGEffectActor::ApplayEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
-	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+	UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
 
 	if (TargetASC == nullptr)
 	{
