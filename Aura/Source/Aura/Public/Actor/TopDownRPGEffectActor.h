@@ -6,8 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "TopDownRPGEffectActor.generated.h"
 
-
-class USphereComponent;
+class UGameplayEffect;
 
 UCLASS()
 class AURA_API ATopDownRPGEffectActor : public AActor
@@ -17,19 +16,12 @@ class AURA_API ATopDownRPGEffectActor : public AActor
 public:	
 	ATopDownRPGEffectActor();
 
-	UFUNCTION()
-	virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndx, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	virtual void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
 protected:
 	virtual void BeginPlay() override;
 
-private:
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> Sphere;
+	UFUNCTION(BlueprintCallable)
+	void ApplayEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> Mesh;
+	UPROPERTY(EditAnywhere, Category ="Applied Effects")
+	TSubclassOf<UGameplayEffect> InstnaceGameplayEffectClass;
 };

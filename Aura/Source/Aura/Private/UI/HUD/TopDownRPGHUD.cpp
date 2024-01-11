@@ -23,8 +23,8 @@ void ATopDownRPGHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbili
 	checkf(OverlayWidgetClass, TEXT("Overlay Widget Class uninitialized, fill out BP_TopDownRPGHUD"));
 	checkf(OverlayWidgetControllerClass, TEXT("Overlay Widget Controller Class uninitialized, fill out BP_TopDownRPGHUD"));
 
-	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
-	OverlayWidget = Cast<UTopDownRPGUserWidget>(Widget);
+	OverlayWidget = CreateWidget<UTopDownRPGUserWidget>(GetWorld(), OverlayWidgetClass);
+
 
 	const FWidgetControllerParams WidgetControllerParmas(PC,PS,ASC,AS);
 
@@ -33,6 +33,6 @@ void ATopDownRPGHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbili
 	OverlayWidget->SetWidgetController(WidgetController);
 	WidgetController->BroadcastInitialValue();
 
-	Widget->AddToViewport();
+	OverlayWidget->AddToViewport();
 }
 
