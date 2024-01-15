@@ -36,4 +36,14 @@ void ATopDownRPGEffectActor::ApplayEffectToTarget(AActor* TargetActor, TSubclass
 	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 }
 
+void ATopDownRPGEffectActor::OnOverlap(AActor* TargetActor)
+{
+
+}
+
+void ATopDownRPGEffectActor::OnEndOverlap(AActor* TargetActor)
+{
+
+}
+
 
