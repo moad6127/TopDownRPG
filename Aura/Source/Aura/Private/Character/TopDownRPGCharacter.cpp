@@ -41,6 +41,7 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
 	check(TopDownRPGPlayerState);
 	TopDownRPGPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(TopDownRPGPlayerState, this);
+	Cast<UTopDownRPGAbilitySystemComponent>(TopDownRPGPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = TopDownRPGPlayerState->GetAbilitySystemComponent();
 	AttributesSet = TopDownRPGPlayerState->GetAttributeSet();
 

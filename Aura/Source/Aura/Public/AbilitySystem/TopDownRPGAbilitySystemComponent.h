@@ -13,5 +13,11 @@ UCLASS()
 class AURA_API UTopDownRPGAbilitySystemComponent : public UAbilitySystemComponent
 {
 	GENERATED_BODY()
+public:
+	void AbilityActorInfoSet();
 	
+protected:
+	void EffectApplyed(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
+
+
 };

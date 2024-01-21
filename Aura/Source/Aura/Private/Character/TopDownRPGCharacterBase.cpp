@@ -22,3 +22,7 @@ void ATopDownRPGCharacterBase::BeginPlay()
 	
 }
 
+void ATopDownRPGCharacterBase::InitAbilityActorInfo()
+{
+}
+

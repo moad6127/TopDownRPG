@@ -25,6 +25,6 @@ private:
 	* Functions
 	*/
 
-	void InitAbilityActorInfo();
+	void InitAbilityActorInfo() override;
 
 };
