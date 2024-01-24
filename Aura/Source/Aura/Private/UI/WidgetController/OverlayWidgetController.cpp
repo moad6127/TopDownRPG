@@ -3,6 +3,7 @@
 
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 
 void UOverlayWidgetController::BroadcastInitialValue()
 {
@@ -26,7 +27,17 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		TopDownRPGAttributeSet->GetManaAttribute()).AddUObject(this, &UOverlayWidgetController::ManaChaned);
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		TopDownRPGAttributeSet->GetMaxManaAttribute()).AddUObject(this, &UOverlayWidgetController::MaxManaChaned);
-
+	
+	Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
+		[](const FGameplayTagContainer& AssetTags)
+		{
+			for (const FGameplayTag& tag : AssetTags)
+			{
+				const FString Msg = FString::Printf(TEXT("GE Tag : %s"), *tag.ToString());
+				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, Msg);
+			}
+		}
+	);
 }
 
 void UOverlayWidgetController::HealthChanged(const FOnAttributeChangeData& Data) const

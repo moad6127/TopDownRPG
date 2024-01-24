@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "TopDownRPGAbilitySystemComponent.generated.h"
 
+
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer& /*AssetTags*/);
 /**
  * 
  */
@@ -16,6 +18,7 @@ class AURA_API UTopDownRPGAbilitySystemComponent : public UAbilitySystemComponen
 public:
 	void AbilityActorInfoSet();
 	
+	FEffectAssetTags EffectAssetTags;
 protected:
 	void EffectApplyed(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 
