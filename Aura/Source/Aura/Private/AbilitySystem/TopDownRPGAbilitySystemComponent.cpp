@@ -10,5 +10,12 @@ void UTopDownRPGAbilitySystemComponent::AbilityActorInfoSet()
 
 void UTopDownRPGAbilitySystemComponent::EffectApplyed(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
 {
-	GEngine->AddOnScreenDebugMessage(1, 8.f, FColor::Black, FString("Effect Applied!"));
+	FGameplayTagContainer TagContainer;
+	EffectSpec.GetAllAssetTags(TagContainer);
+	for (const FGameplayTag& tag : TagContainer)
+	{
+		// TODO : Broadcast the tag to the widget controller
+		const FString Msg = FString::Printf(TEXT("GE Tag : %s"), *tag.ToString());
+		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, Msg);
+	}
 }
