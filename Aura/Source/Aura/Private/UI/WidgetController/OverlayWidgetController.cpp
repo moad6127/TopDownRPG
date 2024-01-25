@@ -29,12 +29,14 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		TopDownRPGAttributeSet->GetMaxManaAttribute()).AddUObject(this, &UOverlayWidgetController::MaxManaChaned);
 	
 	Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[](const FGameplayTagContainer& AssetTags)
+		[this](const FGameplayTagContainer& AssetTags)
 		{
 			for (const FGameplayTag& tag : AssetTags)
 			{
 				const FString Msg = FString::Printf(TEXT("GE Tag : %s"), *tag.ToString());
 				GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, Msg);
+
+				FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, tag);
 			}
 		}
 	);
