@@ -12,6 +12,5 @@ void UTopDownRPGAbilitySystemComponent::EffectApplyed(UAbilitySystemComponent* A
 {
 	FGameplayTagContainer TagContainer;
 	EffectSpec.GetAllAssetTags(TagContainer);
-
 	EffectAssetTags.Broadcast(TagContainer);
 }
