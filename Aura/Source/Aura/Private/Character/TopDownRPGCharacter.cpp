@@ -52,5 +52,6 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 			TopDownHUD->InitOverlay(TopDownPlayerController, TopDownRPGPlayerState, AbilitySystemComponent, AttributesSet);
 		}
 	}
-	InitializePrimaryAttributes();
+
+	InitializeDefaultAttributes();
 }

@@ -9,10 +9,8 @@
 
 UTopDownRPGAttributeSet::UTopDownRPGAttributeSet()
 {
-	InitHealth(10.f);
-	InitMaxHealth(100.f);
+	InitHealth(80.f);
 	InitMana(50.f);
-	InitMaxMana(100.f);
 }
 
 void UTopDownRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -40,22 +38,12 @@ void UTopDownRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 	//~ Vital Attributes
 	DOREPLIFETIME_CONDITION_NOTIFY(UTopDownRPGAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UTopDownRPGAttributeSet, Mana, COND_None, REPNOTIFY_Always);
-
 }
 
 void UTopDownRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
 
-	if (Attribute == GetHealthAttribute())
-	{
-		//NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
-	}
-
-	if (Attribute == GetManaAttribute())
-	{
-		//NewValue = FMath::Clamp(NewValue, 0.f, GetMaxMana());
-	}
 }
 void UTopDownRPGAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
@@ -101,11 +89,11 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
-		//SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
-		//SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
+		SetMana(FMath::Clamp(GetMana(), 0.f, GetMaxMana()));
 	}
 }
 
