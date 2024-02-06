@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
+#include "Net/UnrealNetwork.h"
 
 ATopDownRPGPlayerState::ATopDownRPGPlayerState()
 {
@@ -17,9 +18,21 @@ ATopDownRPGPlayerState::ATopDownRPGPlayerState()
 	NetUpdateFrequency = 100.f;
 }
 
+void ATopDownRPGPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ATopDownRPGPlayerState, Level);
+}
+
 UAbilitySystemComponent* ATopDownRPGPlayerState::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void ATopDownRPGPlayerState::OnRep_Level(int32 OldLevel)
+{
+
 }
 
 

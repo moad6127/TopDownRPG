@@ -22,10 +22,11 @@ class AURA_API ATopDownRPGPlayerState : public APlayerState, public IAbilitySyst
 
 public:
 	ATopDownRPGPlayerState();
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributesSet; }
-
 
 protected:
 
@@ -35,4 +36,14 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributesSet;
 
+private:
+
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing = OnRep_Level)
+	int32 Level = 1;
+
+	UFUNCTION()
+	void OnRep_Level(int32 OldLevel);
+
+public:
+	FORCEINLINE int32 GetPlayerLevel() const { return Level; }
 };
