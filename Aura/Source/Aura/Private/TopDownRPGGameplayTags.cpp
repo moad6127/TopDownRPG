@@ -8,6 +8,6 @@ FTopDownRPGGameplayTags FTopDownRPGGameplayTags::GameplayTags;
 
 void FTopDownRPGGameplayTags::InitializeNativeGameplayTags()
 {
-	UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Armor"), FString("Reduces damage taken, Improves Block Chance"));
+	GameplayTags.Attribute_Secondary_Armor = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Secondary.Armor"), FString("Reduces damage taken, Improves Block Chance"));
 
 }
