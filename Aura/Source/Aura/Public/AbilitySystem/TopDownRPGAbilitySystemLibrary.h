@@ -7,6 +7,7 @@
 #include "TopDownRPGAbilitySystemLibrary.generated.h"
 
 class UOverlayWidgetController;
+class UAttributeMenuWidgetController;
 /**
  * 
  */
@@ -18,4 +19,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "TopDownRPGAbilitySystemLibrary | WidgetController")
 	static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "TopDownRPGAbilitySystemLibrary | WidgetController")
+	static UAttributeMenuWidgetController* GetAttributeMenuController(const UObject* WorldContextObject);
 };

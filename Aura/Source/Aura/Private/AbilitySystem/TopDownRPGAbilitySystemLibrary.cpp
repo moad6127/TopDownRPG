@@ -22,3 +22,19 @@ UOverlayWidgetController* UTopDownRPGAbilitySystemLibrary::GetOverlayWidgetContr
 	}
 	return nullptr;
 }
+
+UAttributeMenuWidgetController* UTopDownRPGAbilitySystemLibrary::GetAttributeMenuController(const UObject* WorldContextObject)
+{
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		if (ATopDownRPGHUD* TopDownRPGHUD = Cast<ATopDownRPGHUD>(PC->GetHUD()))
+		{
+			ATopDownRPGPlayerState* PS = PC->GetPlayerState<ATopDownRPGPlayerState>();
+			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
+			UAttributeSet* AS = PS->GetAttributeSet();
+			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
+			return TopDownRPGHUD->GetAttributeMenuController(WidgetControllerParams);
+		}
+	}
+	return nullptr;
+}

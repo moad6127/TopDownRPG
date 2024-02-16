@@ -9,7 +9,7 @@
 /**
  * 
  */
-
+class UAttributeMenuWidgetController;
 class UTopDownRPGUserWidget;
 class UOverlayWidgetController;
 class UAbilitySystemComponent;
@@ -25,15 +25,13 @@ class AURA_API ATopDownRPGHUD : public AHUD
 public:
 	
 	//~ Value
-	UPROPERTY()
-	TObjectPtr<UTopDownRPGUserWidget> OverlayWidget;
 
 	//~ Value
 
 
 	//~ Function
-	
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
+	UAttributeMenuWidgetController* GetAttributeMenuController(const FWidgetControllerParams& WCParams);
 
 	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
 	//~ Function
@@ -41,6 +39,8 @@ public:
 protected:
 
 private:
+	UPROPERTY()
+	TObjectPtr<UTopDownRPGUserWidget> OverlayWidget;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UTopDownRPGUserWidget> OverlayWidgetClass;
@@ -50,4 +50,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
+
+	UPROPERTY()
+	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 };
