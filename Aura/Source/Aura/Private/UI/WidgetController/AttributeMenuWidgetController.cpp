@@ -11,6 +11,7 @@ void UAttributeMenuWidgetController::BroadcastInitialValue()
 
 	check(AttributeInfo);
 
+
 	FTopDownRPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(FTopDownRPGGameplayTags::Get().Attributes_Primary_Strength);
 	Info.AttributeValue = AS->GetStrength();
 	AttributeInfoDelegate.Broadcast(Info);
