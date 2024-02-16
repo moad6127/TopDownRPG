@@ -42,9 +42,10 @@ class AURA_API UTopDownRPGWidgetController : public UObject
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BLueprintCallable)
+	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
 
+	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValue();
 	virtual void BindCallbacksToDependencies();
 protected:
