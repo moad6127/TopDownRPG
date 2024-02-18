@@ -12,9 +12,12 @@ void UAttributeMenuWidgetController::BroadcastInitialValue()
 	check(AttributeInfo);
 
 
-	FTopDownRPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(FTopDownRPGGameplayTags::Get().Attributes_Primary_Strength);
-	Info.AttributeValue = AS->GetStrength();
-	AttributeInfoDelegate.Broadcast(Info);
+	for (auto& Pair : AS->TagsToAttributes)
+	{
+		FTopDownRPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
+		Info.AttributeValue = Pair.Value().GetNumericValue(AS);
+		AttributeInfoDelegate.Broadcast(Info);
+	}
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
