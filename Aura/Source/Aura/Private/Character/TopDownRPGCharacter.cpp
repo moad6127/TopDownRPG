@@ -26,6 +26,7 @@ void ATopDownRPGCharacter::PossessedBy(AController* NewController)
 
 	//Init Ability Actor info for the server
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 }
 
 void ATopDownRPGCharacter::OnRep_PlayerState()

@@ -2,6 +2,7 @@
 
 #include "Character/TopDownRPGCharacterBase.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 
 ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 {
@@ -42,6 +43,16 @@ void ATopDownRPGCharacterBase::InitializeDefaultAttributes() const
 	ApplyEffectToSelf(DefaultPrimaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
+}
+
+void ATopDownRPGCharacterBase::AddCharacterAbilities()
+{
+	UTopDownRPGAbilitySystemComponent* TopDownASC = CastChecked<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority())
+	{
+		return;
+	}
+	TopDownASC->AddCharacterAbilities(StartupAbilities);
 }
 
 
