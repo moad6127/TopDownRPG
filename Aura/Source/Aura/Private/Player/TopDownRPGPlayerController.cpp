@@ -3,8 +3,8 @@
 
 #include "Player/TopDownRPGPlayerController.h"
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
 #include "Interaction/EnemyInterface.h"
+#include "Input/TopDownRPGInputComponent.h"
 
 
 ATopDownRPGPlayerController::ATopDownRPGPlayerController()
@@ -74,6 +74,21 @@ void ATopDownRPGPlayerController::CursorTrace()
 	}
 }
 
+void ATopDownRPGPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+}
+
+void ATopDownRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+}
+
+void ATopDownRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
+}
+
 void ATopDownRPGPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -97,9 +112,16 @@ void ATopDownRPGPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	UEnhancedInputComponent* EnhancedInputCompoent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	UTopDownRPGInputComponent* TopDownRPGInputComponent = CastChecked<UTopDownRPGInputComponent>(InputComponent);
 
-	EnhancedInputCompoent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATopDownRPGPlayerController::Move);
+	TopDownRPGInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATopDownRPGPlayerController::Move);
+
+	TopDownRPGInputComponent->BindAbilityActions(
+		InputConfig,
+		this,
+		&ATopDownRPGPlayerController::AbilityInputTagPressed,
+		&ATopDownRPGPlayerController::AbilityInputTagReleased,
+		&ATopDownRPGPlayerController::AbilityInputTagHeld);
 }
 
 void ATopDownRPGPlayerController::Move(const FInputActionValue& InputActionValue)

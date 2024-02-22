@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "TopDownRPGPlayerController.generated.h"
 
 /**
@@ -14,6 +15,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
+class UTopDownRPGInputConfig;
 
 UCLASS()
 class AURA_API ATopDownRPGPlayerController : public APlayerController
@@ -43,6 +45,8 @@ private:
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	TObjectPtr<UTopDownRPGInputConfig> InputConfig;
 
 	/*
 	* Function
@@ -50,4 +54,8 @@ private:
 
 	void Move(const FInputActionValue& InputActionValue);
 	void CursorTrace();
+
+	void AbilityInputTagPressed(FGameplayTag InputTag);
+	void AbilityInputTagReleased(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
 };
