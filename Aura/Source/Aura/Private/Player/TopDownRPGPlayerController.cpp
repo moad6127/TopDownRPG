@@ -5,6 +5,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "Interaction/EnemyInterface.h"
 #include "Input/TopDownRPGInputComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 
 
 ATopDownRPGPlayerController::ATopDownRPGPlayerController()
@@ -76,17 +78,25 @@ void ATopDownRPGPlayerController::CursorTrace()
 
 void ATopDownRPGPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+	//GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
 }
 
 void ATopDownRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+	if (GetASC() == nullptr)
+	{
+		return;
+	}
+	GetASC()->AbilityInputTagReleased(InputTag);
 }
 
 void ATopDownRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
+	if (GetASC() == nullptr)
+	{
+		return;
+	}
+	GetASC()->AbilityInputTagHeld(InputTag);
 }
 
 void ATopDownRPGPlayerController::BeginPlay()
@@ -122,6 +132,15 @@ void ATopDownRPGPlayerController::SetupInputComponent()
 		&ATopDownRPGPlayerController::AbilityInputTagPressed,
 		&ATopDownRPGPlayerController::AbilityInputTagReleased,
 		&ATopDownRPGPlayerController::AbilityInputTagHeld);
+}
+
+UTopDownRPGAbilitySystemComponent* ATopDownRPGPlayerController::GetASC()
+{
+	if (TopDownRPGAbilitySystemComponent == nullptr)
+	{
+		TopDownRPGAbilitySystemComponent = Cast<UTopDownRPGAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+	return TopDownRPGAbilitySystemComponent;
 }
 
 void ATopDownRPGPlayerController::Move(const FInputActionValue& InputActionValue)

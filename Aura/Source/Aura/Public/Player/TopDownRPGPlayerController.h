@@ -16,7 +16,7 @@ class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
 class UTopDownRPGInputConfig;
-
+class UTopDownRPGAbilitySystemComponent;
 UCLASS()
 class AURA_API ATopDownRPGPlayerController : public APlayerController
 {
@@ -48,10 +48,14 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UTopDownRPGInputConfig> InputConfig;
 
+	UPROPERTY()
+	TObjectPtr<UTopDownRPGAbilitySystemComponent> TopDownRPGAbilitySystemComponent;
+
+
 	/*
 	* Function
 	*/
-
+	UTopDownRPGAbilitySystemComponent* GetASC();
 	void Move(const FInputActionValue& InputActionValue);
 	void CursorTrace();
 
