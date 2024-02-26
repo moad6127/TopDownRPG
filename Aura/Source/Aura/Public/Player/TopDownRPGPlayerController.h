@@ -53,6 +53,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UTopDownRPGAbilitySystemComponent> TopDownRPGAbilitySystemComponent;
 
+	FHitResult CursorHit;
 
 	//~ Click To Move
 	FVector CachedDestination = FVector::ZeroVector;

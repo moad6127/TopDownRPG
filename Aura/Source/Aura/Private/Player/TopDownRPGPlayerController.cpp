@@ -50,7 +50,7 @@ void ATopDownRPGPlayerController::AutoRun()
 
 void ATopDownRPGPlayerController::CursorTrace()
 {
-	FHitResult CursorHit;
+
 	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 	if (!CursorHit.bBlockingHit)
 	{
@@ -60,45 +60,15 @@ void ATopDownRPGPlayerController::CursorTrace()
 	LastActor = ThisActor;
 	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
 
-	/*
-	* 1. LastActor 와 ThisActor모두 null
-	*	-> Do nothing
-	* 
-	* 2. LastActor은 null && ThisActor은 존재
-	*	-> ThisActor 에 Highlight
-	* 
-	* 3. LastActor존재 && ThisActor null
-	*	-> LastActor에 UnHighlight;
-	* 
-	* 4. 둘다 존재하지만 LastActor != ThisActor일때
-	*	->LastActor UnHighlight, ThisActor Highlight;
-	* 
-	* 5. 둘다 존재하고 LastActor == ThisActor일때
-	*	-> Do Nothing
-	*/
-	if (LastActor == nullptr)
+	if (LastActor != ThisActor)
 	{
-		if (ThisActor != nullptr)
+		if (LastActor)
 		{
-			// 2번
-			ThisActor->HighlightActor();
-		}
-	}
-	else //LastActor 존재
-	{
-		if (ThisActor == nullptr)
-		{
-			//3번
 			LastActor->UnHighlightActor();
 		}
-		else //둘다 존재
+		if (ThisActor)
 		{
-			if (LastActor != ThisActor)
-			{
-				//4번
-				LastActor->UnHighlightActor();
-				ThisActor->HighlightActor();
-			}
+			ThisActor->HighlightActor();
 		}
 	}
 }
@@ -132,7 +102,7 @@ void ATopDownRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 	}
 	else
 	{
-		APawn* ControlledPawn = GetPawn();
+		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
 		{
 			if (UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
@@ -141,7 +111,6 @@ void ATopDownRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 				for (const FVector& PointLoc : NavPath->PathPoints)
 				{
 					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-					DrawDebugSphere(GetWorld(), PointLoc, 8.f, 8, FColor::Green, false, 5.f);
 				}
 				if (NavPath->PathPoints.Num() > 0)
 				{
@@ -177,10 +146,9 @@ void ATopDownRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	{
 		FollowTime += GetWorld()->GetDeltaSeconds();
 
-		FHitResult Hit;
-		if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+		if (CursorHit.bBlockingHit)
 		{
-			CachedDestination = Hit.ImpactPoint;
+			CachedDestination = CursorHit.ImpactPoint;
 		}
 
 		if (APawn* ControlledPawn = GetPawn())
