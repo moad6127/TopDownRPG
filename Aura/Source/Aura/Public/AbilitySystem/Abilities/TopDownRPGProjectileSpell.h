@@ -6,6 +6,8 @@
 #include "AbilitySystem/Abilities/TopDownRPGGameplayAbility.h"
 #include "TopDownRPGProjectileSpell.generated.h"
 
+
+class ATopDownRPGProjectile;
 /**
  * 
  */
@@ -17,4 +19,6 @@ class AURA_API UTopDownRPGProjectileSpell : public UTopDownRPGGameplayAbility
 protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<ATopDownRPGProjectile> ProjectileClass;
 };

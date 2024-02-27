@@ -2,11 +2,40 @@
 
 
 #include "AbilitySystem/Abilities/TopDownRPGProjectileSpell.h"
-#include "Kismet/KismetSystemLibrary.h"
+#include "Actor/TopDownRPGProjectile.h"
+#include "Interaction/CombatInterface.h"
+
 
 void UTopDownRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+	
+	const bool bIsServer = HasAuthority(&ActivationInfo);
+	if (!bIsServer)
+	{
+		return;
+	}
+	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 
-	UKismetSystemLibrary::PrintString(this, FString("ActivateAbility (C++)"), true, true, FLinearColor::Yellow, 3);
+	if (CombatInterface)
+	{
+		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
+
+		FTransform SpawnTrasnform;
+		SpawnTrasnform.SetLocation(SocketLocation);
+		//TODO : Set the Projectile Rotation
+
+
+		ATopDownRPGProjectile* Projectile = GetWorld()->SpawnActorDeferred<ATopDownRPGProjectile>(
+			ProjectileClass,
+			SpawnTrasnform,
+			GetOwningActorFromActorInfo(), //Owner
+			Cast<APawn>(GetOwningActorFromActorInfo()), //Instigator
+			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+
+		// TODO : Give the Projectile a Gameplay Effect spec for causing damage
+		Projectile->FinishSpawning(SpawnTrasnform);
+	}
+
 }

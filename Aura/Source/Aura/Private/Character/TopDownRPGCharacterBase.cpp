@@ -24,6 +24,12 @@ void ATopDownRPGCharacterBase::BeginPlay()
 	
 }
 
+FVector ATopDownRPGCharacterBase::GetCombatSocketLocation()
+{
+	check(Weapon);
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
 {
 }
