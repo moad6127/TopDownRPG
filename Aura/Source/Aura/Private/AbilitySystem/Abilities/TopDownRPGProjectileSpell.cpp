@@ -9,8 +9,14 @@
 void UTopDownRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+
+
+}
+
+void UTopDownRPGProjectileSpell::SpawnProjectile()
+{
 	
-	const bool bIsServer = HasAuthority(&ActivationInfo);
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer)
 	{
 		return;
@@ -37,5 +43,4 @@ void UTopDownRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandl
 		// TODO : Give the Projectile a Gameplay Effect spec for causing damage
 		Projectile->FinishSpawning(SpawnTrasnform);
 	}
-
 }
