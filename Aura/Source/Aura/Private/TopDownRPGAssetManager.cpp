@@ -3,6 +3,7 @@
 
 #include "TopDownRPGAssetManager.h"
 #include "TopDownRPGGameplayTags.h"
+#include "AbilitySystemGlobals.h"
 
 UTopDownRPGAssetManager& UTopDownRPGAssetManager::Get()
 {
@@ -15,6 +16,8 @@ UTopDownRPGAssetManager& UTopDownRPGAssetManager::Get()
 void UTopDownRPGAssetManager::StartInitialLoading()
 {
 	Super::StartInitialLoading();
-
 	FTopDownRPGGameplayTags::InitializeNativeGameplayTags();
+
+	//this is required to use target data
+	UAbilitySystemGlobals::Get().InitGlobalData();
 }
