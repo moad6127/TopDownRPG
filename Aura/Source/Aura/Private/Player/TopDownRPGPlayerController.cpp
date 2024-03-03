@@ -93,14 +93,12 @@ void ATopDownRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		return;
 	}
 
-	if (bTargeting)
+	if (GetASC())
 	{
-		if (GetASC())
-		{
-			GetASC()->AbilityInputTagReleased(InputTag);
-		}
+		GetASC()->AbilityInputTagReleased(InputTag);
 	}
-	else
+
+	if (!bTargeting && !bShiftKeyDown)
 	{
 		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
@@ -135,7 +133,7 @@ void ATopDownRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 		}
 		return;
 	}
-	if (bTargeting)
+	if (bTargeting || bShiftKeyDown)
 	{
 		if (GetASC())
 		{
@@ -186,6 +184,8 @@ void ATopDownRPGPlayerController::SetupInputComponent()
 	UTopDownRPGInputComponent* TopDownRPGInputComponent = CastChecked<UTopDownRPGInputComponent>(InputComponent);
 
 	TopDownRPGInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATopDownRPGPlayerController::Move);
+	TopDownRPGInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ATopDownRPGPlayerController::ShiftPressed);
+	TopDownRPGInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ATopDownRPGPlayerController::ShiftReleased);
 
 	TopDownRPGInputComponent->BindAbilityActions(
 		InputConfig,

@@ -44,6 +44,10 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputAction> MoveAction;
 
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> ShiftAction;
+	bool bShiftKeyDown = false;
+
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
 
@@ -74,6 +78,9 @@ private:
 	*/
 	UTopDownRPGAbilitySystemComponent* GetASC();
 	void Move(const FInputActionValue& InputActionValue);
+	void ShiftPressed() { bShiftKeyDown = true; }
+	void ShiftReleased() { bShiftKeyDown = false; }
+
 	void CursorTrace();
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
