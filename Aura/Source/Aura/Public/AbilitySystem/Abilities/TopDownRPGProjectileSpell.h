@@ -8,6 +8,7 @@
 
 
 class ATopDownRPGProjectile;
+class UGameplayEffect;
 /**
  * 
  */
@@ -24,4 +25,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSubclassOf<ATopDownRPGProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 };
