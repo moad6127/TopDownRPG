@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
+#include "Components/WidgetComponent.h"
 #include "Aura/Aura.h"
 
 AEnemyCharacter::AEnemyCharacter()
@@ -17,6 +18,9 @@ AEnemyCharacter::AEnemyCharacter()
 
 
 	AttributesSet = CreateDefaultSubobject<UTopDownRPGAttributeSet>("AttributeSet");
+
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealtBar");
+	HealthBar->SetupAttachment(GetRootComponent());
 }
 
 void AEnemyCharacter::HighlightActor()
