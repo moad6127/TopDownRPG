@@ -5,9 +5,12 @@
 #include "CoreMinimal.h"
 #include "Character/TopDownRPGCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
+#include  "UI/WidgetController/OverlayWidgetController.h"
 #include "EnemyCharacter.generated.h"
 
 class UWidgetComponent;
+
+
 /**
  * 
  */
@@ -27,6 +30,13 @@ public:
 	//~ CombatInterface
 	virtual int32 GetPlayerLevel() override;
 	//~ CombatInterface
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangeSignature OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnAttributeChangeSignature OnMaxHealthChanged;
+
 
 protected:
 	virtual void BeginPlay() override;

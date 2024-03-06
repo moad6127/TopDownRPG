@@ -6,6 +6,7 @@
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
 #include "Components/WidgetComponent.h"
+#include "UI/Widget/TopDownRPGUserWidget.h"
 #include "Aura/Aura.h"
 
 AEnemyCharacter::AEnemyCharacter()
@@ -46,6 +47,32 @@ void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+
+	//위젯 컨트롤러 설정
+	if (UTopDownRPGUserWidget* UserWidget = Cast<UTopDownRPGUserWidget>(HealthBar->GetUserWidgetObject()))
+	{
+		UserWidget->SetWidgetController(this);
+	}
+
+	//델리게이트 바인딩
+	if (const UTopDownRPGAttributeSet* AS = Cast<UTopDownRPGAttributeSet>(AttributesSet))
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AS->GetMaxHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMaxHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+		//초기값설정
+		OnHealthChanged.Broadcast(AS->GetHealth());
+		OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
+	}
 }
 
 void AEnemyCharacter::InitAbilityActorInfo()
