@@ -5,6 +5,7 @@
 
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/TopDownRPGUserWidget.h"
 #include "Aura/Aura.h"
@@ -81,4 +82,9 @@ void AEnemyCharacter::InitAbilityActorInfo()
 	Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
 	InitializeDefaultAttributes();
+}
+
+void AEnemyCharacter::InitializeDefaultAttributes() const
+{
+	UTopDownRPGAbilitySystemLibrary::InitializeDefaultsAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
