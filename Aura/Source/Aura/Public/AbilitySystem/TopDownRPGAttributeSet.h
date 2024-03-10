@@ -141,6 +141,14 @@ public:
 	ATTRIBUTE_ACCESSORS(UTopDownRPGAttributeSet, Mana);
 	//~ Vital AttributeData Value
 
+	//~ Meta Attributes
+
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UTopDownRPGAttributeSet, IncomingDamage);
+	//~ Meta Attributes
+
+
 	//~ Vital AttributeData Function
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldHealth) const;
