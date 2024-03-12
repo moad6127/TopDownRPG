@@ -53,6 +53,7 @@ void AEnemyCharacter::BeginPlay()
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
+	UTopDownRPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 
 	//위젯 컨트롤러 설정
 	if (UTopDownRPGUserWidget* UserWidget = Cast<UTopDownRPGUserWidget>(HealthBar->GetUserWidgetObject()))
