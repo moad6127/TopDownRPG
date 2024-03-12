@@ -27,6 +27,11 @@ UAbilitySystemComponent* ATopDownRPGCharacterBase::GetAbilitySystemComponent() c
 	return AbilitySystemComponent;
 }
 
+UAnimMontage* ATopDownRPGCharacterBase::GetHitReactMontage_Implementation()
+{
+	return HitReactMontage;
+}
+
 void ATopDownRPGCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();

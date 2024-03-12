@@ -101,4 +101,10 @@ void FTopDownRPGGameplayTags::InitializeNativeGameplayTags()
 		FName("Damage"),
 		FString("Damage")
 	);
+
+	//~ HitReact
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Effects.HitReact"),
+		FString("Tag granted when Hit Reacting")
+	);
 }

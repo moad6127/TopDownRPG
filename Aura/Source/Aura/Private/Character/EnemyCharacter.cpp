@@ -9,6 +9,8 @@
 #include "Components/WidgetComponent.h"
 #include "UI/Widget/TopDownRPGUserWidget.h"
 #include "Aura/Aura.h"
+#include "TopDownRPGGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -44,9 +46,12 @@ int32 AEnemyCharacter::GetPlayerLevel()
 	return Level;
 }
 
+
+
 void AEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 
 	//위젯 컨트롤러 설정
@@ -70,10 +75,21 @@ void AEnemyCharacter::BeginPlay()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
+
+		AbilitySystemComponent->RegisterGameplayTagEvent(FTopDownRPGGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this,
+			&AEnemyCharacter::HitReactTagChanged
+		);
 		//초기값설정
 		OnHealthChanged.Broadcast(AS->GetHealth());
 		OnMaxHealthChanged.Broadcast(AS->GetMaxHealth());
 	}
+}
+
+void AEnemyCharacter::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 
 void AEnemyCharacter::InitAbilityActorInfo()
