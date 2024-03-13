@@ -8,6 +8,8 @@
 #include "Net/UnrealNetwork.h"
 #include "TopDownRPGGameplayTags.h"
 #include "Interaction/CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/TopDownRPGPlayerController.h"
 
 UTopDownRPGAttributeSet::UTopDownRPGAttributeSet()
 {
@@ -99,6 +101,7 @@ void UTopDownRPGAttributeSet::SetEffectProperties(const FGameplayEffectModCallba
 }
 
 
+
 void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -117,6 +120,7 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 	}
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
+		//Damage
 		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
 		if (LocalIncomingDamage > 0.f)
@@ -125,7 +129,7 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
 			const bool bFatal = NewHealth <= 0.f;
-			if (bFatal)
+			if (bFatal) // Die
 			{
 				ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 				if (CombatInterface)
@@ -133,12 +137,25 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 					CombatInterface->Die();
 				}
 			}
-			else
+			else // HitReact
 			{
 				FGameplayTagContainer TagContainer;
 				TagContainer.AddTag(FTopDownRPGGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
+			// Show Damage
+			ShowFloatingText(Props, LocalIncomingDamage);
+		}
+	}
+}
+
+void UTopDownRPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+{
+	if (Props.SourceCharacter != Props.TargetCharacter)
+	{
+		if (ATopDownRPGPlayerController* PC = Cast<ATopDownRPGPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
 		}
 	}
 }

@@ -11,6 +11,8 @@
 #include "TopDownRPGGameplayTags.h"
 #include "NavigationSystem.h"
 #include "NavigationPath.h"
+#include "GameFramework/Character.h"
+#include "UI/Widget/DamageTextComponent.h"
 
 
 ATopDownRPGPlayerController::ATopDownRPGPlayerController()
@@ -26,6 +28,18 @@ void ATopDownRPGPlayerController::PlayerTick(float DeltaTime)
 	CursorTrace();
 	AutoRun();
 
+}
+
+void ATopDownRPGPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if (IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+		DamageText->RegisterComponent();
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
+	}
 }
 
 void ATopDownRPGPlayerController::AutoRun()

@@ -18,6 +18,7 @@ class IEnemyInterface;
 class UTopDownRPGInputConfig;
 class UTopDownRPGAbilitySystemComponent;
 class USplineComponent;
+class UDamageTextComponent;
 
 UCLASS()
 class AURA_API ATopDownRPGPlayerController : public APlayerController
@@ -28,6 +29,11 @@ public:
 	ATopDownRPGPlayerController();
 	virtual void PlayerTick(float DeltaTime) override;
 
+	//~ FloatingDamage
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+
+	//~ FloatingDamage
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -58,6 +64,13 @@ private:
 	TObjectPtr<UTopDownRPGAbilitySystemComponent> TopDownRPGAbilitySystemComponent;
 
 	FHitResult CursorHit;
+
+
+	//~ FloatingDamage
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
+
+	//~ FloatingDamage
 
 	//~ Click To Move
 	FVector CachedDestination = FVector::ZeroVector;
