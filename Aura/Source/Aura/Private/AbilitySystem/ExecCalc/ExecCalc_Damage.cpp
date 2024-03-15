@@ -4,10 +4,27 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/TopDownRPGAttributeSet.h"
+
+// 블루프린트에 노출시키지 않는 원시적인 Struct이다.
+struct TopDownRPGDamageStatics
+{
+	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
+	TopDownRPGDamageStatics()
+	{
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UTopDownRPGAttributeSet, Armor, Target, false);
+	}
+};
+
+static const TopDownRPGDamageStatics& DamageStatics()
+{
+	static TopDownRPGDamageStatics DStatics;
+	return DStatics;
+}
 
 UExecCalc_Damage::UExecCalc_Damage()
 {
-
+	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
@@ -19,4 +36,19 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+
+	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
+	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
+
+	FAggregatorEvaluateParameters EvaluationParameters;
+	EvaluationParameters.SourceTags = SourceTags;
+	EvaluationParameters.TargetTags = TargetTags;
+
+	float Armor = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluationParameters, Armor);
+	Armor = FMath::Max<float>(0.f, Armor);
+	++Armor;
+
+	const FGameplayModifierEvaluatedData EvaluatedData(DamageStatics().ArmorProperty, EGameplayModOp::Additive, Armor);
+	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }
