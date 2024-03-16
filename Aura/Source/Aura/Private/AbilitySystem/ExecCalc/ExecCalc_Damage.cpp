@@ -4,15 +4,18 @@
 #include "AbilitySystem/ExecCalc/ExecCalc_Damage.h"
 
 #include "AbilitySystemComponent.h"
+#include "TopDownRPGGameplayTags.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
 
 // 블루프린트에 노출시키지 않는 원시적인 Struct이다.
 struct TopDownRPGDamageStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockChance);
 	TopDownRPGDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UTopDownRPGAttributeSet, Armor, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UTopDownRPGAttributeSet, BlockChance, Target, false);
 	}
 };
 
@@ -25,6 +28,7 @@ static const TopDownRPGDamageStatics& DamageStatics()
 UExecCalc_Damage::UExecCalc_Damage()
 {
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
+	RelevantAttributesToCapture.Add(DamageStatics().BlockChanceDef);
 }
 
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
@@ -43,12 +47,24 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	FAggregatorEvaluateParameters EvaluationParameters;
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
+	
+	// Get Damage set by caller Magnitude;
+	float Damage = Spec.GetSetByCallerMagnitude(FTopDownRPGGameplayTags::Get().Damage);
 
-	float Armor = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluationParameters, Armor);
-	Armor = FMath::Max<float>(0.f, Armor);
-	++Armor;
+	//Capture BlockChance on Target, and determine if ther was a successful Block
 
-	const FGameplayModifierEvaluatedData EvaluatedData(DamageStatics().ArmorProperty, EGameplayModOp::Additive, Armor);
+	float TargetBlockChance = 0.f;
+
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);
+	TargetBlockChance = FMath::Max<float>(TargetBlockChance, 0.f);
+	bool bBlocking = FMath::RandRange(1, 100) < TargetBlockChance;
+
+	//If Block, half damage
+	Damage = bBlocking ? Damage / 2.f : Damage;
+
+	const FGameplayModifierEvaluatedData EvaluatedData(
+		UTopDownRPGAttributeSet::GetIncomingDamageAttribute(),
+		EGameplayModOp::Additive,
+		Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
 }
