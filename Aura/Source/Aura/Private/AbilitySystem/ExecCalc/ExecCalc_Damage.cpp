@@ -6,6 +6,9 @@
 #include "AbilitySystemComponent.h"
 #include "TopDownRPGGameplayTags.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
+#include "Interaction/CombatInterface.h"
 
 // 블루프린트에 노출시키지 않는 원시적인 Struct이다.
 struct TopDownRPGDamageStatics
@@ -39,8 +42,10 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
-	const AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
-	const AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
+	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceAvatar);
+	ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetAvatar);
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
 
@@ -73,11 +78,16 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluationParameters, SourceArmorPenetration);
 	SourceArmorPenetration = FMath::Max<float>(SourceArmorPenetration, 0.f);
 
+	const UCharacterClassInfo* CharacterClassInfo = UTopDownRPGAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
+	const FRealCurve* ArmorPenetrationCurve = CharacterClassInfo->DamageCalculationCoefficients->FindCurve(FName("ArmorPenetration"), FString());
+	const float ArmorPenetrationCoefficients = ArmorPenetrationCurve->Eval(SourceCombatInterface->GetPlayerLevel());
 	//Source의 방어관통력을 Target의 Armor에 적용시킨다(백분율로 적용시킴)
-	const float EffectiveArmor = TargetArmor *= (100 - SourceArmorPenetration * 0.25f) / 100.f;
+	const float EffectiveArmor = TargetArmor * (100 - SourceArmorPenetration * ArmorPenetrationCoefficients) / 100.f;
 
+	const FRealCurve* EffectiveArmorCurve = CharacterClassInfo->DamageCalculationCoefficients->FindCurve(FName("EffectiveArmor"), FString());
+	const float EffectiveArmorCoefficients = EffectiveArmorCurve->Eval(TargetCombatInterface->GetPlayerLevel());
 	// 적용된Target의 Armor에 따라서 Damage를 감소시킨다.
-	Damage *= (100 - EffectiveArmor * 0.3f) / 100.f;
+	Damage *= (100 - EffectiveArmor * EffectiveArmorCoefficients) / 100.f;
 
 	const FGameplayModifierEvaluatedData EvaluatedData(
 		UTopDownRPGAttributeSet::GetIncomingDamageAttribute(),

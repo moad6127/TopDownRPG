@@ -43,15 +43,9 @@ UAttributeMenuWidgetController* UTopDownRPGAbilitySystemLibrary::GetAttributeMen
 
 void UTopDownRPGAbilitySystemLibrary::InitializeDefaultsAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
-	ATopDownRPGGameModeBase* TopDownRPGGameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (TopDownRPGGameMode == nullptr)
-	{
-		return;
-	}
-
 	AActor* AvatarActor = ASC->GetAvatarActor();
 
-	UCharacterClassInfo* CharacterClassInfo = TopDownRPGGameMode->CharacterClassInfo;
+	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
 	FCharacterClassDefaultInfo ClassDefaultsInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 
 	FGameplayEffectContextHandle PrimaryAttributeContextHandle = ASC->MakeEffectContext();
@@ -81,16 +75,20 @@ void UTopDownRPGAbilitySystemLibrary::InitializeDefaultsAttributes(const UObject
 
 void UTopDownRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-	ATopDownRPGGameModeBase* TopDownRPGGameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (TopDownRPGGameMode == nullptr)
-	{
-		return;
-	}
-
-	UCharacterClassInfo* CharacterClassInfo = TopDownRPGGameMode->CharacterClassInfo;
+	UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
 	for (TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		ASC->GiveAbility(AbilitySpec);
 	}
+}
+
+UCharacterClassInfo* UTopDownRPGAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+	ATopDownRPGGameModeBase* TopDownRPGGameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (TopDownRPGGameMode == nullptr)
+	{
+		return nullptr;
+	}
+	return TopDownRPGGameMode->CharacterClassInfo;
 }
