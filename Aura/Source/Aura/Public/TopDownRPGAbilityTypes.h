@@ -31,7 +31,20 @@ public:
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const
 	{
-		return FGameplayEffectContext::StaticStruct();
+		return StaticStruct();
+	}
+
+	/** Creates a copy of this context, used to duplicate for later modifications */
+	virtual FTopDownRPGGameplayEffectContext* Duplicate() const
+	{
+		FTopDownRPGGameplayEffectContext* NewContext = new FTopDownRPGGameplayEffectContext();
+		*NewContext = *this;
+		if (GetHitResult())
+		{
+			// Does a deep copy of the hit result
+			NewContext->AddHitResult(*GetHitResult(), true);
+		}
+		return NewContext;
 	}
 
 	/** Custom serialization, subclasses must override this */
@@ -47,3 +60,12 @@ protected:
 
 };
 
+template<>
+struct TStructOpsTypeTraits<FTopDownRPGGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FTopDownRPGGameplayEffectContext>
+{
+	enum
+	{
+		WithNetSerializer = true,
+		WithCopy = true		// Necessary so that TSharedPtr<FHitResult> Data is copied around
+	};
+};
