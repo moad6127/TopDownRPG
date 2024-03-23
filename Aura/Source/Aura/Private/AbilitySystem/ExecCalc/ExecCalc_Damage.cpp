@@ -126,7 +126,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	UTopDownRPGAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCritical);
 
-	Damage = bCritical ? Damage * (2.f + (SourceCriticalDamage * 100) / 100.f) : Damage;
+	Damage = bCritical ? Damage * 2.f + SourceCriticalDamage : Damage;
 
 	const FGameplayModifierEvaluatedData EvaluatedData(
 		UTopDownRPGAttributeSet::GetIncomingDamageAttribute(),

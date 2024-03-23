@@ -31,7 +31,7 @@ public:
 
 	//~ FloatingDamage
 	UFUNCTION(Client, Reliable)
-	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit);
 
 	//~ FloatingDamage
 protected:
