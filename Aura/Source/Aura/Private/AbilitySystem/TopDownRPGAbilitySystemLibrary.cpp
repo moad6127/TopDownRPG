@@ -8,6 +8,7 @@
 #include "UI/WidgetController/TopDownRPGWidgetController.h"
 #include "Game/TopDownRPGGameModeBase.h"
 #include "AbilitySystemComponent.h"
+#include "TopDownRPGAbilityTypes.h"
 
 UOverlayWidgetController* UTopDownRPGAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -91,4 +92,39 @@ UCharacterClassInfo* UTopDownRPGAbilitySystemLibrary::GetCharacterClassInfo(cons
 		return nullptr;
 	}
 	return TopDownRPGGameMode->CharacterClassInfo;
+}
+
+bool UTopDownRPGAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return TopDownRPGEffectContext->IsBlockedHit();
+	}
+	return false;
+}
+
+bool UTopDownRPGAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return TopDownRPGEffectContext->IsCriticalHit();
+	}
+	return false;
+}
+
+
+void UTopDownRPGAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
+{
+	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		TopDownRPGEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+	}
+}
+
+void UTopDownRPGAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsCriticalHit)
+{
+	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		TopDownRPGEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+	}
 }

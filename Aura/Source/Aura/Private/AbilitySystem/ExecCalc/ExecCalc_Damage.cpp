@@ -9,6 +9,7 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
+#include "TopDownRPGAbilityTypes.h"
 
 // 블루프린트에 노출시키지 않는 원시적인 Struct이다.
 struct TopDownRPGDamageStatics
@@ -75,6 +76,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	bool bBlocking = FMath::RandRange(1, 100) < TargetBlockChance;
 
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+	UTopDownRPGAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocking);
+
 	//블록되면 Damage를 /2로 만든다
 	Damage = bBlocking ? Damage / 2.f : Damage;
 
@@ -119,6 +123,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const float EffectiveCriticalHitChance = SourceCriticalChance - TargetCriticalResistance * CriticalHitResistanceCoefficients;
 	const bool bCritical = FMath::RandRange(1, 100) < EffectiveCriticalHitChance;
+
+	UTopDownRPGAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCritical);
 
 	Damage = bCritical ? Damage * (2.f + (SourceCriticalDamage * 100) / 100.f) : Damage;
 

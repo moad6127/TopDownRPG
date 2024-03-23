@@ -10,6 +10,7 @@
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/TopDownRPGPlayerController.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 
 UTopDownRPGAttributeSet::UTopDownRPGAttributeSet()
 {
@@ -144,12 +145,14 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
 			// Show Damage
-			ShowFloatingText(Props, LocalIncomingDamage);
+			const bool bBlocked = UTopDownRPGAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+			const bool bCriticalHit = UTopDownRPGAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+			ShowFloatingText(Props, LocalIncomingDamage,bBlocked, bCriticalHit);
 		}
 	}
 }
 
-void UTopDownRPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage) const
+void UTopDownRPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{
