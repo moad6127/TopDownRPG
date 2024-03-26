@@ -68,9 +68,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	
 	// Get Damage set by caller Magnitude;
 	float Damage = 0.f;
-	for (FGameplayTag DamageTypeTag : FTopDownRPGGameplayTags::Get().DamageTypes)
+	for (const auto& Pair : FTopDownRPGGameplayTags::Get().DamageTypesToResistances)
 	{
-		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(Pair.Key);
 		Damage += DamageTypeValue;
 	}
 	//Blockchance를 캡처한후 Block됬는지를 판단한다
