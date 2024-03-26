@@ -67,8 +67,12 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	EvaluationParameters.TargetTags = TargetTags;
 	
 	// Get Damage set by caller Magnitude;
-	float Damage = Spec.GetSetByCallerMagnitude(FTopDownRPGGameplayTags::Get().Damage);
-
+	float Damage = 0.f;
+	for (FGameplayTag DamageTypeTag : FTopDownRPGGameplayTags::Get().DamageTypes)
+	{
+		const float DamageTypeValue = Spec.GetSetByCallerMagnitude(DamageTypeTag);
+		Damage += DamageTypeValue;
+	}
 	//Blockchance를 캡처한후 Block됬는지를 판단한다
 	float TargetBlockChance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParameters, TargetBlockChance);
