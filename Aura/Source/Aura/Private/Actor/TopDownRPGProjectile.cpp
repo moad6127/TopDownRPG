@@ -50,7 +50,7 @@ void ATopDownRPGProjectile::Destroyed()
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
 
-		if (LoopingSoundComponent && LoopingSoundComponent->IsPlaying())
+		if (LoopingSoundComponent)
 		{
 			LoopingSoundComponent->Stop();
 		}
@@ -60,12 +60,19 @@ void ATopDownRPGProjectile::Destroyed()
 
 void ATopDownRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappingComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
-	UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-
-	if (LoopingSoundComponent && LoopingSoundComponent->IsPlaying())
+	if (DamageEffectSpecHandle.Data.IsValid() && DamageEffectSpecHandle.Data.Get()->GetContext().GetEffectCauser() == OtherActor)
 	{
-		LoopingSoundComponent->Stop();
+		return;
+	}
+	if (!bHit)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+
+		if (LoopingSoundComponent)
+		{
+			LoopingSoundComponent->Stop();
+		}
 	}
 	if (HasAuthority())
 	{

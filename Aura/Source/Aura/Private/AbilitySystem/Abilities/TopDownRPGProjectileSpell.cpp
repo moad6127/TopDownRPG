@@ -11,8 +11,6 @@
 void UTopDownRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-
-
 }
 
 void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
@@ -29,7 +27,6 @@ void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTarget
 	{
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
-		Rotation.Pitch = 0.f;
 
 		FTransform SpawnTrasnform;
 		SpawnTrasnform.SetLocation(SocketLocation);
