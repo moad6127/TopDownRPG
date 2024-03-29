@@ -11,6 +11,9 @@
 #include "Aura/Aura.h"
 #include "TopDownRPGGameplayTags.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "AI/TopDownRPGAIController.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTree.h"
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -25,6 +28,19 @@ AEnemyCharacter::AEnemyCharacter()
 
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealtBar");
 	HealthBar->SetupAttachment(GetRootComponent());
+}
+
+void AEnemyCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!HasAuthority())
+	{
+		return;
+	}
+	TopDownRPGAIController = Cast<ATopDownRPGAIController>(NewController);
+	TopDownRPGAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	TopDownRPGAIController->RunBehaviorTree(BehaviorTree);
 }
 
 void AEnemyCharacter::HighlightActor()
