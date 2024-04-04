@@ -87,7 +87,7 @@ void AEnemyCharacter::BeginPlay()
 	InitAbilityActorInfo();
 	if (HasAuthority())
 	{
-		UTopDownRPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+		UTopDownRPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent,CharacterClass);
 	}
 	//위젯 컨트롤러 설정
 	if (UTopDownRPGUserWidget* UserWidget = Cast<UTopDownRPGUserWidget>(HealthBar->GetUserWidgetObject()))
