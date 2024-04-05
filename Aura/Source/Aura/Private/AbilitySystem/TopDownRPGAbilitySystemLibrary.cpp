@@ -126,7 +126,6 @@ bool UTopDownRPGAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContext
 	return false;
 }
 
-
 void UTopDownRPGAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
 {
 	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
@@ -140,5 +139,24 @@ void UTopDownRPGAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHan
 	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
 	{
 		TopDownRPGEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+	}
+}
+
+void UTopDownRPGAbilitySystemLibrary::GetLivePlayerWithRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorToIgnore, float Radious, const FVector& SphereOrigin)
+{
+	FCollisionQueryParams SphereParams;
+	SphereParams.AddIgnoredActors(ActorToIgnore);
+
+	TArray<FOverlapResult> Overlaps;
+	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		World->OverlapMultiByObjectType(Overlaps, SphereOrigin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radious), SphereParams);
+		for (FOverlapResult& Overlap : Overlaps)
+		{
+			if (Overlap.GetActor()->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsDead(Overlap.GetActor()))
+			{
+				OutOverlappingActors.AddUnique(ICombatInterface::Execute_GetAvatar(Overlap.GetActor()));
+			}
+		}
 	}
 }

@@ -54,6 +54,7 @@ void ATopDownRPGCharacterBase::MulticastHandleDeath_Implementation()
 
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
+	bDead = true;
 }
 
 void ATopDownRPGCharacterBase::BeginPlay()
@@ -66,6 +67,16 @@ FVector ATopDownRPGCharacterBase::GetCombatSocketLocation_Implementation()
 {
 	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
+}
+
+bool ATopDownRPGCharacterBase::IsDead_Implementation() const
+{
+	return bDead;
+}
+
+AActor* ATopDownRPGCharacterBase::GetAvatar_Implementation()
+{
+	return this;
 }
 
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
