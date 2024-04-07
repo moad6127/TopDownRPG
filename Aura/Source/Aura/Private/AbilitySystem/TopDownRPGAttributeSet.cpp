@@ -171,6 +171,11 @@ void UTopDownRPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, f
 		if (ATopDownRPGPlayerController* PC = Cast<ATopDownRPGPlayerController>(Props.SourceCharacter->Controller))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
+			return;
+		}
+		if (ATopDownRPGPlayerController* PC = Cast<ATopDownRPGPlayerController>(Props.TargetCharacter->Controller))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
 	}
 }

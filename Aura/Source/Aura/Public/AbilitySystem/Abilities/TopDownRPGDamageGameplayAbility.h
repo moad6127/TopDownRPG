@@ -13,6 +13,10 @@ UCLASS()
 class AURA_API UTopDownRPGDamageGameplayAbility : public UTopDownRPGGameplayAbility
 {
 	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void CauseDamage(AActor* TargetActor);
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
