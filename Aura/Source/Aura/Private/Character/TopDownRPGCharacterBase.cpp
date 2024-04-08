@@ -79,6 +79,11 @@ AActor* ATopDownRPGCharacterBase::GetAvatar_Implementation()
 	return this;
 }
 
+TArray<FTaggedMontage> ATopDownRPGCharacterBase::GetAttackMontages_Implementation()
+{
+	return AttackMontages;
+}
+
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
 {
 }
