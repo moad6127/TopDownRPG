@@ -5,6 +5,7 @@
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Aura/Aura.h"
+#include "TopDownRPGGameplayTags.h"
 
 ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 {
@@ -63,10 +64,23 @@ void ATopDownRPGCharacterBase::BeginPlay()
 	
 }
 
-FVector ATopDownRPGCharacterBase::GetCombatSocketLocation_Implementation()
+FVector ATopDownRPGCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	const FTopDownRPGGameplayTags& GameplayTags = FTopDownRPGGameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+
+	return FVector();
 }
 
 bool ATopDownRPGCharacterBase::IsDead_Implementation() const
