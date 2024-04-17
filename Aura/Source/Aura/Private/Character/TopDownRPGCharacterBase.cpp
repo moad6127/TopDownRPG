@@ -98,6 +98,11 @@ TArray<FTaggedMontage> ATopDownRPGCharacterBase::GetAttackMontages_Implementatio
 	return AttackMontages;
 }
 
+UNiagaraSystem* ATopDownRPGCharacterBase::GetBloodEffect_Implementation()
+{
+	return BloodEffect;
+}
+
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
 {
 }
