@@ -55,6 +55,7 @@ void ATopDownRPGProjectile::Destroyed()
 		{
 			LoopingSoundComponent->Stop();
 		}
+		bHit = true;
 	}
 	Super::Destroyed();
 }
@@ -78,6 +79,7 @@ void ATopDownRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappingComp
 		{
 			LoopingSoundComponent->Stop();
 		}
+		bHit = true;
 	}
 	if (HasAuthority())
 	{
