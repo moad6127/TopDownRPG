@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Aura/Aura.h"
 #include "TopDownRPGGameplayTags.h"
+#include "Kismet/GameplayStatics.h"
 
 ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 {
@@ -43,6 +44,8 @@ void ATopDownRPGCharacterBase::Die()
 
 void ATopDownRPGCharacterBase::MulticastHandleDeath_Implementation()
 {
+	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
+
 	Weapon->SetSimulatePhysics(true);
 	Weapon->SetEnableGravity(true);
 	Weapon->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
