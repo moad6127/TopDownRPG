@@ -121,6 +121,11 @@ FTaggedMontage ATopDownRPGCharacterBase::GetTaggedMontageByTag_Implementation(co
 	return FTaggedMontage();
 }
 
+int32 ATopDownRPGCharacterBase::GetMinionCount_Implementation()
+{
+	return MinionCount;
+}
+
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
 {
 }
