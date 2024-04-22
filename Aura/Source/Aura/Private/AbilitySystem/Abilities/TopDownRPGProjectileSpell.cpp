@@ -13,7 +13,7 @@ void UTopDownRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandl
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocektTag)
+void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocektTag, bool bOverridePitch, float PitchOverride)
 {
 	
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
@@ -27,7 +27,11 @@ void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTarget
 		GetAvatarActorFromActorInfo(),
 		SocektTag);
 	FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
+	if (bOverridePitch)
+	{
+		Rotation.Pitch = PitchOverride;
 
+	}
 	FTransform SpawnTrasnform;
 	SpawnTrasnform.SetLocation(SocketLocation);
 	SpawnTrasnform.SetRotation(Rotation.Quaternion());
