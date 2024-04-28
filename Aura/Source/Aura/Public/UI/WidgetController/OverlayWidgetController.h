@@ -10,6 +10,7 @@
 
 class UTopDownRPGUserWidget;
 class UAbilityInfo;
+class UTopDownRPGAbilitySystemComponent;
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
@@ -68,6 +69,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
 	TObjectPtr<UAbilityInfo> AbilityInfo;
+
+	void OnInitializeStartupAbilities(UTopDownRPGAbilitySystemComponent* TopDownRPGASC);
 
 	//~ Funtions
 	template<typename T>

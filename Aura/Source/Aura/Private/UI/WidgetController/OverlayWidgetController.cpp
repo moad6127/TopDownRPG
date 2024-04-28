@@ -31,18 +31,40 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TopDownRPGAttributeSet->GetManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {	OnManaChanged.Broadcast(Data.NewValue); });
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TopDownRPGAttributeSet->GetMaxManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {	OnMaxManaChanged.Broadcast(Data.NewValue); });
 	
-	Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-		[this](const FGameplayTagContainer& AssetTags)
+	if (UTopDownRPGAbilitySystemComponent* TopDownRPGASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		if (TopDownRPGASC->bStartupAbilitiesGiven)
 		{
-			for (const FGameplayTag& tag : AssetTags)
+			OnInitializeStartupAbilities(TopDownRPGASC);
+		}
+		else
+		{
+			TopDownRPGASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+
+		}
+		TopDownRPGASC->EffectAssetTags.AddLambda(
+			[this](const FGameplayTagContainer& AssetTags)
 			{
-				FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
-				if (tag.MatchesTag(MessageTag))
+				for (const FGameplayTag& tag : AssetTags)
 				{
-					const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, tag);
-					MessageWidgetRowDelegate.Broadcast(*Row);
+					FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+					if (tag.MatchesTag(MessageTag))
+					{
+						const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, tag);
+						MessageWidgetRowDelegate.Broadcast(*Row);
+					}
 				}
 			}
-		}
-	);
+		);
+	}
+
+}
+
+void UOverlayWidgetController::OnInitializeStartupAbilities(UTopDownRPGAbilitySystemComponent* TopDownRPGASC)
+{
+	//TODO Get information about all given abilities, look up their ability info, and broadcast it to widget
+	if (!TopDownRPGASC->bStartupAbilitiesGiven)
+	{
+		return;
+	}
 }

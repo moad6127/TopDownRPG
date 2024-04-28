@@ -21,8 +21,9 @@ void UTopDownRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubc
 			AbilitySpec.DynamicAbilityTags.AddTag(TopDownRPGAbility->StartupInputTag);
 			GiveAbility(AbilitySpec);
 		}
-
 	}
+	bStartupAbilitiesGiven = true;
+	AbilitiesGivenDelegate.Broadcast(this);
 }
 
 void UTopDownRPGAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
