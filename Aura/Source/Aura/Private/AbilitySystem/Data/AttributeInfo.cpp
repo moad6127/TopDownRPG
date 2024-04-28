@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/Data/AttributeInfo.h"
+#include "Aura/TopDownRPGLogChannels.h"
 
 FTopDownRPGAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& AttributeTag, bool bLogNotFound) const
 {
@@ -15,7 +16,7 @@ FTopDownRPGAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplay
 
 	if (bLogNotFound)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Can't find Info for AttributeTag [%s] On AttributeInfo [%s]."), *AttributeTag.ToString(), *GetNameSafe(this));
+		UE_LOG(LogTopDownRPG, Error, TEXT("Can't find Info for AttributeTag [%s] On AttributeInfo [%s]."), *AttributeTag.ToString(), *GetNameSafe(this));
 	}
 
 	return FTopDownRPGAttributeInfo();
