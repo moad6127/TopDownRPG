@@ -4,6 +4,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
+//#include "AbilitySystem/Data/AbilityInfo.h"
 
 void UOverlayWidgetController::BroadcastInitialValue()
 {
@@ -67,4 +68,13 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UTopDownRPGAbilitySy
 	{
 		return;
 	}
+	FForEachAbility BroadcastDelegate;
+	BroadcastDelegate.BindLambda([this, TopDownRPGASC](const FGameplayAbilitySpec& AbilitySpec)
+		{
+			//TODO need a way to figure out the ability tag for a given ability spec
+			FTopDownRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(TopDownRPGASC->GetAbilityTagFromSpec(AbilitySpec));
+			Info.InputTag = TopDownRPGASC->GetInputTagFromSpec(AbilitySpec);
+			AbilityInfoDelegate.Broadcast(Info);
+		});
+	TopDownRPGASC->ForEachAbility(BroadcastDelegate);
 }

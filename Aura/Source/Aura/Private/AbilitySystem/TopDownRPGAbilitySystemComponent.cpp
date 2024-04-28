@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "TopDownRPGGameplayTags.h"
+#include "Aura/TopDownRPGLogChannels.h"
 #include "AbilitySystem/Abilities/TopDownRPGGameplayAbility.h"
 
 void UTopDownRPGAbilitySystemComponent::AbilityActorInfoSet()
@@ -60,6 +61,45 @@ void UTopDownRPGAbilitySystemComponent::AbilityInputTagReleased(const FGameplayT
 			AbilitySpecInputReleased(AbilitySpec);
 		}
 	}
+}
+
+void UTopDownRPGAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate)
+{
+	FScopedAbilityListLock ActiveScopeLock(*this);
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		if (!Delegate.ExecuteIfBound(AbilitySpec))
+		{
+			UE_LOG(LogTopDownRPG, Error, TEXT("Failed to Execute delegate in %hs"), __FUNCTION__);
+		}
+	}
+}
+
+FGameplayTag UTopDownRPGAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+	if (AbilitySpec.Ability)
+	{
+		for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+		{
+			if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities"))))
+			{
+				return Tag;
+			}
+		}
+	}
+	return FGameplayTag();
+}
+
+FGameplayTag UTopDownRPGAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+	for (FGameplayTag Tag : AbilitySpec.DynamicAbilityTags)
+	{
+		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
+		{
+			return Tag;
+		}
+	}
+	return FGameplayTag();
 }
 
 void UTopDownRPGAbilitySystemComponent::ClientEffectApplyed_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
