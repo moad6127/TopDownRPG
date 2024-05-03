@@ -23,6 +23,7 @@ void ATopDownRPGPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ATopDownRPGPlayerState, Level);
+	DOREPLIFETIME(ATopDownRPGPlayerState, XP);
 }
 
 UAbilitySystemComponent* ATopDownRPGPlayerState::GetAbilitySystemComponent() const
@@ -30,9 +31,38 @@ UAbilitySystemComponent* ATopDownRPGPlayerState::GetAbilitySystemComponent() con
 	return AbilitySystemComponent;
 }
 
+void ATopDownRPGPlayerState::SetXP(int32 InXP)
+{
+	XP = InXP;
+	OnXPChangedDelegate.Broadcast(XP);
+}
+
+void ATopDownRPGPlayerState::SetLevel(int32 InLevel)
+{
+	Level = InLevel;
+	OnLevelChangedDelegate.Broadcast(Level);
+}
+
+void ATopDownRPGPlayerState::AddToXP(int32 AddXP)
+{
+	XP += AddXP;
+	OnXPChangedDelegate.Broadcast(XP);
+}
+
+void ATopDownRPGPlayerState::AddToLevel(int32 AddLevel)
+{
+	Level += AddLevel;
+	OnLevelChangedDelegate.Broadcast(Level);
+}
+
 void ATopDownRPGPlayerState::OnRep_Level(int32 OldLevel)
 {
+	OnLevelChangedDelegate.Broadcast(Level);
+}
 
+void ATopDownRPGPlayerState::OnRep_XP(int32 OldXP)
+{
+	OnXPChangedDelegate.Broadcast(XP);
 }
 
 
