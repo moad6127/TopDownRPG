@@ -4,6 +4,8 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
+#include "Player/TopDownRPGPlayerState.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
 //#include "AbilitySystem/Data/AbilityInfo.h"
 
 void UOverlayWidgetController::BroadcastInitialValue()
@@ -18,8 +20,10 @@ void UOverlayWidgetController::BroadcastInitialValue()
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
-	const UTopDownRPGAttributeSet* TopDownRPGAttributeSet = CastChecked<UTopDownRPGAttributeSet>(AttributeSet);
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
+	TopDownRPGPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 
+	const UTopDownRPGAttributeSet* TopDownRPGAttributeSet = CastChecked<UTopDownRPGAttributeSet>(AttributeSet);
 	//~ Use Lamda
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
 		TopDownRPGAttributeSet->GetHealthAttribute()).AddLambda(
@@ -77,4 +81,28 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UTopDownRPGAbilitySy
 			AbilityInfoDelegate.Broadcast(Info);
 		});
 	TopDownRPGASC->ForEachAbility(BroadcastDelegate);
+}
+
+void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
+{
+	const ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
+	const ULevelUpInfo* LevelUpInfo = TopDownRPGPlayerState->LevelUpInfo;
+	checkf(LevelUpInfo, TEXT("Unable to find LevelUpInfo!!"));
+	
+	const int32 Level = LevelUpInfo->FindLevelForXP(NewXP);
+	const int32 MaxLevel = LevelUpInfo->LevelUpInformation.Num();
+
+
+	if (Level <= MaxLevel && Level > 0)
+	{
+		const int32 LevelUpRequirement = LevelUpInfo->LevelUpInformation[Level].LevelUpRequirement;
+		const int32 PrevLevelUpRequirement = LevelUpInfo->LevelUpInformation[Level - 1].LevelUpRequirement;
+
+		const int32 DeltaLevelReq = LevelUpRequirement - PrevLevelUpRequirement;
+		const int32 XPForThisLevel = NewXP - PrevLevelUpRequirement;
+
+		const float XPBarPercent = static_cast<float>(XPForThisLevel) / DeltaLevelReq;
+
+		OnXPPercentChangedDelegate.Broadcast(XPBarPercent);
+	}
 }
