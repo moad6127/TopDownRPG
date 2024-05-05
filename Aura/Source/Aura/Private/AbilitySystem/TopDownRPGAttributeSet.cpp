@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/TopDownRPGPlayerController.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
+#include "Aura/TopDownRPGLogChannels.h"
 
 UTopDownRPGAttributeSet::UTopDownRPGAttributeSet()
 {
@@ -125,7 +126,6 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
-		UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
@@ -161,6 +161,12 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 			const bool bCriticalHit = UTopDownRPGAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
 			ShowFloatingText(Props, LocalIncomingDamage,bBlocked, bCriticalHit);
 		}
+	}
+	if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+	{
+		const float LocalIncomingXP = GetIncomingXP();
+		SetIncomingXP(0.f);
+		UE_LOG(LogTopDownRPG, Log, TEXT("Incomming XP : %f"), LocalIncomingXP);
 	}
 }
 

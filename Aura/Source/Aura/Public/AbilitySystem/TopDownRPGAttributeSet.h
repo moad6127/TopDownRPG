@@ -162,10 +162,13 @@ public:
 	//~ Vital AttributeData Value
 
 	//~ Meta Attributes
-
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UTopDownRPGAttributeSet, IncomingDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingXP;
+	ATTRIBUTE_ACCESSORS(UTopDownRPGAttributeSet, IncomingXP);
 	//~ Meta Attributes
 
 
