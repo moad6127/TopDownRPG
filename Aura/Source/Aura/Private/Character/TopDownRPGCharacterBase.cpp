@@ -131,6 +131,11 @@ void ATopDownRPGCharacterBase::IncrementMinionCount_Implementation(int32 Amount)
 	MinionCount += Amount;
 }
 
+ECharacterClass ATopDownRPGCharacterBase::GetCharacterClass_Implementation()
+{
+	return CharacterClass;
+}
+
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
 {
 }

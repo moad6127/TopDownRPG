@@ -18,6 +18,8 @@ ATopDownRPGCharacter::ATopDownRPGCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
+
+	CharacterClass = ECharacterClass::Elemetalist;
 }
 
 void ATopDownRPGCharacter::PossessedBy(AController* NewController)
