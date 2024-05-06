@@ -165,6 +165,7 @@ void ATopDownRPGCharacterBase::AddCharacterAbilities()
 		return;
 	}
 	TopDownASC->AddCharacterAbilities(StartupAbilities);
+	TopDownASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
 }
 
 void ATopDownRPGCharacterBase::Dissolve()

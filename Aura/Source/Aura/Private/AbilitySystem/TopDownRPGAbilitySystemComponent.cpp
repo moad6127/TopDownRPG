@@ -27,6 +27,15 @@ void UTopDownRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubc
 	AbilitiesGivenDelegate.Broadcast(this);
 }
 
+void UTopDownRPGAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartPassiveAbilities)
+{
+	for (const TSubclassOf<UGameplayAbility> AbilityClass : StartPassiveAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+		GiveAbilityAndActivateOnce(AbilitySpec);
+	}
+}
+
 void UTopDownRPGAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
 {
 	if (!InputTag.IsValid())
