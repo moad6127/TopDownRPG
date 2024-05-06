@@ -8,6 +8,7 @@
 #include "Net/UnrealNetwork.h"
 #include "TopDownRPGGameplayTags.h"
 #include "Interaction/CombatInterface.h"
+#include "Interaction/PlayerInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/TopDownRPGPlayerController.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
@@ -167,7 +168,12 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 	{
 		const float LocalIncomingXP = GetIncomingXP();
 		SetIncomingXP(0.f);
-		UE_LOG(LogTopDownRPG, Log, TEXT("Incomming XP : %f"), LocalIncomingXP);
+
+		//TODO : 레벨을 올려야하는지 알아보기
+		if (Props.SourceCharacter->Implements<UPlayerInterface>())
+		{
+			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
+		}
 	}
 }
 

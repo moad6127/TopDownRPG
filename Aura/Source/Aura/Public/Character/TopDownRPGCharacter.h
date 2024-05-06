@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Character/TopDownRPGCharacterBase.h"
+#include "Interaction/PlayerInterface.h"
 #include "TopDownRPGCharacter.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class AURA_API ATopDownRPGCharacter : public ATopDownRPGCharacterBase
+class AURA_API ATopDownRPGCharacter : public ATopDownRPGCharacterBase, public IPlayerInterface
 {
 	GENERATED_BODY()
 
@@ -20,10 +21,14 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
 
+	//~ PlayerInterface
+	virtual void AddToXP_Implementation(int32 InXP) override;
+	//~ PlayerInterface
+	
 	//~ CombatInterface
-
 	virtual int32 GetPlayerLevel() override;
 	//~ CombatInterface
+
 
 private:
 	/*
