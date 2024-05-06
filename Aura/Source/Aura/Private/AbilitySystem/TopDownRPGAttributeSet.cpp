@@ -149,6 +149,7 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 				{
 					CombatInterface->Die();
 				}
+				SendXPEvent(Props);
 			}
 			else // HitReact
 			{
@@ -183,6 +184,23 @@ void UTopDownRPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, f
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
+	}
+}
+
+void UTopDownRPGAttributeSet::SendXPEvent(const FEffectProperties& Props)
+{
+	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter))
+	{
+		const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
+		const int32 XPReward = UTopDownRPGAbilitySystemLibrary::GetXPRewardForClassAndLevel(Props.TargetCharacter, TargetClass, TargetLevel);
+		
+		const FTopDownRPGGameplayTags& GameplayTag = FTopDownRPGGameplayTags::Get();
+		FGameplayEventData Payload;
+		Payload.EventTag = GameplayTag.Attributes_Meta_IncomingXP;
+		Payload.EventMagnitude = XPReward;
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter, GameplayTag.Attributes_Meta_IncomingXP, Payload);
+
 	}
 }
 
