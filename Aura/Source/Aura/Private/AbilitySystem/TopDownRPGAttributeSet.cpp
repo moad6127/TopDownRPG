@@ -170,6 +170,7 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 		SetIncomingXP(0.f);
 
 		//TODO : 레벨을 올려야하는지 알아보기
+
 		if (Props.SourceCharacter->Implements<UPlayerInterface>())
 		{
 			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
@@ -195,9 +196,9 @@ void UTopDownRPGAttributeSet::ShowFloatingText(const FEffectProperties& Props, f
 
 void UTopDownRPGAttributeSet::SendXPEvent(const FEffectProperties& Props)
 {
-	if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetCharacter))
+	if (Props.TargetCharacter->Implements<UCombatInterface>())
 	{
-		const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+		const int32 TargetLevel = ICombatInterface::Execute_GetPlayerLevel(Props.TargetCharacter);
 		const ECharacterClass TargetClass = ICombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
 		const int32 XPReward = UTopDownRPGAbilitySystemLibrary::GetXPRewardForClassAndLevel(Props.TargetCharacter, TargetClass, TargetLevel);
 		

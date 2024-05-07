@@ -46,7 +46,12 @@ void ATopDownRPGCharacter::AddToXP_Implementation(int32 InXP)
 	TopDownRPGPlayerState->AddToXP(InXP);
 }
 
-int32 ATopDownRPGCharacter::GetPlayerLevel()
+void ATopDownRPGCharacter::LevelUp_Implementation()
+{
+
+}
+
+int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
 {
 	const ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
 	check(TopDownRPGPlayerState);
