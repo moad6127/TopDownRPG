@@ -7,6 +7,7 @@
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "Player/TopDownRPGPlayerController.h"
 #include "UI/HUD/TopDownRPGHUD.h"
+#include "AbilitySystem/Data/LevelUpInfo.h"
 
 ATopDownRPGCharacter::ATopDownRPGCharacter()
 {
@@ -49,6 +50,51 @@ void ATopDownRPGCharacter::AddToXP_Implementation(int32 InXP)
 void ATopDownRPGCharacter::LevelUp_Implementation()
 {
 
+}
+
+int32 ATopDownRPGCharacter::GetXP_Implementation() const
+{
+	const ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	return TopDownRPGPlayerState->GetXP();
+}
+
+int32 ATopDownRPGCharacter::FindLevelForXP_Implementation(int32 InXP) const
+{
+	const ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	return TopDownRPGPlayerState->LevelUpInfo->FindLevelForXP(InXP);
+}
+
+int32 ATopDownRPGCharacter::GetAttributePointsReward_Implementation(int32 Level) const
+{
+	const ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	return TopDownRPGPlayerState->LevelUpInfo->LevelUpInformation[Level].AttributePointAward;
+}
+
+int32 ATopDownRPGCharacter::GetSpellPointsReward_Implementation(int32 Level) const
+{
+	const ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	return TopDownRPGPlayerState->LevelUpInfo->LevelUpInformation[Level].SpellPointAward;
+}
+
+void ATopDownRPGCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
+{
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	TopDownRPGPlayerState->AddToLevel(InPlayerLevel);
+}
+
+void ATopDownRPGCharacter::AddToAttributePoints_Implementation(int32 InAttribuetPoints)
+{
+	//TODO : AddToAttributePoint 를 PlayerState에 만들기
+}
+
+void ATopDownRPGCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
+{
+	//TODO : AddToSpellPoint 를 PlayerState에 만들기
 }
 
 int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
