@@ -8,9 +8,26 @@
 #include "Player/TopDownRPGPlayerController.h"
 #include "UI/HUD/TopDownRPGHUD.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
+#include "NiagaraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+
 
 ATopDownRPGCharacter::ATopDownRPGCharacter()
 {
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>("CameraBoom");
+	CameraBoom->SetupAttachment(GetRootComponent());
+	CameraBoom->SetUsingAbsoluteRotation(true);
+	CameraBoom->bDoCollisionTest = false;
+
+	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>("TopDownCameraComponen");
+	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	TopDownCameraComponent->bUsePawnControlRotation = false;
+
+	LevelUpNiagaraComponent = CreateDefaultSubobject<UNiagaraComponent>("LevelUpNiagaraComponent");
+	LevelUpNiagaraComponent->SetupAttachment(GetRootComponent());
+	LevelUpNiagaraComponent->bAutoActivate = false;
+
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 400.f, 0.f);
 	GetCharacterMovement()->bConstrainToPlane = true;
@@ -49,7 +66,20 @@ void ATopDownRPGCharacter::AddToXP_Implementation(int32 InXP)
 
 void ATopDownRPGCharacter::LevelUp_Implementation()
 {
+	MulticastLevelUpParticles();
+}
 
+void ATopDownRPGCharacter::MulticastLevelUpParticles_Implementation() const
+{
+	if (IsValid(LevelUpNiagaraComponent))
+	{
+		const FVector CameraLocation = TopDownCameraComponent->GetComponentLocation();
+		const FVector NiagaraSystemLocation = LevelUpNiagaraComponent->GetComponentLocation();
+		const FRotator ToCameraRotaion = (CameraLocation - NiagaraSystemLocation).Rotation();
+
+		LevelUpNiagaraComponent->SetWorldRotation(ToCameraRotaion);
+		LevelUpNiagaraComponent->Activate(true);
+	}
 }
 
 int32 ATopDownRPGCharacter::GetXP_Implementation() const
@@ -124,3 +154,5 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 
 	InitializeDefaultAttributes();
 }
+
+
