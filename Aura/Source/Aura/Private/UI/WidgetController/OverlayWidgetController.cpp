@@ -22,6 +22,12 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
 	TopDownRPGPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+	TopDownRPGPlayerState->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel) 
+		{
+			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+		}
+	);
 
 	const UTopDownRPGAttributeSet* TopDownRPGAttributeSet = CastChecked<UTopDownRPGAttributeSet>(AttributeSet);
 	//~ Use Lamda
