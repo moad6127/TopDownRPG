@@ -24,6 +24,8 @@ void ATopDownRPGPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty
 
 	DOREPLIFETIME(ATopDownRPGPlayerState, Level);
 	DOREPLIFETIME(ATopDownRPGPlayerState, XP);
+	DOREPLIFETIME(ATopDownRPGPlayerState, AttributePoint);
+	DOREPLIFETIME(ATopDownRPGPlayerState, SpellPoint);
 }
 
 UAbilitySystemComponent* ATopDownRPGPlayerState::GetAbilitySystemComponent() const
@@ -55,6 +57,18 @@ void ATopDownRPGPlayerState::AddToLevel(int32 AddLevel)
 	OnLevelChangedDelegate.Broadcast(Level);
 }
 
+void ATopDownRPGPlayerState::AddToAttributePoints(int32 AddAttributePoint)
+{
+	AttributePoint += AddAttributePoint;
+	OnAttributePointsChangedDelegate.Broadcast(AttributePoint);
+}
+
+void ATopDownRPGPlayerState::AddToSpellPoints(int32 AddSpellPoint)
+{
+	SpellPoint += AddSpellPoint;
+	OnSpellPointsChangedDelegate.Broadcast(SpellPoint);
+}
+
 void ATopDownRPGPlayerState::OnRep_Level(int32 OldLevel)
 {
 	OnLevelChangedDelegate.Broadcast(Level);
@@ -63,6 +77,16 @@ void ATopDownRPGPlayerState::OnRep_Level(int32 OldLevel)
 void ATopDownRPGPlayerState::OnRep_XP(int32 OldXP)
 {
 	OnXPChangedDelegate.Broadcast(XP);
+}
+
+void ATopDownRPGPlayerState::OnRep_AttributePoint(int32 OldAttributePoint)
+{
+	OnAttributePointsChangedDelegate.Broadcast(AttributePoint);
+}
+
+void ATopDownRPGPlayerState::OnRep_SpellPoint(int32 OldSpellPoint)
+{
+	OnSpellPointsChangedDelegate.Broadcast(SpellPoint);
 }
 
 

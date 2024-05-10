@@ -4,6 +4,7 @@
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
 #include "TopDownRPGGameplayTags.h"
+#include "Player/TopDownRPGPlayerState.h"
 
 void UAttributeMenuWidgetController::BroadcastInitialValue()
 {
@@ -32,6 +33,14 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 			}
 		);
 	}
+
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
+	TopDownRPGPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+		[this](int32 Points)
+		{
+			AttributePointsChangedDelegate.Broadcast(Points);
+		}
+	);
 }
 
 void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const
