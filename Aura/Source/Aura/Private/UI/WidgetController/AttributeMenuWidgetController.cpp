@@ -17,6 +17,8 @@ void UAttributeMenuWidgetController::BroadcastInitialValue()
 	{
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
+	AttributePointsChangedDelegate.Broadcast(TopDownRPGPlayerState->GetAttributePoints());;
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()

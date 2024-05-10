@@ -119,12 +119,16 @@ void ATopDownRPGCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 
 void ATopDownRPGCharacter::AddToAttributePoints_Implementation(int32 InAttribuetPoints)
 {
-	//TODO : AddToAttributePoint 를 PlayerState에 만들기
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	TopDownRPGPlayerState->AddToAttributePoints(InAttribuetPoints);
 }
 
 void ATopDownRPGCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
 {
-	//TODO : AddToSpellPoint 를 PlayerState에 만들기
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	TopDownRPGPlayerState->AddToSpellPoints(InSpellPoints);
 }
 
 int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
