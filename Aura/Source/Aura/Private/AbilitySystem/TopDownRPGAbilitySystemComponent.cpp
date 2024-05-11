@@ -5,6 +5,8 @@
 #include "TopDownRPGGameplayTags.h"
 #include "Aura/TopDownRPGLogChannels.h"
 #include "AbilitySystem/Abilities/TopDownRPGGameplayAbility.h"
+#include "Interaction/PlayerInterface.h"
+#include "AbilitySystemBlueprintLibrary.h"
 
 void UTopDownRPGAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -109,6 +111,31 @@ FGameplayTag UTopDownRPGAbilitySystemComponent::GetInputTagFromSpec(const FGamep
 		}
 	}
 	return FGameplayTag();
+}
+
+void UTopDownRPGAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeTag)
+{
+	if (GetAvatarActor()->Implements<UPlayerInterface>())
+	{
+		if (IPlayerInterface::Execute_GetAttributePoints(GetAvatarActor()) > 0)
+		{
+			ServerUpgradeAttribute(AttributeTag);
+		}
+	}
+}
+
+void UTopDownRPGAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeTag)
+{
+	FGameplayEventData Payload;
+	Payload.EventTag = AttributeTag;
+	Payload.EventMagnitude = 1.f;
+
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetAvatarActor(), AttributeTag, Payload);
+
+	if (GetAvatarActor()->Implements<UPlayerInterface>())
+	{
+		IPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
+	}
 }
 
 void UTopDownRPGAbilitySystemComponent::OnRep_ActivateAbilities()

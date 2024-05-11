@@ -131,6 +131,20 @@ void ATopDownRPGCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
 	TopDownRPGPlayerState->AddToSpellPoints(InSpellPoints);
 }
 
+int32 ATopDownRPGCharacter::GetAttributePoints_Implementation() const
+{
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	return TopDownRPGPlayerState->GetAttributePoints();
+}
+
+int32 ATopDownRPGCharacter::GetSpellPoints_Implementation() const
+{
+	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
+	check(TopDownRPGPlayerState);
+	return TopDownRPGPlayerState->GetSpellPoints();
+}
+
 int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
 {
 	const ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
