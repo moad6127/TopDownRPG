@@ -4,16 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 #include "TopDownRPGWidgetController.generated.h"
 
 /**
  * 
  */
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangeSignature, int32, NewValue);
-
 class UAbilitySystemComponent;
 class UAttributeSet;
+class ATopDownRPGPlayerController;
+class ATopDownRPGPlayerState;
+class UTopDownRPGAbilitySystemComponent;
+class UTopDownRPGAttributeSet;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangeSignature, int32, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FTopDownRPGAbilityInfo&, Info);
+
+
 
 USTRUCT(BlueprintType)
 struct FWidgetControllerParams
@@ -50,7 +57,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void BroadcastInitialValue();
 	virtual void BindCallbacksToDependencies();
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Message")
+	FAbilityInfoSignature AbilityInfoDelegate;
+
+	void BroadcastAbilityInfo();
 protected:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget Data")
+	TObjectPtr<UAbilityInfo> AbilityInfo;
 
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
 	TObjectPtr<APlayerController> PlayerController;
@@ -63,4 +77,21 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	TObjectPtr<ATopDownRPGPlayerController> TopDownRPGPlayerController;
+
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	TObjectPtr<ATopDownRPGPlayerState> TopDownRPGPlayerState;
+
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	TObjectPtr<UTopDownRPGAbilitySystemComponent> TopDownRPGAbilitySystemComponent;
+
+	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")
+	TObjectPtr<UTopDownRPGAttributeSet> TopDownRPGAttributeSet;
+
+	ATopDownRPGPlayerController* GetTopDownRPGPC();
+	ATopDownRPGPlayerState* GetTopDownRPGPS();
+	UTopDownRPGAbilitySystemComponent* GetTopDownRPGASC();
+	UTopDownRPGAttributeSet* GetTopDownRPGAS();
 };

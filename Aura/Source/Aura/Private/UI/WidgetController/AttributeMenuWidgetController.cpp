@@ -18,16 +18,14 @@ void UAttributeMenuWidgetController::BroadcastInitialValue()
 	{
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
-	ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
-	AttributePointsChangedDelegate.Broadcast(TopDownRPGPlayerState->GetAttributePoints());;
+
+	AttributePointsChangedDelegate.Broadcast(GetTopDownRPGPS()->GetAttributePoints());;
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
-	UTopDownRPGAttributeSet* AS = CastChecked<UTopDownRPGAttributeSet>(AttributeSet);
-
 	check(AttributeInfo);
-	for (auto& Pair : AS->TagsToAttributes)
+	for (auto& Pair : GetTopDownRPGAS()->TagsToAttributes)
 	{
 		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
 			[this, Pair](const FOnAttributeChangeData& Data)
@@ -37,8 +35,7 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 		);
 	}
 
-	ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
-	TopDownRPGPlayerState->OnAttributePointsChangedDelegate.AddLambda(
+	GetTopDownRPGPS()->OnAttributePointsChangedDelegate.AddLambda(
 		[this](int32 Points)
 		{
 			AttributePointsChangedDelegate.Broadcast(Points);

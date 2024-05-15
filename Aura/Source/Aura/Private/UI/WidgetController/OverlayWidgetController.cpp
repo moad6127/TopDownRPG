@@ -6,54 +6,52 @@
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "Player/TopDownRPGPlayerState.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
-//#include "AbilitySystem/Data/AbilityInfo.h"
+
 
 void UOverlayWidgetController::BroadcastInitialValue()
 {
-	const UTopDownRPGAttributeSet* TopDownRPGAttributeSet = CastChecked<UTopDownRPGAttributeSet>(AttributeSet);
 
-	OnHealthChanged.Broadcast(TopDownRPGAttributeSet->GetHealth());
-	OnMaxHealthChanged.Broadcast(TopDownRPGAttributeSet->GetMaxHealth());
-	OnManaChanged.Broadcast(TopDownRPGAttributeSet->GetMana());
-	OnMaxManaChanged.Broadcast(TopDownRPGAttributeSet->GetMaxMana());
+
+	OnHealthChanged.Broadcast(GetTopDownRPGAS()->GetHealth());
+	OnMaxHealthChanged.Broadcast(GetTopDownRPGAS()->GetMaxHealth());
+	OnManaChanged.Broadcast(GetTopDownRPGAS()->GetMana());
+	OnMaxManaChanged.Broadcast(GetTopDownRPGAS()->GetMaxMana());
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
-	ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
-	TopDownRPGPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
-	TopDownRPGPlayerState->OnLevelChangedDelegate.AddLambda(
+	GetTopDownRPGPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+	GetTopDownRPGPS()->OnLevelChangedDelegate.AddLambda(
 		[this](int32 NewLevel) 
 		{
 			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
 		}
 	);
 
-	const UTopDownRPGAttributeSet* TopDownRPGAttributeSet = CastChecked<UTopDownRPGAttributeSet>(AttributeSet);
 	//~ Use Lamda
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(
-		TopDownRPGAttributeSet->GetHealthAttribute()).AddLambda(
+		GetTopDownRPGAS()->GetHealthAttribute()).AddLambda(
 			[this](const FOnAttributeChangeData& Data)
 			{
 				OnHealthChanged.Broadcast(Data.NewValue);
 			}
 		);	
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TopDownRPGAttributeSet->GetMaxHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {OnMaxHealthChanged.Broadcast(Data.NewValue); });
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TopDownRPGAttributeSet->GetManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {	OnManaChanged.Broadcast(Data.NewValue); });
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TopDownRPGAttributeSet->GetMaxManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {	OnMaxManaChanged.Broadcast(Data.NewValue); });
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetTopDownRPGAS()->GetMaxHealthAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {OnMaxHealthChanged.Broadcast(Data.NewValue); });
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetTopDownRPGAS()->GetManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {	OnManaChanged.Broadcast(Data.NewValue); });
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetTopDownRPGAS()->GetMaxManaAttribute()).AddLambda([this](const FOnAttributeChangeData& Data) {	OnMaxManaChanged.Broadcast(Data.NewValue); });
 	
-	if (UTopDownRPGAbilitySystemComponent* TopDownRPGASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent))
+	if (GetTopDownRPGASC())
 	{
-		if (TopDownRPGASC->bStartupAbilitiesGiven)
+		if (GetTopDownRPGASC()->bStartupAbilitiesGiven)
 		{
-			OnInitializeStartupAbilities(TopDownRPGASC);
+			BroadcastAbilityInfo();
 		}
 		else
 		{
-			TopDownRPGASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+			GetTopDownRPGASC()->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);
 
 		}
-		TopDownRPGASC->EffectAssetTags.AddLambda(
+		GetTopDownRPGASC()->EffectAssetTags.AddLambda(
 			[this](const FGameplayTagContainer& AssetTags)
 			{
 				for (const FGameplayTag& tag : AssetTags)
@@ -71,28 +69,10 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
 }
 
-void UOverlayWidgetController::OnInitializeStartupAbilities(UTopDownRPGAbilitySystemComponent* TopDownRPGASC)
-{
-	//TODO Get information about all given abilities, look up their ability info, and broadcast it to widget
-	if (!TopDownRPGASC->bStartupAbilitiesGiven)
-	{
-		return;
-	}
-	FForEachAbility BroadcastDelegate;
-	BroadcastDelegate.BindLambda([this, TopDownRPGASC](const FGameplayAbilitySpec& AbilitySpec)
-		{
-			//TODO need a way to figure out the ability tag for a given ability spec
-			FTopDownRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(TopDownRPGASC->GetAbilityTagFromSpec(AbilitySpec));
-			Info.InputTag = TopDownRPGASC->GetInputTagFromSpec(AbilitySpec);
-			AbilityInfoDelegate.Broadcast(Info);
-		});
-	TopDownRPGASC->ForEachAbility(BroadcastDelegate);
-}
 
-void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
+void UOverlayWidgetController::OnXPChanged(int32 NewXP)
 {
-	const ATopDownRPGPlayerState* TopDownRPGPlayerState = CastChecked<ATopDownRPGPlayerState>(PlayerState);
-	const ULevelUpInfo* LevelUpInfo = TopDownRPGPlayerState->LevelUpInfo;
+	const ULevelUpInfo* LevelUpInfo = GetTopDownRPGPS()->LevelUpInfo;
 	checkf(LevelUpInfo, TEXT("Unable to find LevelUpInfo!!"));
 	
 	const int32 Level = LevelUpInfo->FindLevelForXP(NewXP);
