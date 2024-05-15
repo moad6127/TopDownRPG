@@ -13,7 +13,7 @@ class UTopDownRPGUserWidget;
 class UTopDownRPGAbilitySystemComponent;
 
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Blueprintable)
 struct FUIWidgetRow : public FTableRowBase
 {
 	GENERATED_BODY()

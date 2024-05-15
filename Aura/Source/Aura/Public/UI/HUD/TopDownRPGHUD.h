@@ -16,6 +16,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 struct FWidgetControllerParams;
+class USpellMenuWidgetController;
 
 UCLASS()
 class AURA_API ATopDownRPGHUD : public AHUD
@@ -32,6 +33,8 @@ public:
 	//~ Function
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
 	UAttributeMenuWidgetController* GetAttributeMenuController(const FWidgetControllerParams& WCParams);
+	USpellMenuWidgetController* GetSpellMenuController(const FWidgetControllerParams& WCParams);
+
 
 	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
 	//~ Function
@@ -56,4 +59,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
+
+	UPROPERTY()
+	TObjectPtr<USpellMenuWidgetController> SpellMenuWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
 };

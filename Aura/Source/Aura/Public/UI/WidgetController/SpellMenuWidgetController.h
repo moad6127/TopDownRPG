@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class AURA_API USpellMenuWidgetController : public UTopDownRPGWidgetController
 {
 	GENERATED_BODY()
