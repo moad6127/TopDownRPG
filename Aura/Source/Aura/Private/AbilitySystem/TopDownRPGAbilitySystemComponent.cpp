@@ -7,6 +7,7 @@
 #include "AbilitySystem/Abilities/TopDownRPGGameplayAbility.h"
 #include "Interaction/PlayerInterface.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "TopDownRPGGameplayTags.h"
 
 void UTopDownRPGAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -22,6 +23,7 @@ void UTopDownRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubc
 		if (const UTopDownRPGGameplayAbility* TopDownRPGAbility = Cast<UTopDownRPGGameplayAbility>(AbilitySpec.Ability))
 		{
 			AbilitySpec.DynamicAbilityTags.AddTag(TopDownRPGAbility->StartupInputTag);
+			AbilitySpec.DynamicAbilityTags.AddTag(FTopDownRPGGameplayTags::Get().Abilities_Status_Equipped);
 			GiveAbility(AbilitySpec);
 		}
 	}
@@ -108,6 +110,18 @@ FGameplayTag UTopDownRPGAbilitySystemComponent::GetInputTagFromSpec(const FGamep
 		if (Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
 		{
 			return Tag;
+		}
+	}
+	return FGameplayTag();
+}
+
+FGameplayTag UTopDownRPGAbilitySystemComponent::GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+	for (FGameplayTag StatusTag : AbilitySpec.DynamicAbilityTags)
+	{
+		if (StatusTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities.Status"))))
+		{
+			return StatusTag;
 		}
 	}
 	return FGameplayTag();
