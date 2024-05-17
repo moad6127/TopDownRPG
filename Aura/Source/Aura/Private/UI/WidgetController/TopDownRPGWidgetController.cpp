@@ -36,6 +36,7 @@ void UTopDownRPGWidgetController::BroadcastAbilityInfo()
 		{
 			FTopDownRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(TopDownRPGAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
 			Info.InputTag = TopDownRPGAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+			Info.StatusTag = TopDownRPGAbilitySystemComponent->GetStatusFromSpec(AbilitySpec);
 			AbilityInfoDelegate.Broadcast(Info);
 		});
 	GetTopDownRPGASC()->ForEachAbility(BroadcastDelegate);
