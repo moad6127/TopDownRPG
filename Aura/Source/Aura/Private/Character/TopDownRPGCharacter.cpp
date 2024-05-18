@@ -115,6 +115,11 @@ void ATopDownRPGCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
 	check(TopDownRPGPlayerState);
 	TopDownRPGPlayerState->AddToLevel(InPlayerLevel);
+
+	if (UTopDownRPGAbilitySystemComponent* ASC = Cast<UTopDownRPGAbilitySystemComponent>(GetAbilitySystemComponent()))
+	{
+		ASC->UpdateAbilityStatues(TopDownRPGPlayerState->GetPlayerLevel());
+	}
 }
 
 void ATopDownRPGCharacter::AddToAttributePoints_Implementation(int32 InAttribuetPoints)
