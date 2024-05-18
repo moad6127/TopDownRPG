@@ -8,6 +8,8 @@
 #include "Interaction/PlayerInterface.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "TopDownRPGGameplayTags.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 void UTopDownRPGAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -127,6 +129,22 @@ FGameplayTag UTopDownRPGAbilitySystemComponent::GetStatusFromSpec(const FGamepla
 	return FGameplayTag();
 }
 
+FGameplayAbilitySpec* UTopDownRPGAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
+{
+	FScopedAbilityListLock ActiveScopeLoc(*this);
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+	{
+		for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+		{
+			if (Tag.MatchesTag(AbilityTag))
+			{
+				return &AbilitySpec;
+			}
+		}
+	}
+	return nullptr;
+}
+
 void UTopDownRPGAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeTag)
 {
 	if (GetAvatarActor()->Implements<UPlayerInterface>())
@@ -149,6 +167,29 @@ void UTopDownRPGAbilitySystemComponent::ServerUpgradeAttribute_Implementation(co
 	if (GetAvatarActor()->Implements<UPlayerInterface>())
 	{
 		IPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
+	}
+}
+
+void UTopDownRPGAbilitySystemComponent::UpdateAbilityStatues(int32 Level)
+{
+	UAbilityInfo* AbilityInfo =  UTopDownRPGAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+	for (const FTopDownRPGAbilityInfo& Info : AbilityInfo->AbilityInformation)
+	{
+		if (!Info.AbilityTag.IsValid())
+		{
+			continue;
+		}
+		if (Level < Info.LevelRequirement)
+		{
+			continue;
+		}
+		if (GetSpecFromAbilityTag(Info.AbilityTag) == nullptr)
+		{
+			FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.Ability, 1);
+			AbilitySpec.DynamicAbilityTags.AddTag(FTopDownRPGGameplayTags::Get().Abilities_Status_Eligible);
+			GiveAbility(AbilitySpec);
+			MarkAbilitySpecDirty(AbilitySpec);
+		}
 	}
 }
 
