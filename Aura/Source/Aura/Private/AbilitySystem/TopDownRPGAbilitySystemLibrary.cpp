@@ -123,12 +123,22 @@ void UTopDownRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldC
 
 UCharacterClassInfo* UTopDownRPGAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
 {
-	ATopDownRPGGameModeBase* TopDownRPGGameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	const ATopDownRPGGameModeBase* TopDownRPGGameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (TopDownRPGGameMode == nullptr)
 	{
 		return nullptr;
 	}
 	return TopDownRPGGameMode->CharacterClassInfo;
+}
+
+UAbilityInfo* UTopDownRPGAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
+{
+	const ATopDownRPGGameModeBase* TopDownRPGGameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (TopDownRPGGameMode == nullptr)
+	{
+		return nullptr;
+	}
+	return TopDownRPGGameMode->AbilityInfo;
 }
 
 bool UTopDownRPGAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)

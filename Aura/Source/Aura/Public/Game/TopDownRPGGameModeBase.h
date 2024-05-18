@@ -6,7 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "TopDownRPGGameModeBase.generated.h"
 
-
+class UAbilityInfo;
 class UCharacterClassInfo;
 /**
  * 
@@ -20,4 +20,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Characgter Class Defaults")
 	TObjectPtr<UCharacterClassInfo> CharacterClassInfo;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Abiltiy Info")
+	TObjectPtr<UAbilityInfo> AbilityInfo;
 };
