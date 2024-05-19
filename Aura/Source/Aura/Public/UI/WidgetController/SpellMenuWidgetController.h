@@ -16,4 +16,7 @@ class AURA_API USpellMenuWidgetController : public UTopDownRPGWidgetController
 public:
 	virtual void BroadcastInitialValue() override;
 	virtual void BindCallbacksToDependencies() override;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|SpellPoint")
+	FOnPlayerStatChangeSignature SpellPointPointsChangedDelegate;
 };

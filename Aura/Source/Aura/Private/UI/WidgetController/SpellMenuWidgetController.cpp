@@ -3,10 +3,13 @@
 
 #include "UI/WidgetController/SpellMenuWidgetController.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
+#include "Player/TopDownRPGPlayerState.h"
 
 void USpellMenuWidgetController::BroadcastInitialValue()
 {
 	BroadcastAbilityInfo();
+
+	SpellPointPointsChangedDelegate.Broadcast(GetTopDownRPGPS()->GetAttributePoints());;
 }
 
 void USpellMenuWidgetController::BindCallbacksToDependencies()
@@ -19,6 +22,12 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 				Info.StatusTag = StatusTag;
 				AbilityInfoDelegate.Broadcast(Info);
 			}
+		}
+	);
+	GetTopDownRPGPS()->OnSpellPointsChangedDelegate.AddLambda(
+		[this](int32 Points)
+		{
+			SpellPointPointsChangedDelegate.Broadcast(Points);
 		}
 	);
 }
