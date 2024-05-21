@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TopDownRPGGameplayTags.h"
 #include "UI/WidgetController/TopDownRPGWidgetController.h"
 #include "GameplayTagContainer.h"
 #include "SpellMenuWidgetController.generated.h"
@@ -10,6 +11,12 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FSpellGlobeSelectedSignature, bool, bSpendPointsButtonEnable, bool, bEquipButtonEnable);
 
+
+struct FSelectedAbility
+{
+	FGameplayTag Ability = FGameplayTag();
+	FGameplayTag Status = FGameplayTag();
+};
 
 /**
  * 
@@ -34,4 +41,7 @@ public:
 private:
 
 	static void ShouldEnableButton(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton);
+
+	FSelectedAbility SelectedAbility = { FTopDownRPGGameplayTags::Get().Abilities_None, FTopDownRPGGameplayTags::Get().Abilities_Status_Locked };
+	int32 CurrentSpellPoints = 0;
 };

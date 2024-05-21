@@ -17,6 +17,15 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 {
 	GetTopDownRPGASC()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag) 
 		{
+			if (SelectedAbility.Ability.MatchesTagExact(AbilityTag))
+			{
+				SelectedAbility.Status = StatusTag;
+				bool bEnableSpellPoints = false;
+				bool bEnableEquip = false;
+				ShouldEnableButton(StatusTag, CurrentSpellPoints, bEnableSpellPoints, bEnableEquip);
+				SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
+			}
+
 			if (AbilityInfo)
 			{
 				FTopDownRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
@@ -29,6 +38,12 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 		[this](int32 Points)
 		{
 			SpellPointPointsChangedDelegate.Broadcast(Points);
+			CurrentSpellPoints = Points;
+
+			bool bEnableSpellPoints = false;
+			bool bEnableEquip = false;
+			ShouldEnableButton(SelectedAbility.Status, CurrentSpellPoints, bEnableSpellPoints, bEnableEquip);
+			SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
 		}
 	);
 }
@@ -51,6 +66,8 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 	{
 		AbilityStatus = GetTopDownRPGASC()->GetStatusFromSpec(*AbilitySpec);
 	}
+	SelectedAbility.Ability = AbilityTag;
+	SelectedAbility.Status = AbilityStatus;
 
 	bool bEnableSpellPoints = false;
 	bool bEnableEquip = false;
