@@ -189,8 +189,34 @@ void UTopDownRPGAbilitySystemComponent::UpdateAbilityStatues(int32 Level)
 			AbilitySpec.DynamicAbilityTags.AddTag(FTopDownRPGGameplayTags::Get().Abilities_Status_Eligible);
 			GiveAbility(AbilitySpec);
 			MarkAbilitySpecDirty(AbilitySpec);
-			ClientUpdateAbilityStatus(Info.AbilityTag, FTopDownRPGGameplayTags::Get().Abilities_Status_Eligible);
+			ClientUpdateAbilityStatus(Info.AbilityTag, FTopDownRPGGameplayTags::Get().Abilities_Status_Eligible, 1);
 		}
+	}
+}
+
+void UTopDownRPGAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FGameplayTag& AbilityTag)
+{
+	if (FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+	{
+		if (GetAvatarActor()->Implements<UPlayerInterface>())
+		{
+			IPlayerInterface::Execute_AddToSpellPoints(GetAvatarActor(), -1);
+		}
+
+		const FTopDownRPGGameplayTags GameplayTag = FTopDownRPGGameplayTags::Get();
+		FGameplayTag Status = GetStatusFromSpec(*AbilitySpec);
+		if (Status.MatchesTagExact(GameplayTag.Abilities_Status_Eligible))
+		{
+			AbilitySpec->DynamicAbilityTags.RemoveTag(GameplayTag.Abilities_Status_Eligible);
+			AbilitySpec->DynamicAbilityTags.AddTag(GameplayTag.Abilities_Status_UnLocked);
+			Status = GetStatusFromSpec(*AbilitySpec);
+		}
+		else if (Status.MatchesTagExact(GameplayTag.Abilities_Status_Equipped) || Status.MatchesTagExact(GameplayTag.Abilities_Status_UnLocked))
+		{
+			AbilitySpec->Level += 1;
+		}
+		ClientUpdateAbilityStatus(AbilityTag, Status, AbilitySpec->Level);
+		MarkAbilitySpecDirty(*AbilitySpec);
 	}
 }
 
@@ -205,9 +231,9 @@ void UTopDownRPGAbilitySystemComponent::OnRep_ActivateAbilities()
 	}
 }
 
-void UTopDownRPGAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+void UTopDownRPGAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 AbilityLevel)
 {
-	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
+	AbilityStatusChanged.Broadcast(AbilityTag, StatusTag, AbilityLevel);
 }
 
 void UTopDownRPGAbilitySystemComponent::ClientEffectApplyed_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
