@@ -220,6 +220,23 @@ void UTopDownRPGAbilitySystemComponent::ServerSpendSpellPoint_Implementation(con
 	}
 }
 
+bool UTopDownRPGAbilitySystemComponent::GetDescriptionByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextDescriptioin)
+{
+	if (const FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+	{
+		if (UTopDownRPGGameplayAbility* TDAbility = Cast<UTopDownRPGGameplayAbility>(AbilitySpec->Ability))
+		{
+			OutDescription = TDAbility->GetDescription(AbilitySpec->Level);
+			OutNextDescriptioin = TDAbility->GetNextLevelDescription(AbilitySpec->Level + 1);
+			return true;
+		}
+	}
+	const UAbilityInfo* AbilityInfo = UTopDownRPGAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+	OutDescription = UTopDownRPGGameplayAbility::GetLockedDecription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
+	OutNextDescriptioin = FString();
+	return false;
+}
+
 void UTopDownRPGAbilitySystemComponent::OnRep_ActivateAbilities()
 {
 	Super::OnRep_ActivateAbilities();
