@@ -23,4 +23,5 @@ public:
 	virtual FString GetNextLevelDescription(int32 Level);
 	static FString GetLockedDecription(int32 Level);
 
+
 };

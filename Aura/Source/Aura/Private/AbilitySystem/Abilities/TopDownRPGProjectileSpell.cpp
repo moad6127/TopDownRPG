@@ -68,3 +68,32 @@ void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTarget
 
 	Projectile->FinishSpawning(SpawnTrasnform);
 }
+
+FString UTopDownRPGProjectileSpell::GetDescription(int32 Level)
+{
+
+	float Damage = 0.f;
+	for (auto& Pair : DamageTypes)
+	{
+		Damage += Pair.Value.GetValueAtLevel(Level);
+	}
+	const int32 IntDamage = FMath::RoundToInt(Damage);
+
+	if (Level == 1)
+	{
+		return FString::Printf(TEXT("<Title>FIRE BOLT</>\n\n<Default>Launches a bolt of fire, exploding on impact and dealing: </><Damage>%d</><Default> fire damage with a chance to burn</>\n\n<Small>Level: </><Level>%d</>"), IntDamage, Level);
+	}
+
+	return FString::Printf(TEXT("<Title>FIRE BOLT</>\n\n<Default>Launches %d bolts of fire, exploding on impact and dealing: </><Damage>%d</><Default> fire damage with a chance to burn</>\n\n<Small>Level: </><Level>%d</>"), FMath::Min(Level, NumProjectile), IntDamage, Level);
+}
+
+FString UTopDownRPGProjectileSpell::GetNextLevelDescription(int32 Level)
+{
+	float Damage = 0.f;
+	for (auto& Pair : DamageTypes)
+	{
+		Damage += Pair.Value.GetValueAtLevel(Level);
+	}
+	const int32 IntDamage = FMath::RoundToInt(Damage);
+	return FString::Printf(TEXT("<Title>NEXT LEVEL: </>\n\n<Default>Launches %d bolts of fire, exploding on impact and dealing: </><Damage>%d</><Default> fire damage with a chance to burn</>\n\n<Small>Level: </><Level>%d</>"), FMath::Min(Level, NumProjectile), IntDamage, Level);
+}
