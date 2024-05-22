@@ -27,3 +27,10 @@ FTaggedMontage UTopDownRPGDamageGameplayAbility::GetRandomTaggedMontageFromArray
 	}
 	return FTaggedMontage();
 }
+
+float UTopDownRPGDamageGameplayAbility::GetDamageByDamageType(float InLevel, const FGameplayTag& DamageType)
+{
+	checkf(DamageTypes.Contains(DamageType), TEXT("GamepalyAbility %s dose not contain DamgeType %s"), *GetNameSafe(this), *DamageType.ToString());
+
+	return DamageTypes[DamageType].GetValueAtLevel(InLevel);
+}
