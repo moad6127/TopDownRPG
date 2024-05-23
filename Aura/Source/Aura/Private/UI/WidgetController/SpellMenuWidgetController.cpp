@@ -89,6 +89,14 @@ void USpellMenuWidgetController::SpendPointButtonPressed()
 	GetTopDownRPGASC()->ServerSpendSpellPoint(SelectedAbility.Ability);
 }
 
+void USpellMenuWidgetController::GlobeDeselect()
+{
+	SelectedAbility.Ability = FTopDownRPGGameplayTags::Get().Abilities_None;
+	SelectedAbility.Status = FTopDownRPGGameplayTags::Get().Abilities_Status_Locked;
+
+	SpellGlobeSelectedDelegate.Broadcast(false, false, FString(), FString());
+}
+
 void USpellMenuWidgetController::ShouldEnableButton(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton)
 {
 	const FTopDownRPGGameplayTags GameplayTag = FTopDownRPGGameplayTags::Get();

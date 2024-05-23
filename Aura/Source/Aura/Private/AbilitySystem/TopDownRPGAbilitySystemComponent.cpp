@@ -232,7 +232,14 @@ bool UTopDownRPGAbilitySystemComponent::GetDescriptionByAbilityTag(const FGamepl
 		}
 	}
 	const UAbilityInfo* AbilityInfo = UTopDownRPGAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
-	OutDescription = UTopDownRPGGameplayAbility::GetLockedDecription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
+	if (!AbilityTag.IsValid() || AbilityTag.MatchesTagExact(FTopDownRPGGameplayTags::Get().Abilities_None))
+	{
+		OutDescription = FString();
+	}
+	else
+	{
+		OutDescription = UTopDownRPGGameplayAbility::GetLockedDecription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).LevelRequirement);		
+	}
 	OutNextDescriptioin = FString();
 	return false;
 }
