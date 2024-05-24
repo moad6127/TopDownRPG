@@ -56,6 +56,14 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 
 void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
 {
+	if (bWaitingForEquipSelection)
+	{
+		const FGameplayTag SelectedAbiltyType = AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityType;
+		StopWaitForEquipDelegate.Broadcast(SelectedAbiltyType);
+		bWaitingForEquipSelection = false;
+	}
+
+
 	const FTopDownRPGGameplayTags GameplayTag = FTopDownRPGGameplayTags::Get();
 	const int32 SpellPoints = GetTopDownRPGPS()->GetSpellPoints();
 	FGameplayTag AbilityStatus;
@@ -91,10 +99,25 @@ void USpellMenuWidgetController::SpendPointButtonPressed()
 
 void USpellMenuWidgetController::GlobeDeselect()
 {
+	if (bWaitingForEquipSelection)
+	{
+		const FGameplayTag SelectedAbiltyType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+		StopWaitForEquipDelegate.Broadcast(SelectedAbiltyType);
+		bWaitingForEquipSelection = false;
+	}
+
 	SelectedAbility.Ability = FTopDownRPGGameplayTags::Get().Abilities_None;
 	SelectedAbility.Status = FTopDownRPGGameplayTags::Get().Abilities_Status_Locked;
 
 	SpellGlobeSelectedDelegate.Broadcast(false, false, FString(), FString());
+}
+
+void USpellMenuWidgetController::EquipButtonPressed()
+{
+	const FGameplayTag& AbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+	
+	WaitForEquipDelegate.Broadcast(AbilityType);
+	bWaitingForEquipSelection = true;
 }
 
 void USpellMenuWidgetController::ShouldEnableButton(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton)

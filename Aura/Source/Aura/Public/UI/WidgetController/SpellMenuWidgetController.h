@@ -10,7 +10,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FSpellGlobeSelectedSignature, bool, bSpendPointsButtonEnable, bool, bEquipButtonEnable, FString, DescriptionString, FString, NextLevelDescriptionString);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWaitForEquipSelectionSignatrue, const FGameplayTag&, AbilityType);
 
 struct FSelectedAbility
 {
@@ -35,6 +35,12 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "GAS|SpellPoint")
 	FSpellGlobeSelectedSignature SpellGlobeSelectedDelegate;
 
+	UPROPERTY(BlueprintAssignable, Category = "GAS|SpellPoint")
+	FWaitForEquipSelectionSignatrue WaitForEquipDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|SpellPoint")
+	FWaitForEquipSelectionSignatrue StopWaitForEquipDelegate;
+
 	UFUNCTION(BlueprintCallable)
 	void SpellGlobeSelected(const FGameplayTag& AbilityTag);
 
@@ -44,10 +50,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void GlobeDeselect();
 
+	UFUNCTION(BlueprintCallable)
+	void EquipButtonPressed();
+
 private:
 
 	static void ShouldEnableButton(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton);
 
 	FSelectedAbility SelectedAbility = { FTopDownRPGGameplayTags::Get().Abilities_None, FTopDownRPGGameplayTags::Get().Abilities_Status_Locked };
 	int32 CurrentSpellPoints = 0;
+	bool bWaitingForEquipSelection = false;
 };
