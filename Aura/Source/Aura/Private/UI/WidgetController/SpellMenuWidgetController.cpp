@@ -37,6 +37,8 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 			}
 		}
 	);
+	GetTopDownRPGASC()->AbilityEquipped.AddUObject(this, &USpellMenuWidgetController::OnAbilityEquipped);
+
 	GetTopDownRPGPS()->OnSpellPointsChangedDelegate.AddLambda(
 		[this](int32 Points)
 		{
@@ -118,6 +120,48 @@ void USpellMenuWidgetController::EquipButtonPressed()
 	
 	WaitForEquipDelegate.Broadcast(AbilityType);
 	bWaitingForEquipSelection = true;
+
+	const FGameplayTag SelectedStatus = GetTopDownRPGASC()->GetStatusFormAbilityTag(SelectedAbility.Ability);
+	if (SelectedStatus.MatchesTagExact(FTopDownRPGGameplayTags::Get().Abilities_Status_Equipped))
+	{
+		SelectedSlot = GetTopDownRPGASC()->GetInputTagFromAbilityTag(SelectedAbility.Ability);
+	}
+}
+
+void USpellMenuWidgetController::SpellRowGlobePressed(const FGameplayTag& SlotTag, const FGameplayTag& AbilityType)
+{
+	if (!bWaitingForEquipSelection)
+	{
+		return;
+	}
+	// 공격주문을 패시브 주문에 넣으면 안된다.
+	const FGameplayTag& SelectedAbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+	if (!SelectedAbilityType.MatchesTagExact(AbilityType))
+	{
+		return;
+	}
+	GetTopDownRPGASC()->ServerEquipAbility(SelectedAbility.Ability, SlotTag);
+}
+
+void USpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot)
+{
+	bWaitingForEquipSelection = false;
+
+	const FTopDownRPGGameplayTags& GameplayTag = FTopDownRPGGameplayTags::Get();
+	FTopDownRPGAbilityInfo LastSlotInfo;
+	LastSlotInfo.StatusTag = GameplayTag.Abilities_Status_UnLocked;
+	LastSlotInfo.InputTag = PrevSlot;
+	LastSlotInfo.AbilityTag = GameplayTag.Abilities_None;
+	//PrevSlot이 존재할때 비어있는 Info를 Broadcast한다.
+	//PrevSlot을 Clear한다.
+	AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+	FTopDownRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+	Info.StatusTag = Status;
+	Info.InputTag = Slot;
+	AbilityInfoDelegate.Broadcast(Info);
+
+	StopWaitForEquipDelegate.Broadcast(AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityType);
 }
 
 void USpellMenuWidgetController::ShouldEnableButton(const FGameplayTag& AbilityStatus, int32 SpellPoints, bool& bShouldEnableSpellPointsButton, bool& bShouldEnableEquipButton)
