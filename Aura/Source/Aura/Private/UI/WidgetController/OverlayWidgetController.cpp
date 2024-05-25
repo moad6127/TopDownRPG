@@ -6,6 +6,7 @@
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "Player/TopDownRPGPlayerState.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
+#include "TopDownRPGGameplayTags.h"
 
 
 void UOverlayWidgetController::BroadcastInitialValue()
@@ -42,6 +43,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	
 	if (GetTopDownRPGASC())
 	{
+		GetTopDownRPGASC()->AbilityEquipped.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);
 		if (GetTopDownRPGASC()->bStartupAbilitiesGiven)
 		{
 			BroadcastAbilityInfo();
@@ -91,4 +93,23 @@ void UOverlayWidgetController::OnXPChanged(int32 NewXP)
 
 		OnXPPercentChangedDelegate.Broadcast(XPBarPercent);
 	}
+}
+
+void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PrevSlot) const
+{
+
+	const FTopDownRPGGameplayTags& GameplayTag = FTopDownRPGGameplayTags::Get();
+
+	FTopDownRPGAbilityInfo LastSlotInfo;
+	LastSlotInfo.StatusTag = GameplayTag.Abilities_Status_UnLocked;
+	LastSlotInfo.InputTag = PrevSlot;
+	LastSlotInfo.AbilityTag = GameplayTag.Abilities_None;
+	//PrevSlot이 존재할때 비어있는 Info를 Broadcast한다.
+	//PrevSlot을 Clear한다.
+	AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+	FTopDownRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+	Info.StatusTag = Status;
+	Info.InputTag = Slot;
+	AbilityInfoDelegate.Broadcast(Info);
 }
