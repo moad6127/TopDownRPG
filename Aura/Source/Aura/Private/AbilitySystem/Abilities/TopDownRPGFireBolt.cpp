@@ -6,8 +6,9 @@
 
 FString UTopDownRPGFireBolt::GetDescription(int32 Level)
 {
-	float Damage = GetDamageByDamageType(Level, FTopDownRPGGameplayTags::Get().Damage_Fire);
-	const int32 IntDamage = FMath::RoundToInt(Damage);
+
+	float ScaledDamage = Damage.GetValueAtLevel(Level);
+	const int32 IntDamage = FMath::RoundToInt(ScaledDamage);
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
 	const float Cooldown = GetCooldown(Level);
 	if (Level == 1)
@@ -60,8 +61,8 @@ FString UTopDownRPGFireBolt::GetDescription(int32 Level)
 
 FString UTopDownRPGFireBolt::GetNextLevelDescription(int32 Level)
 {
-	float Damage = GetDamageByDamageType(Level, FTopDownRPGGameplayTags::Get().Damage_Fire);
-	const int32 IntDamage = FMath::RoundToInt(Damage);
+	float ScaledDamage = Damage.GetValueAtLevel(Level);
+	const int32 IntDamage = FMath::RoundToInt(ScaledDamage);
 	const float ManaCost = FMath::Abs(GetManaCost(Level));
 	const float Cooldown = GetCooldown(Level);
 	return FString::Printf(TEXT(
