@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Interaction/CombatInterface.h"
+#include "TopDownRPGAbilityTypes.h"
 #include "AbilitySystem/Abilities/TopDownRPGGameplayAbility.h"
 #include "TopDownRPGDamageGameplayAbility.generated.h"
 
@@ -18,6 +19,8 @@ class AURA_API UTopDownRPGDamageGameplayAbility : public UTopDownRPGGameplayAbil
 public:
 	UFUNCTION(BlueprintCallable)
 	void CauseDamage(AActor* TargetActor);
+
+	FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
