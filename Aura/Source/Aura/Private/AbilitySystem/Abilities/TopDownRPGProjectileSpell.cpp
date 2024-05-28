@@ -44,25 +44,8 @@ void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTarget
 		Cast<APawn>(GetOwningActorFromActorInfo()), //Instigator
 		ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
+	Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 
-	const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
-	FGameplayEffectContextHandle EffectContexthandle = SourceASC->MakeEffectContext();
-	EffectContexthandle.SetAbility(this);
-	EffectContexthandle.AddSourceObject(Projectile);
-	TArray<TWeakObjectPtr<AActor>> Actors;
-	Actors.Add(Projectile);
-	EffectContexthandle.AddActors(Actors);
-	FHitResult HitResult;
-	HitResult.Location = ProjectileTargetLocation;
-	EffectContexthandle.AddHitResult(HitResult);
-
-	const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContexthandle);
-	const FTopDownRPGGameplayTags GameplayTags = FTopDownRPGGameplayTags::Get();
-
-	const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
-	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, DamageType, ScaledDamage);
-
-	Projectile->DamageEffectSpecHandle = SpecHandle;
 
 	Projectile->FinishSpawning(SpawnTrasnform);
 }
