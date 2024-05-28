@@ -161,6 +161,54 @@ bool UTopDownRPGAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContext
 	return false;
 }
 
+bool UTopDownRPGAbilitySystemLibrary::IsSuccessfulDebuff(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return TopDownRPGEffectContext->IsSuccessfulDebuff();
+	}
+	return false;
+}
+
+float UTopDownRPGAbilitySystemLibrary::GetDebuffDamage(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return TopDownRPGEffectContext->GetDebuffDamage();
+	}
+	return 0.0f;
+}
+
+float UTopDownRPGAbilitySystemLibrary::GetDebuffDuration(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return TopDownRPGEffectContext->GetDebuffDuration();
+	}
+	return 0.0f;
+}
+
+float UTopDownRPGAbilitySystemLibrary::GetDebuffFrequency(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return TopDownRPGEffectContext->GetDebuffFrequency();
+	}
+	return 0.0f;
+}
+
+FGameplayTag UTopDownRPGAbilitySystemLibrary::GetDamageType(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		if (TopDownRPGEffectContext->GetDamageType().IsValid())
+		{
+			return *TopDownRPGEffectContext->GetDamageType();
+		}
+	}
+	return FGameplayTag();
+}
+
 void UTopDownRPGAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
 {
 	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
