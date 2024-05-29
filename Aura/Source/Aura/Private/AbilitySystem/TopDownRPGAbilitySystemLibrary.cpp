@@ -233,6 +233,39 @@ void UTopDownRPGAbilitySystemLibrary::SetIsSuccessfulDebuff(UPARAM(ref)FGameplay
 	}
 }
 
+void UTopDownRPGAbilitySystemLibrary::SetDebuffDamage(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, float InDamage)
+{
+	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		TopDownRPGEffectContext->SetDebuffDamage(InDamage);
+	}
+}
+void UTopDownRPGAbilitySystemLibrary::SetDebuffDuration(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, float InDebuffDuration)
+{
+	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		TopDownRPGEffectContext->SetDebuffDuration(InDebuffDuration);
+	}
+}
+
+void UTopDownRPGAbilitySystemLibrary::SetDebuffFrequency(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, float InDebuffFrequency)
+{
+	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		TopDownRPGEffectContext->SetDebuffFrequency(InDebuffFrequency);
+	}
+}
+
+void UTopDownRPGAbilitySystemLibrary::SetDamageType(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, const FGameplayTag& InDamageType)
+{
+	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		const TSharedPtr<FGameplayTag> DamageType = MakeShared<FGameplayTag>(InDamageType);
+		TopDownRPGEffectContext->SetDamageType(DamageType);
+	}
+}
+
+
 void UTopDownRPGAbilitySystemLibrary::GetLivePlayerWithRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorToIgnore, float Radious, const FVector& SphereOrigin)
 {
 	FCollisionQueryParams SphereParams;
