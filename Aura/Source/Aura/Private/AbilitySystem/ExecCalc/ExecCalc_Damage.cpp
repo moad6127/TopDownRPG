@@ -222,6 +222,9 @@ void UExecCalc_Damage::DetermineDebuff(const FGameplayEffectSpec& Spec, const FG
 			if (bDebuff)
 			{
 				//TODO : What do we do?
+				FGameplayEffectContextHandle ContextHandle = Spec.GetContext();
+
+				
 			}
 		}
 	}

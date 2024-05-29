@@ -225,6 +225,14 @@ void UTopDownRPGAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHan
 	}
 }
 
+void UTopDownRPGAbilitySystemLibrary::SetIsSuccessfulDebuff(UPARAM(ref)FGameplayEffectContextHandle& EffectContextHandle, bool bInIsSuccessfulDebuff)
+{
+	if (FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		TopDownRPGEffectContext->SetIsSuccessfulDebuff(bInIsSuccessfulDebuff);
+	}
+}
+
 void UTopDownRPGAbilitySystemLibrary::GetLivePlayerWithRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorToIgnore, float Radious, const FVector& SphereOrigin)
 {
 	FCollisionQueryParams SphereParams;
