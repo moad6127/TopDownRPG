@@ -184,6 +184,7 @@ void UTopDownRPGAttributeSet::HandleIncomingDamage(const FEffectProperties& Prop
 		if (UTopDownRPGAbilitySystemLibrary::IsSuccessfulDebuff(Props.EffectContextHandle))
 		{
 			Debuff(Props);
+			
 		}
 	}
 }

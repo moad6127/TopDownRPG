@@ -166,7 +166,7 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 	Cast<UTopDownRPGAbilitySystemComponent>(TopDownRPGPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = TopDownRPGPlayerState->GetAbilitySystemComponent();
 	AttributesSet = TopDownRPGPlayerState->GetAttributeSet();
-
+	OnASCRegisterd.Broadcast(AbilitySystemComponent);
 	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
 	{
 		if (ATopDownRPGHUD* TopDownHUD = Cast<ATopDownRPGHUD>(TopDownPlayerController->GetHUD()))

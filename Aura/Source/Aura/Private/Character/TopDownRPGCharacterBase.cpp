@@ -7,10 +7,15 @@
 #include "Aura/Aura.h"
 #include "TopDownRPGGameplayTags.h"
 #include "Kismet/GameplayStatics.h"
+#include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 
 ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
+
+	BurnDebuffComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>("BurnDebuffComponent");
+	BurnDebuffComponent->SetupAttachment(GetRootComponent());
+	BurnDebuffComponent->DebuffTag = FTopDownRPGGameplayTags::Get().Debuff_Burn;
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
@@ -56,9 +61,11 @@ void ATopDownRPGCharacterBase::MulticastHandleDeath_Implementation()
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
+	OnDeath.Broadcast(this);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 	bDead = true;
+
 }
 
 void ATopDownRPGCharacterBase::BeginPlay()
@@ -134,6 +141,16 @@ void ATopDownRPGCharacterBase::IncrementMinionCount_Implementation(int32 Amount)
 ECharacterClass ATopDownRPGCharacterBase::GetCharacterClass_Implementation()
 {
 	return CharacterClass;
+}
+
+FOnASCRegistered ATopDownRPGCharacterBase::GetOnASCRegisterdDelegate()
+{
+	return OnASCRegisterd;
+}
+
+FOnDeath* ATopDownRPGCharacterBase::GetOnDeathDelegate()
+{
+	return &OnDeath;
 }
 
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
