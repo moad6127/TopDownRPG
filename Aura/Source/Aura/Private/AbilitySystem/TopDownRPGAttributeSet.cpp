@@ -163,13 +163,10 @@ void UTopDownRPGAttributeSet::HandleIncomingDamage(const FEffectProperties& Prop
 		const bool bFatal = NewHealth <= 0.f;
 		if (bFatal) // Die
 		{
-			//TODO : Use DeathImpulse
-
-
 			ICombatInterface* CombatInterface = Cast<ICombatInterface>(Props.TargetAvatarActor);
 			if (CombatInterface)
 			{
-				CombatInterface->Die();
+				CombatInterface->Die(UTopDownRPGAbilitySystemLibrary::GetDeathImpulse(Props.EffectContextHandle));
 			}
 			SendXPEvent(Props);
 		}
