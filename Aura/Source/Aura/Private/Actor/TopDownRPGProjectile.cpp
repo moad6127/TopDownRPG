@@ -82,6 +82,9 @@ void ATopDownRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappingComp
 	{
 		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
+			const FVector DeathImpulse = GetActorForwardVector() * DamageEffectParams.DeathImpulseMagnitude;
+			DamageEffectParams.DeathImpulse = DeathImpulse;
+
 			DamageEffectParams.TargetAbilitySystemComponent = TargetASC;
 			UTopDownRPGAbilitySystemLibrary::ApplyDamageEffect(DamageEffectParams);
 		}

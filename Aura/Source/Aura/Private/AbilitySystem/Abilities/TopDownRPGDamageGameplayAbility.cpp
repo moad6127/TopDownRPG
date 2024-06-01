@@ -30,7 +30,7 @@ FDamageEffectParams UTopDownRPGDamageGameplayAbility::MakeDamageEffectParamsFrom
 	Params.DebuffDamage = DebuffDamage;
 	Params.DebuffDuration = DebuffDuration;
 	Params.DebuffFrequency = DebuffFrequency;
-
+	Params.DeathImpulseMagnitude = DeathImpulseMagnitude;
 
 	return Params;
 }

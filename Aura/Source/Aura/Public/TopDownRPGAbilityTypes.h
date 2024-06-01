@@ -44,6 +44,12 @@ struct FDamageEffectParams
 
 	UPROPERTY()
 	float DebuffDuration = 0.f;
+
+	UPROPERTY()
+	float DeathImpulseMagnitude = 0.f;
+
+	UPROPERTY()
+	FVector DeathImpulse = FVector::ZeroVector;
 };
 
 USTRUCT(BlueprintType)
@@ -81,6 +87,11 @@ public:
 	{
 		return DamageType;
 	}
+	FVector GetDeathImpulse() const
+	{
+		return DeathImpulse;
+	}
+
 
 	void SetIsCriticalHit(bool bInIsCriticalHit)
 	{
@@ -109,6 +120,10 @@ public:
 	void SetDamageType(TSharedPtr<FGameplayTag> InDamageType)
 	{
 		DamageType = InDamageType;
+	}
+	void SetDeathImpulse(const FVector& InImpulse)
+	{ 
+		DeathImpulse = InImpulse;
 	}
 
 	/** Returns the actual struct used for serialization, subclasses must override this! */
@@ -154,6 +169,9 @@ protected:
 	float DebuffFrequency = 0.f;
 
 	TSharedPtr<FGameplayTag> DamageType;
+
+	UPROPERTY()
+	FVector DeathImpulse = FVector::ZeroVector;
 };
 
 template<>
