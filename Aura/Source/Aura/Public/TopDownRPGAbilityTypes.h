@@ -50,6 +50,15 @@ struct FDamageEffectParams
 
 	UPROPERTY()
 	FVector DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY()
+	float KnockbackForceMagnitude = 0.f;
+
+	UPROPERTY()
+	float KnockbackChance = 0.f;
+
+	UPROPERTY()
+	FVector KnockbackForce = FVector::ZeroVector;
 };
 
 USTRUCT(BlueprintType)
@@ -91,6 +100,10 @@ public:
 	{
 		return DeathImpulse;
 	}
+	FVector GetKnockBackForce() const
+	{
+		return KnockbackForce;
+	}
 
 
 	void SetIsCriticalHit(bool bInIsCriticalHit)
@@ -125,7 +138,10 @@ public:
 	{ 
 		DeathImpulse = InImpulse;
 	}
-
+	void SetKnockbackForce(const FVector& InForce)
+	{
+		KnockbackForce = InForce;
+	}
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const
 	{
@@ -172,6 +188,9 @@ protected:
 
 	UPROPERTY()
 	FVector DeathImpulse = FVector::ZeroVector;
+
+	UPROPERTY()
+	FVector KnockbackForce = FVector::ZeroVector;
 };
 
 template<>

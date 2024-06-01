@@ -175,6 +175,13 @@ void UTopDownRPGAttributeSet::HandleIncomingDamage(const FEffectProperties& Prop
 			FGameplayTagContainer TagContainer;
 			TagContainer.AddTag(FTopDownRPGGameplayTags::Get().Effects_HitReact);
 			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+
+			//Knockback
+			const FVector& KnockbackForce = UTopDownRPGAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle);
+			if (!KnockbackForce.IsNearlyZero(1.f))
+			{
+				Props.TargetCharacter->LaunchCharacter(KnockbackForce, true, true);
+			}
 		}
 		// Show Damage
 		const bool bBlocked = UTopDownRPGAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);

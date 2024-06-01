@@ -66,9 +66,13 @@ bool FTopDownRPGGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* M
 		{
 			RepBits |= 1 << 14;
 		}
+		if (!KnockbackForce.IsZero())
+		{
+			RepBits |= 1 << 15;
+		}
 	}
 
-	Ar.SerializeBits(&RepBits, 15);
+	Ar.SerializeBits(&RepBits, 16);
 
 	if (RepBits & (1 << 0))
 	{
@@ -148,6 +152,10 @@ bool FTopDownRPGGameplayEffectContext::NetSerialize(FArchive& Ar, UPackageMap* M
 	if (RepBits & (1 << 14))
 	{
 		DeathImpulse.NetSerialize(Ar, Map, bOutSuccess);
+	}
+	if (RepBits & (1 << 1))
+	{
+		KnockbackForce.NetSerialize(Ar, Map, bOutSuccess);
 	}
 	if (Ar.IsLoading())
 	{
