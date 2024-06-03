@@ -3,7 +3,8 @@
 
 #include "AbilitySystem/Abilities/TopDownRPGFireBolt.h"
 #include "TopDownRPGGameplayTags.h"
-#include "Kismet/KismetSystemLibrary.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
+#include "Actor/TopDownRPGProjectile.h"
 
 FString UTopDownRPGFireBolt::GetDescription(int32 Level)
 {
@@ -109,43 +110,27 @@ void UTopDownRPGFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocati
 	}
 	
 	const FVector Forward = Rotation.Vector();
-	const FVector LeftOfSpread = Forward.RotateAngleAxis(-ProjectileSpread / 2.f, FVector::UpVector);
-	const FVector RightOfSpread = Forward.RotateAngleAxis(ProjectileSpread / 2.f, FVector::UpVector);
+	
+	TArray<FRotator> Rotations = UTopDownRPGAbilitySystemLibrary::EvenlySpacedRotators(Forward, FVector::UpVector, ProjectileSpread, NumProjectile);
 
-	//NumProjectile = FMath::Min(MaxNumProjectiles, GetAbilityLevel());
-
-
-	if (NumProjectile > 1)
+	for (const FRotator& Rot : Rotations)
 	{
-		const float DeltaSpread = ProjectileSpread / (NumProjectile - 1);
-		for (int32 i = 0; i < NumProjectile; i++)
-		{
-			const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * i, FVector::UpVector);
-			UKismetSystemLibrary::DrawDebugArrow(
-				GetAvatarActorFromActorInfo(),
-				SocketLocation + FVector(0,0,10),
-				SocketLocation + FVector(0, 0, 10) + Direction * 75.f,
-				1,
-				FLinearColor::Red,
-				120.f,
-				1.f);
-		}
-	}
-	else
-	{
-		//Single Projectile
-		UKismetSystemLibrary::DrawDebugArrow(
-			GetAvatarActorFromActorInfo(),
-			SocketLocation + FVector(0, 0, 10),
-			SocketLocation + FVector(0, 0, 10) + Forward * 75.f,
-			1,
-			FLinearColor::Red,
-			120.f,
-			1.f);
-	}
+		FTransform SpawnTrasnform;
+		SpawnTrasnform.SetLocation(SocketLocation);
+		SpawnTrasnform.SetRotation(Rot.Quaternion());
 
-	UKismetSystemLibrary::DrawDebugArrow(GetAvatarActorFromActorInfo(), SocketLocation, SocketLocation + RightOfSpread * 100.f, 1, FLinearColor::White, 120.f, 1.f);
-	UKismetSystemLibrary::DrawDebugArrow(GetAvatarActorFromActorInfo(), SocketLocation, SocketLocation + Forward * 100.f,1, FLinearColor::White, 120.f, 1.f);
-	UKismetSystemLibrary::DrawDebugArrow(GetAvatarActorFromActorInfo(), SocketLocation, SocketLocation + LeftOfSpread * 100.f, 1, FLinearColor::Gray, 120.f, 1.f);
+
+		ATopDownRPGProjectile* Projectile = GetWorld()->SpawnActorDeferred<ATopDownRPGProjectile>(
+			ProjectileClass,
+			SpawnTrasnform,
+			GetOwningActorFromActorInfo(), //Owner
+			Cast<APawn>(GetOwningActorFromActorInfo()), //Instigator
+			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+
+		Projectile->FinishSpawning(SpawnTrasnform);
+
+	}
 
 }
