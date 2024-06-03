@@ -21,8 +21,6 @@ void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTarget
 	{
 		return;
 	}
-	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
-
 	const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(
 		GetAvatarActorFromActorInfo(),
 		SocektTag);
@@ -32,6 +30,7 @@ void UTopDownRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTarget
 		Rotation.Pitch = PitchOverride;
 
 	}
+
 	FTransform SpawnTrasnform;
 	SpawnTrasnform.SetLocation(SocketLocation);
 	SpawnTrasnform.SetRotation(Rotation.Quaternion());
