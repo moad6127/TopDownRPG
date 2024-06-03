@@ -5,6 +5,7 @@
 #include "TopDownRPGGameplayTags.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 #include "Actor/TopDownRPGProjectile.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 FString UTopDownRPGFireBolt::GetDescription(int32 Level)
 {
@@ -110,6 +111,8 @@ void UTopDownRPGFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocati
 	}
 	
 	const FVector Forward = Rotation.Vector();
+
+	NumProjectile = FMath::Min(NumProjectile, GetAbilityLevel());
 	
 	TArray<FRotator> Rotations = UTopDownRPGAbilitySystemLibrary::EvenlySpacedRotators(Forward, FVector::UpVector, ProjectileSpread, NumProjectile);
 
@@ -129,8 +132,23 @@ void UTopDownRPGFireBolt::SpawnProjectiles(const FVector& ProjectileTargetLocati
 
 		Projectile->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
 
+		if (HomingTarget && HomingTarget->Implements<UCombatInterface>())
+		{
+			Projectile->ProjectileMovementComponent->HomingTargetComponent = HomingTarget->GetRootComponent();
+		}
+		else
+		{
+			Projectile->HomingTargetSceneComponent = NewObject<USceneComponent>(USceneComponent::StaticClass());
+			Projectile->HomingTargetSceneComponent->SetWorldLocation(ProjectileTargetLocation);
+			Projectile->ProjectileMovementComponent->HomingTargetComponent = Projectile->HomingTargetSceneComponent;
+		}
+		Projectile->ProjectileMovementComponent->HomingAccelerationMagnitude = FMath::FRandRange(HomingAccelerationMin, HomingAccelerationMax);
+		Projectile->ProjectileMovementComponent->bIsHomingProjectile = bLaunchHomingProjectile;
+
 		Projectile->FinishSpawning(SpawnTrasnform);
 
+
 	}
+
 
 }
