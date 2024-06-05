@@ -95,6 +95,10 @@ void ATopDownRPGPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bTargeting = ThisActor ? true : false;
 		bAutoRunning = false;
 	}
+	if (GetASC())
+	{
+		GetASC()->AbilityInputTagPressed(InputTag);
+	}
 }
 
 void ATopDownRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
