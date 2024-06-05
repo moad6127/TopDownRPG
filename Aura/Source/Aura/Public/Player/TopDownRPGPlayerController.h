@@ -19,6 +19,7 @@ class UTopDownRPGInputConfig;
 class UTopDownRPGAbilitySystemComponent;
 class USplineComponent;
 class UDamageTextComponent;
+class UNiagaraSystem;
 
 UCLASS()
 class AURA_API ATopDownRPGPlayerController : public APlayerController
@@ -85,6 +86,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USplineComponent> Spline;
 	//~ Click To Move
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
 
 	/*
 	* Function

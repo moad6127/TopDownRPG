@@ -13,6 +13,7 @@
 #include "NavigationPath.h"
 #include "GameFramework/Character.h"
 #include "UI/Widget/DamageTextComponent.h"
+#include "NiagaraFunctionLibrary.h"
 
 
 ATopDownRPGPlayerController::ATopDownRPGPlayerController()
@@ -129,8 +130,8 @@ void ATopDownRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 					CachedDestination = NavPath->PathPoints.Last();
 					bAutoRunning = true;
 				}
-
 			}
+			UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ClickNiagaraSystem, CachedDestination);
 		}
 		FollowTime = 0.f;
 		bTargeting = false;
