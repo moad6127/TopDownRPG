@@ -43,6 +43,11 @@ void ATopDownRPGProjectile::BeginPlay()
 
 void ATopDownRPGProjectile::Destroyed()
 {
+	if (LoopingSoundComponent)
+	{
+		LoopingSoundComponent->Stop();
+		LoopingSoundComponent->DestroyComponent();
+	}
 	if (!bHit && !HasAuthority())
 	{
 		OnHit();
@@ -58,6 +63,7 @@ void ATopDownRPGProjectile::OnHit()
 	if (LoopingSoundComponent)
 	{
 		LoopingSoundComponent->Stop();
+		LoopingSoundComponent->DestroyComponent();
 	}
 	bHit = true;
 }
