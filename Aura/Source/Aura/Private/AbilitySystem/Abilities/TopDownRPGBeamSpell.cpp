@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/Abilities/TopDownRPGBeamSpell.h"
+#include "GameFramework/Character.h"
 
 void UTopDownRPGBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 {
@@ -16,11 +17,13 @@ void UTopDownRPGBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 	}
 }
 
-void UTopDownRPGBeamSpell::StoreOwnerPlayerController()
+void UTopDownRPGBeamSpell::StoreOwnerVariables()
 {
+	
 	if (CurrentActorInfo)
 	{
 		OwnerPlayerController = CurrentActorInfo->PlayerController.Get();
+		OwnerCharacter = Cast<ACharacter>(CurrentActorInfo->AvatarActor);
 	}
 
 }
