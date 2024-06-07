@@ -153,6 +153,11 @@ FOnDeath* ATopDownRPGCharacterBase::GetOnDeathDelegate()
 	return &OnDeath;
 }
 
+USkeletalMeshComponent* ATopDownRPGCharacterBase::GetWeapon_Implementation()
+{
+	return Weapon;
+}
+
 
 void ATopDownRPGCharacterBase::InitAbilityActorInfo()
 {
