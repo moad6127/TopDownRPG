@@ -319,6 +319,28 @@ void UTopDownRPGAbilitySystemLibrary::GetLivePlayerWithRadius(const UObject* Wor
 	}
 }
 
+void UTopDownRPGAbilitySystemLibrary::GetClosestTargets(int32 MaxTarget, const TArray<AActor*>& Actors, TArray<AActor*>& OutClosestTargets, const FVector& Origin)
+{
+	if (Actors.Num() <= MaxTarget)
+	{
+		OutClosestTargets = Actors;
+		return;
+	}
+	TArray<AActor*> ActorToCheck = Actors;
+	Algo::Sort(ActorToCheck, [Origin](const AActor* Actor1, const AActor* Actor2)
+		{
+			const float Distance1 = FVector::DistSquared(Actor1->GetActorLocation(), Origin);
+			const float Distance2 = FVector::DistSquared(Actor2->GetActorLocation(), Origin);
+
+			return Distance1 < Distance2;
+		});
+
+	for (int32 i = 0; i < MaxTarget; i++)
+	{
+		OutClosestTargets.Add(ActorToCheck[i]);
+	}
+}
+
 bool UTopDownRPGAbilitySystemLibrary::IsNotFriend(AActor* FirstActor, AActor* SecondActor)
 {
 	const bool bBothArePlayer = FirstActor->ActorHasTag(FName("Player")) && SecondActor->ActorHasTag(FName("Player"));

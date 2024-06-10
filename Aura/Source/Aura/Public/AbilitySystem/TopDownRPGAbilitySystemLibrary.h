@@ -103,9 +103,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary|GameplayEffects")
 	static void SetKnockbackForce(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, const FVector& InForce);
 
-
 	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary|GameplayMechanics")
 	static void GetLivePlayerWithRadius(const UObject* WorldContextObject, TArray<AActor*>& OutOverlappingActors, const TArray<AActor*>& ActorToIgnore, float Radious, const FVector& SphereOrigin);
+
+	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary|GameplayMechanics")
+	static void GetClosestTargets(int32 MaxTarget, const TArray<AActor*>& Actors, TArray<AActor*>& OutClosestTargets, const FVector& Origin);
 
 	UFUNCTION(BlueprintPure, Category = "TopDownRPGAbilitySystemLibrary|GameplayMechanics")
 	static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);

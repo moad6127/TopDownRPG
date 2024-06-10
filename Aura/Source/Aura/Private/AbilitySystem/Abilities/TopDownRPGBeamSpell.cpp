@@ -4,6 +4,7 @@
 #include "AbilitySystem/Abilities/TopDownRPGBeamSpell.h"
 #include "GameFramework/Character.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 
 void UTopDownRPGBeamSpell::StoreMouseDataInfo(const FHitResult& HitResult)
 {
@@ -60,4 +61,25 @@ void UTopDownRPGBeamSpell::TraceFirstTarget(const FVector& BeamTargetLocation)
 		}
 	}
 
+}
+
+void UTopDownRPGBeamSpell::StoreAdditionalTarget(TArray<AActor*>& OutAdditionalTargets)
+{
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Add(GetAvatarActorFromActorInfo());
+	ActorsToIgnore.Add(MouseHitActor);
+
+	TArray<AActor*> OverlappingActors;
+
+	UTopDownRPGAbilitySystemLibrary::GetLivePlayerWithRadius(
+		GetAvatarActorFromActorInfo(),
+		OverlappingActors,
+		ActorsToIgnore,
+		850.f,
+		MouseHitActor->GetActorLocation());
+
+	//int32 NumAdditionalTargets = FMath::Min(GetAbilityLevel() - 1, MaxNumShockTargets);
+	int32 NumAdditionalTargets = 5;
+
+	UTopDownRPGAbilitySystemLibrary::GetClosestTargets(NumAdditionalTargets, OverlappingActors, OutAdditionalTargets, MouseHitActor->GetActorLocation());
 }
