@@ -148,9 +148,9 @@ FOnASCRegistered ATopDownRPGCharacterBase::GetOnASCRegisterdDelegate()
 	return OnASCRegisterd;
 }
 
-FOnDeath* ATopDownRPGCharacterBase::GetOnDeathDelegate()
+FOnDeath& ATopDownRPGCharacterBase::GetOnDeathDelegate()
 {
-	return &OnDeath;
+	return OnDeath;
 }
 
 USkeletalMeshComponent* ATopDownRPGCharacterBase::GetWeapon_Implementation()
