@@ -71,11 +71,11 @@ void ATopDownRPGCharacterBase::MulticastHandleDeath_Implementation(const FVector
 	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 	GetMesh()->AddImpulse(DeathImpulse,NAME_None, true);
 
-	OnDeath.Broadcast(this);
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 	bDead = true;
 
+	OnDeath.Broadcast(this);
 }
 
 void ATopDownRPGCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
