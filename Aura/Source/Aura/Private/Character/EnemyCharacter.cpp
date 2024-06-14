@@ -35,6 +35,7 @@ AEnemyCharacter::AEnemyCharacter()
 
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	
+	BaseWalkSpeed = 250.f;
 }
 
 void AEnemyCharacter::PossessedBy(AController* NewController)
@@ -149,6 +150,7 @@ void AEnemyCharacter::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+	AbilitySystemComponent->RegisterGameplayTagEvent(FTopDownRPGGameplayTags::Get().Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &AEnemyCharacter::StunTagChanged);
 
 	if (HasAuthority())
 	{
@@ -160,4 +162,14 @@ void AEnemyCharacter::InitAbilityActorInfo()
 void AEnemyCharacter::InitializeDefaultAttributes() const
 {
 	UTopDownRPGAbilitySystemLibrary::InitializeDefaultsAttributes(this, CharacterClass, Level, AbilitySystemComponent);
+}
+
+void AEnemyCharacter::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	Super::StunTagChanged(CallbackTag, NewCount);
+
+	if (TopDownRPGAIController && TopDownRPGAIController->GetBlackboardComponent())
+	{
+		TopDownRPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("Stunned"), bIsStunned);
+	}
 }

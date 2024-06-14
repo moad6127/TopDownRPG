@@ -8,6 +8,8 @@
 #include "TopDownRPGGameplayTags.h"
 #include "Kismet/GameplayStatics.h"
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Net/UnrealNetwork.h"
 
 ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 {
@@ -27,6 +29,14 @@ ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
 	Weapon->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void ATopDownRPGCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ATopDownRPGCharacterBase, bIsStunned);
+
 }
 
 UAbilitySystemComponent* ATopDownRPGCharacterBase::GetAbilitySystemComponent() const
@@ -65,6 +75,17 @@ void ATopDownRPGCharacterBase::MulticastHandleDeath_Implementation(const FVector
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 	bDead = true;
+
+}
+
+void ATopDownRPGCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bIsStunned = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bIsStunned ? 0.f : BaseWalkSpeed;
+}
+
+void ATopDownRPGCharacterBase::OnRep_Stunend()
+{
 
 }
 

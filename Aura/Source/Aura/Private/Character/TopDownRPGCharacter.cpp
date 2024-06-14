@@ -11,6 +11,7 @@
 #include "NiagaraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "TopDownRPGGameplayTags.h"
 
 
 ATopDownRPGCharacter::ATopDownRPGCharacter()
@@ -158,6 +159,27 @@ int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
 	return TopDownRPGPlayerState->GetPlayerLevel();
 }
 
+void ATopDownRPGCharacter::OnRep_Stunend()
+{
+	if (UTopDownRPGAbilitySystemComponent* ASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent))
+	{
+		const FTopDownRPGGameplayTags& GameplayTag = FTopDownRPGGameplayTags::Get();
+		FGameplayTagContainer BlockedTags;
+		BlockedTags.AddTag(GameplayTag.Player_Block_CursorTrace);
+		BlockedTags.AddTag(GameplayTag.Player_Block_InputHeld);
+		BlockedTags.AddTag(GameplayTag.Player_Block_InputPressed);
+		BlockedTags.AddTag(GameplayTag.Player_Block_InputReleased);
+		if (bIsStunned)
+		{
+			ASC->AddLooseGameplayTags(BlockedTags);
+		}
+		else
+		{
+			ASC->RemoveLooseGameplayTags(BlockedTags);
+		}
+	}
+}
+
 void ATopDownRPGCharacter::InitAbilityActorInfo()
 {
 	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
@@ -167,6 +189,8 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = TopDownRPGPlayerState->GetAbilitySystemComponent();
 	AttributesSet = TopDownRPGPlayerState->GetAttributeSet();
 	OnASCRegisterd.Broadcast(AbilitySystemComponent);
+	AbilitySystemComponent->RegisterGameplayTagEvent(FTopDownRPGGameplayTags::Get().Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ATopDownRPGCharacter::StunTagChanged);
+
 	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
 	{
 		if (ATopDownRPGHUD* TopDownHUD = Cast<ATopDownRPGHUD>(TopDownPlayerController->GetHUD()))
