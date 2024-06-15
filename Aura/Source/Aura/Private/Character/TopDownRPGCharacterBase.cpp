@@ -19,6 +19,10 @@ ATopDownRPGCharacterBase::ATopDownRPGCharacterBase()
 	BurnDebuffComponent->SetupAttachment(GetRootComponent());
 	BurnDebuffComponent->DebuffTag = FTopDownRPGGameplayTags::Get().Debuff_Burn;
 
+	StunDebuffComponent = CreateDefaultSubobject<UDebuffNiagaraComponent>("StunDebuffComponent");
+	StunDebuffComponent->SetupAttachment(GetRootComponent());
+	StunDebuffComponent->DebuffTag = FTopDownRPGGameplayTags::Get().Debuff_Stun;
+
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetCapsuleComponent()->SetGenerateOverlapEvents(false);
 
@@ -36,7 +40,7 @@ void ATopDownRPGCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(ATopDownRPGCharacterBase, bIsStunned);
-
+	DOREPLIFETIME(ATopDownRPGCharacterBase, bIsBurned);
 }
 
 UAbilitySystemComponent* ATopDownRPGCharacterBase::GetAbilitySystemComponent() const
@@ -74,8 +78,8 @@ void ATopDownRPGCharacterBase::MulticastHandleDeath_Implementation(const FVector
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	Dissolve();
 	bDead = true;
-
 	OnDeath.Broadcast(this);
+
 }
 
 void ATopDownRPGCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
@@ -84,9 +88,13 @@ void ATopDownRPGCharacterBase::StunTagChanged(const FGameplayTag CallbackTag, in
 	GetCharacterMovement()->MaxWalkSpeed = bIsStunned ? 0.f : BaseWalkSpeed;
 }
 
-void ATopDownRPGCharacterBase::OnRep_Stunend()
+void ATopDownRPGCharacterBase::OnRep_Stunned()
 {
 
+}
+
+void ATopDownRPGCharacterBase::OnRep_Burned()
+{
 }
 
 void ATopDownRPGCharacterBase::BeginPlay()
@@ -164,7 +172,7 @@ ECharacterClass ATopDownRPGCharacterBase::GetCharacterClass_Implementation()
 	return CharacterClass;
 }
 
-FOnASCRegistered ATopDownRPGCharacterBase::GetOnASCRegisterdDelegate()
+FOnASCRegistered& ATopDownRPGCharacterBase::GetOnASCRegisterdDelegate()
 {
 	return OnASCRegisterd;
 }

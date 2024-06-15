@@ -15,7 +15,7 @@ ATopDownRPGProjectile::ATopDownRPGProjectile()
 	PrimaryActorTick.bCanEverTick = false;
 
 	bReplicates = true;
-	SetReplicateMovement(true);
+
 
 	Sphere = CreateDefaultSubobject<USphereComponent>("Sphere");
 	SetRootComponent(Sphere);
@@ -37,6 +37,7 @@ void ATopDownRPGProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	SetLifeSpan(LifeSpan);
+	SetReplicateMovement(true);
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ATopDownRPGProjectile::OnSphereOverlap);
 
 	LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());

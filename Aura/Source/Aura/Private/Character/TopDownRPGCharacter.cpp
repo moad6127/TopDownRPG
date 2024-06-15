@@ -12,6 +12,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "TopDownRPGGameplayTags.h"
+#include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
 
 
 ATopDownRPGCharacter::ATopDownRPGCharacter()
@@ -159,7 +160,7 @@ int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
 	return TopDownRPGPlayerState->GetPlayerLevel();
 }
 
-void ATopDownRPGCharacter::OnRep_Stunend()
+void ATopDownRPGCharacter::OnRep_Stunned()
 {
 	if (UTopDownRPGAbilitySystemComponent* ASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent))
 	{
@@ -172,11 +173,25 @@ void ATopDownRPGCharacter::OnRep_Stunend()
 		if (bIsStunned)
 		{
 			ASC->AddLooseGameplayTags(BlockedTags);
+			StunDebuffComponent->Activate();
 		}
 		else
 		{
 			ASC->RemoveLooseGameplayTags(BlockedTags);
+			StunDebuffComponent->Deactivate();
 		}
+	}
+}
+
+void ATopDownRPGCharacter::OnRep_Burned()
+{
+	if (bIsBurned)
+	{
+		BurnDebuffComponent->Activate();
+	}
+	else
+	{
+		BurnDebuffComponent->Deactivate();
 	}
 }
 
