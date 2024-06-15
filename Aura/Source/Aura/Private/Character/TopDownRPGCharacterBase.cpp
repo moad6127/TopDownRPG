@@ -41,6 +41,7 @@ void ATopDownRPGCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 
 	DOREPLIFETIME(ATopDownRPGCharacterBase, bIsStunned);
 	DOREPLIFETIME(ATopDownRPGCharacterBase, bIsBurned);
+	DOREPLIFETIME(ATopDownRPGCharacterBase, bIsBeingShock);
 }
 
 UAbilitySystemComponent* ATopDownRPGCharacterBase::GetAbilitySystemComponent() const
@@ -185,6 +186,16 @@ FOnDeath& ATopDownRPGCharacterBase::GetOnDeathDelegate()
 USkeletalMeshComponent* ATopDownRPGCharacterBase::GetWeapon_Implementation()
 {
 	return Weapon;
+}
+
+void ATopDownRPGCharacterBase::SetIsBeingShocked_Implementation(bool bInShock)
+{
+	bIsBeingShock = bInShock;
+}
+
+bool ATopDownRPGCharacterBase::IsBeingShocked_Implementation() const
+{
+	return bIsBeingShock;
 }
 
 

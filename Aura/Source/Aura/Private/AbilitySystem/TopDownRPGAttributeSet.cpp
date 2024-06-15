@@ -172,9 +172,12 @@ void UTopDownRPGAttributeSet::HandleIncomingDamage(const FEffectProperties& Prop
 		}
 		else // HitReact
 		{
-			FGameplayTagContainer TagContainer;
-			TagContainer.AddTag(FTopDownRPGGameplayTags::Get().Effects_HitReact);
-			Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			if (Props.TargetCharacter->Implements<UCombatInterface>() && !ICombatInterface::Execute_IsBeingShocked(Props.TargetCharacter))
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FTopDownRPGGameplayTags::Get().Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 
 			//Knockback
 			const FVector& KnockbackForce = UTopDownRPGAbilitySystemLibrary::GetKnockbackForce(Props.EffectContextHandle);
