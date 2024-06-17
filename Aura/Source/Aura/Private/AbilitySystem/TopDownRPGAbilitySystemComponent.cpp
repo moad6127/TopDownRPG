@@ -287,7 +287,7 @@ void UTopDownRPGAbilitySystemComponent::ServerEquipAbility_Implementation(const 
 	}
 }
 
-void UTopDownRPGAbilitySystemComponent::CliendtEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot)
+void UTopDownRPGAbilitySystemComponent::CliendtEquipAbility_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot)
 {
 	AbilityEquipped.Broadcast(AbilityTag, Status, Slot, PreviousSlot);
 }
