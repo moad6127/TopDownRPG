@@ -12,6 +12,7 @@ DECLARE_MULTICAST_DELEGATE(FAbilitiesGiven);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag& /* AblityTag*/, const FGameplayTag& /* StatusTag*/,int32 /* Ability Level*/);
 DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& /* AblityTag*/, const FGameplayTag& /* Status*/, const FGameplayTag& /* Slot*/, const FGameplayTag& /* PrevSlot*/);
+DECLARE_MULTICAST_DELEGATE_OneParam(FDeactivatePassvieAbility, const FGameplayTag& /* AblityTag*/);
 
 /**
  * 
@@ -27,6 +28,7 @@ public:
 	FAbilitiesGiven AbilitiesGivenDelegate;
 	FAbilityStatusChanged AbilityStatusChanged;
 	FAbilityEquipped AbilityEquipped;
+	FDeactivatePassvieAbility DeactivatePassvieAbility;
 
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartAbilities);
 	void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartPassiveAbilities);
