@@ -193,6 +193,11 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	Damage = bCritical ? Damage * 2.f + SourceCriticalDamage : Damage;
 
+	if (TargetTags->HasTagExact(FTopDownRPGGameplayTags::Get().Abilities_Passive_HaloOfProtection))
+	{
+		Damage = Damage / 2;
+	}
+
 	const FGameplayModifierEvaluatedData EvaluatedData(
 		UTopDownRPGAttributeSet::GetIncomingDamageAttribute(),
 		EGameplayModOp::Additive,
