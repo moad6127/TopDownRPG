@@ -223,6 +223,11 @@ void UTopDownRPGAbilitySystemComponent::AssignSlotToAbility(FGameplayAbilitySpec
 	Spec.DynamicAbilityTags.AddTag(Slot);
 }
 
+void UTopDownRPGAbilitySystemComponent::MulticastActivatePassiveEffect_Implementation(const FGameplayTag& AbilityTag, bool bActivate)
+{
+	ActivatePassiveEffect.Broadcast(AbilityTag, bActivate);
+}
+
 FGameplayAbilitySpec* UTopDownRPGAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
 {
 	FScopedAbilityListLock ActiveScopeLoc(*this);
@@ -342,6 +347,7 @@ void UTopDownRPGAbilitySystemComponent::ServerEquipAbility_Implementation(const 
 					if (IsPassiveAbility(*SpecWithSlot))
 					{
 						//if ability is passive, ability deactivate
+						MulticastActivatePassiveEffect(GetAbilityTagFromSpec(*SpecWithSlot), false);
 						DeactivatePassvieAbility.Broadcast(GetAbilityTagFromSpec(*SpecWithSlot));
 					}
 
@@ -353,6 +359,7 @@ void UTopDownRPGAbilitySystemComponent::ServerEquipAbility_Implementation(const 
 				if (IsPassiveAbility(*AbilitySpec))
 				{
 					TryActivateAbility(AbilitySpec->Handle);
+					MulticastActivatePassiveEffect(AbilityTag, true);
 				}
 			}
 
