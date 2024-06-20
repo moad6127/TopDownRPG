@@ -15,7 +15,7 @@
 #include "UI/Widget/DamageTextComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Actor/MagicCircle.h"
-
+#include "Components/DecalComponent.h"
 
 ATopDownRPGPlayerController::ATopDownRPGPlayerController()
 {
@@ -214,11 +214,15 @@ void ATopDownRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 }
 
 
-void ATopDownRPGPlayerController::ShowMagicCircle()
+void ATopDownRPGPlayerController::ShowMagicCircle(UMaterialInterface* DecalMaterial)
 {
 	if (!IsValid(MagicCircle))
 	{
 		MagicCircle = GetWorld()->SpawnActor<AMagicCircle>(MagicCircleClass);
+		if (DecalMaterial)
+		{
+			MagicCircle->MagicCircleDecal->SetMaterial(0, DecalMaterial);
+		}
 	}
 }
 

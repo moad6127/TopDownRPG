@@ -152,6 +152,22 @@ int32 ATopDownRPGCharacter::GetSpellPoints_Implementation() const
 	return TopDownRPGPlayerState->GetSpellPoints();
 }
 
+void ATopDownRPGCharacter::ShowMagicCircle_Implementation(UMaterialInterface* DecalMaterial)
+{
+	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
+	{
+		TopDownPlayerController->ShowMagicCircle(DecalMaterial);
+	}
+}
+
+void ATopDownRPGCharacter::HideMagicCircle_Implementation()
+{
+	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
+	{
+		TopDownPlayerController->HideMagicCircle();
+	}
+}
+
 int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
 {
 	const ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
