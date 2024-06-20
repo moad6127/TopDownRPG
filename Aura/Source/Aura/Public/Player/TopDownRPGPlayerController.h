@@ -20,6 +20,7 @@ class UTopDownRPGAbilitySystemComponent;
 class USplineComponent;
 class UDamageTextComponent;
 class UNiagaraSystem;
+class AMagicCircle;
 
 UCLASS()
 class AURA_API ATopDownRPGPlayerController : public APlayerController
@@ -33,18 +34,19 @@ public:
 	//~ FloatingDamage
 	UFUNCTION(Client, Reliable)
 	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit);
-
 	//~ FloatingDamage
+
+	UFUNCTION(BlueprintCallable)
+	void ShowMagicCircle();
+
+	UFUNCTION(BlueprintCallable)
+	void HideMagicCircle();
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
 private:
 
-
-	/*
-	* Value;
-	*/
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> CharacterContext;
 
@@ -90,9 +92,7 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UNiagaraSystem> ClickNiagaraSystem;
 
-	/*
-	* Function
-	*/
+
 	UTopDownRPGAbilitySystemComponent* GetASC();
 	void Move(const FInputActionValue& InputActionValue);
 	void ShiftPressed() { bShiftKeyDown = true; }
@@ -105,4 +105,14 @@ private:
 	void AbilityInputTagHeld(FGameplayTag InputTag);
 
 	void AutoRun();
+
+
+	//~ MagicCircle
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AMagicCircle> MagicCircleClass;
+
+	UPROPERTY()
+	TObjectPtr<AMagicCircle> MagicCircle;
+
+	void UpdateMagicCircleLocation();
 };

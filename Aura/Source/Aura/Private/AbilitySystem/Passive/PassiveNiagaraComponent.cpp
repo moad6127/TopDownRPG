@@ -22,9 +22,9 @@ void UPassiveNiagaraComponent::BeginPlay()
 	{
 		CombatInterface->GetOnASCRegisterdDelegate().AddLambda([this](UAbilitySystemComponent* ASC)
 			{
-				if (UTopDownRPGAbilitySystemComponent* ASC = Cast<UTopDownRPGAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
+				if (UTopDownRPGAbilitySystemComponent* TopDownRPGASC = Cast<UTopDownRPGAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
 				{
-					ASC->ActivatePassiveEffect.AddUObject(this, &UPassiveNiagaraComponent::OnPassiveActivate);
+					TopDownRPGASC->ActivatePassiveEffect.AddUObject(this, &UPassiveNiagaraComponent::OnPassiveActivate);
 				}
 			});
 	}

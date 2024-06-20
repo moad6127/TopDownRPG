@@ -14,6 +14,7 @@
 #include "GameFramework/Character.h"
 #include "UI/Widget/DamageTextComponent.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Actor/MagicCircle.h"
 
 
 ATopDownRPGPlayerController::ATopDownRPGPlayerController()
@@ -28,7 +29,7 @@ void ATopDownRPGPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 	CursorTrace();
 	AutoRun();
-
+	UpdateMagicCircleLocation();
 }
 
 void ATopDownRPGPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter, bool bBlockedHit, bool bCriticalHit)
@@ -60,6 +61,14 @@ void ATopDownRPGPlayerController::AutoRun()
 		{
 			bAutoRunning = false;
 		}
+	}
+}
+
+void ATopDownRPGPlayerController::UpdateMagicCircleLocation()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->SetActorLocation(CursorHit.ImpactPoint);
 	}
 }
 
@@ -204,6 +213,22 @@ void ATopDownRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	}
 }
 
+
+void ATopDownRPGPlayerController::ShowMagicCircle()
+{
+	if (!IsValid(MagicCircle))
+	{
+		MagicCircle = GetWorld()->SpawnActor<AMagicCircle>(MagicCircleClass);
+	}
+}
+
+void ATopDownRPGPlayerController::HideMagicCircle()
+{
+	if (IsValid(MagicCircle))
+	{
+		MagicCircle->Destroy();
+	}
+}
 
 void ATopDownRPGPlayerController::BeginPlay()
 {
