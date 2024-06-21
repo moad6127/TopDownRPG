@@ -157,6 +157,7 @@ void ATopDownRPGCharacter::ShowMagicCircle_Implementation(UMaterialInterface* De
 	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
 	{
 		TopDownPlayerController->ShowMagicCircle(DecalMaterial);
+		TopDownPlayerController->bShowMouseCursor = false;
 	}
 }
 
@@ -165,6 +166,7 @@ void ATopDownRPGCharacter::HideMagicCircle_Implementation()
 	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
 	{
 		TopDownPlayerController->HideMagicCircle();
+		TopDownPlayerController->bShowMouseCursor = true;
 	}
 }
 
