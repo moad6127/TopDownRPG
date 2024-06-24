@@ -10,6 +10,7 @@
 #include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 #include "Interaction/CombatInterface.h"
 #include "TopDownRPGAbilityTypes.h"
+#include "Kismet/GameplayStatics.h"
 
 // 블루프린트에 노출시키지 않는 원시적인 Struct이다.
 struct TopDownRPGDamageStatics
@@ -102,6 +103,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	}
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
+	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
@@ -131,6 +133,42 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 		DamageTypeValue *= (100.f - Resistance) / 100.f;
 
+		if (UTopDownRPGAbilitySystemLibrary::IsRadialDamage(EffectContextHandle))
+		{
+			//TODO
+			// 1. override take damage in Characterbase **
+
+			// 2. Craete Delegate OnDamageDelegate broadcast damage receive in takeDamage **
+
+			// 3. Bind Lamda to OnDamageDelegate on Victim here **
+
+			// 4. Call UGameplayStatics::ApplyRadialDamageWithFalloff to cause Damage
+			//		(this will result in TakeDmage bineg called on the Victim, 
+			//		wihich will then broadcast OnDamageDelegate)
+			
+			// 5. InLamda, Set DamageTypeValue to the damage recieve from broadcase *
+
+			if (ICombatInterface* CombatInterface = Cast<ICombatInterface>(TargetAvatar))
+			{
+				CombatInterface->GetOnDamageSignature().AddLambda([&](float DamageAmount) 
+					{
+						DamageTypeValue = DamageAmount;
+					});
+			}
+			UGameplayStatics::ApplyRadialDamageWithFalloff(
+				TargetAvatar,
+				DamageTypeValue,
+				0.f,
+				UTopDownRPGAbilitySystemLibrary::GetRadialDamageOrigin(EffectContextHandle),
+				UTopDownRPGAbilitySystemLibrary::GetRadialDamageInnerRadius(EffectContextHandle),
+				UTopDownRPGAbilitySystemLibrary::GetRadialDamageOuterRadius(EffectContextHandle),
+				1.f,
+				UDamageType::StaticClass(),
+				TArray<AActor*>(),
+				SourceAvatar,
+				nullptr);
+		}
+
 		Damage += DamageTypeValue;
 	}
 
@@ -141,7 +179,6 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	bool bBlocking = FMath::RandRange(1, 100) < TargetBlockChance;
 
-	FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
 	UTopDownRPGAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocking);
 
 	//블록되면 Damage를 /2로 만든다

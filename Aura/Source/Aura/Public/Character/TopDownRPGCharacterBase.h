@@ -9,6 +9,7 @@
 #include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "TopDownRPGCharacterBase.generated.h"
 
+
 class UAbilitySystemComponent;
 class UAttributeSet;
 class UGameplayEffect;
@@ -27,9 +28,12 @@ public:
 	ATopDownRPGCharacterBase();
 	virtual void Tick(float DeltaTime) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet() const { return AttributesSet; }
+
 
 	//~ CombatInterface
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
@@ -48,10 +52,12 @@ public:
 	virtual USkeletalMeshComponent* GetWeapon_Implementation() override;
 	virtual void SetIsBeingShocked_Implementation(bool bInShock) override;
 	virtual bool IsBeingShocked_Implementation() const override;
+	virtual FOnDamageSignature& GetOnDamageSignature() override;
 	//~ CombatInterface
 
 	FOnASCRegistered OnASCRegisterd;
 	FOnDeath OnDeath;
+	FOnDamageSignature OnDamageDelegate;
 
 	UFUNCTION(NetMulticast, Reliable)
 	virtual void MulticastHandleDeath(const FVector& DeathImpulse);

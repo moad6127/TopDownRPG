@@ -62,6 +62,14 @@ void ATopDownRPGCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProper
 	DOREPLIFETIME(ATopDownRPGCharacterBase, bIsBeingShock);
 }
 
+float ATopDownRPGCharacterBase::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	const float DamageTaken = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	OnDamageDelegate.Broadcast(DamageTaken);
+
+	return DamageTaken;
+}
+
 UAbilitySystemComponent* ATopDownRPGCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
@@ -214,6 +222,11 @@ void ATopDownRPGCharacterBase::SetIsBeingShocked_Implementation(bool bInShock)
 bool ATopDownRPGCharacterBase::IsBeingShocked_Implementation() const
 {
 	return bIsBeingShock;
+}
+
+FOnDamageSignature& ATopDownRPGCharacterBase::GetOnDamageSignature()
+{
+	return OnDamageDelegate;
 }
 
 
