@@ -47,6 +47,13 @@ FDamageEffectParams UTopDownRPGDamageGameplayAbility::MakeDamageEffectParamsFrom
 			Params.KnockbackForce = ToTarget * KnockbackForceMagnitude;
 		}
 	}
+	if (bisRadialDamage)
+	{
+		Params.bisRadialDamage = bisRadialDamage;
+		Params.RadialDamageOrigin = RadialDamageOrigin;
+		Params.RadialDamageInnerRadius = RadialDamageInnerRadius;
+		Params.RadialDamageOuterRadius = RadialDamageOuterRadius;
+	}
 	return Params;
 }
 
