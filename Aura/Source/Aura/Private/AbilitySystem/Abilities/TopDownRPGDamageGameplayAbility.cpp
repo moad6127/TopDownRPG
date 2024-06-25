@@ -16,7 +16,7 @@ void UTopDownRPGDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 
 }
 
-FDamageEffectParams UTopDownRPGDamageGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor) const
+FDamageEffectParams UTopDownRPGDamageGameplayAbility::MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor,FVector InRadialDamageOrigin) const
 {
 	FDamageEffectParams Params;
 	Params.WorldContextObject = GetAvatarActorFromActorInfo();
@@ -50,7 +50,7 @@ FDamageEffectParams UTopDownRPGDamageGameplayAbility::MakeDamageEffectParamsFrom
 	if (bisRadialDamage)
 	{
 		Params.bisRadialDamage = bisRadialDamage;
-		Params.RadialDamageOrigin = RadialDamageOrigin;
+		Params.RadialDamageOrigin = InRadialDamageOrigin;
 		Params.RadialDamageInnerRadius = RadialDamageInnerRadius;
 		Params.RadialDamageOuterRadius = RadialDamageOuterRadius;
 	}
