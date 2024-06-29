@@ -66,3 +66,8 @@ FString UTopDownRPGFireBlast::GetNextLevelDescription(int32 Level)
 		//Values
 		Level, ManaCost, Cooldown, NumFireBalls, IntDamage);
 }
+
+TArray<ATopDownRPGFireBall*> UTopDownRPGFireBlast::SpawnFireBalls()
+{
+	return TArray<ATopDownRPGFireBall*>();
+}
