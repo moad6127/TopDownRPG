@@ -89,6 +89,7 @@ TArray<ATopDownRPGFireBall*> UTopDownRPGFireBlast::SpawnFireBalls()
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
 		FireBall->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+		FireBall->ReturnToActor = GetAvatarActorFromActorInfo();
 
 		FireBalls.Add(FireBall);
 		FireBall->FinishSpawning(SpawnTransform);
