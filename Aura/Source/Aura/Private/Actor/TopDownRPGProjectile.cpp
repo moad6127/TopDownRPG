@@ -72,16 +72,7 @@ void ATopDownRPGProjectile::OnHit()
 
 void ATopDownRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappingComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (!IsValid(DamageEffectParams.SourceAbilitySystemComponent))
-	{
-		return;
-	}
-	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
-	if (SourceAvatarActor == OtherActor)
-	{
-		return;
-	}
-	if (!UTopDownRPGAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor))
+	if (!IsValidOverlap(OtherActor))
 	{
 		return;
 	}
@@ -118,5 +109,23 @@ void ATopDownRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappingComp
 	{
 		bHit = true;
 	}
+}
+
+bool ATopDownRPGProjectile::IsValidOverlap(AActor* OtherActor)
+{
+	if (!IsValid(DamageEffectParams.SourceAbilitySystemComponent))
+	{
+		return false;
+	}
+	AActor* SourceAvatarActor = DamageEffectParams.SourceAbilitySystemComponent->GetAvatarActor();
+	if (SourceAvatarActor == OtherActor)
+	{
+		return false;
+	}
+	if (!UTopDownRPGAbilitySystemLibrary::IsNotFriend(SourceAvatarActor, OtherActor))
+	{
+		return false;
+	}
+	return true;
 }
 
