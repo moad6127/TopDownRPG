@@ -2,6 +2,8 @@
 
 
 #include "AbilitySystem/Abilities/TopDownRPGFireBlast.h"
+#include "Actor/TopDownRPGFireBall.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 
 FString UTopDownRPGFireBlast::GetDescription(int32 Level)
 {
@@ -69,5 +71,29 @@ FString UTopDownRPGFireBlast::GetNextLevelDescription(int32 Level)
 
 TArray<ATopDownRPGFireBall*> UTopDownRPGFireBlast::SpawnFireBalls()
 {
-	return TArray<ATopDownRPGFireBall*>();
+	TArray<ATopDownRPGFireBall*> FireBalls;
+	const FVector Forward = GetAvatarActorFromActorInfo()->GetActorForwardVector();
+	const FVector Location = GetAvatarActorFromActorInfo()->GetActorLocation();
+	TArray<FRotator> Rotators = UTopDownRPGAbilitySystemLibrary::EvenlySpacedRotators(Forward,FVector::UpVector,360.f,NumFireBalls);
+
+	for (const FRotator& Rotator : Rotators)
+	{
+		FTransform SpawnTransform;
+		SpawnTransform.SetLocation(Location);
+		SpawnTransform.SetRotation(Rotator.Quaternion());
+		ATopDownRPGFireBall* FireBall = GetWorld()->SpawnActorDeferred<ATopDownRPGFireBall>(
+			FireBallClass,
+			SpawnTransform,
+			GetOwningActorFromActorInfo(),
+			CurrentActorInfo->PlayerController->GetPawn(),
+			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+		FireBall->DamageEffectParams = MakeDamageEffectParamsFromClassDefaults();
+
+		FireBalls.Add(FireBall);
+		FireBall->FinishSpawning(SpawnTransform);
+	}
+
+
+	return FireBalls;
 }
