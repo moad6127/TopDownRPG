@@ -505,3 +505,45 @@ int32 UTopDownRPGAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject
 
 	return static_cast<int32>(XPReward);
 }
+
+void UTopDownRPGAbilitySystemLibrary::SetIsRadialDamgeEffectParams(UPARAM(ref)FDamageEffectParams& DamageEffectParams, bool bIsRadial, float InnerRaidal, float OuterRadial, FVector Origin)
+{
+	DamageEffectParams.bisRadialDamage = bIsRadial;
+	DamageEffectParams.RadialDamageInnerRadius = InnerRaidal;
+	DamageEffectParams.RadialDamageOuterRadius = OuterRadial;
+	DamageEffectParams.RadialDamageOrigin = Origin;
+}
+
+void UTopDownRPGAbilitySystemLibrary::SetKnockbackDirection(UPARAM(ref)FDamageEffectParams& DamageEffectParams, FVector KnockbackDirection, float Magnitude)
+{
+	KnockbackDirection.Normalize();
+	if (Magnitude == 0.f)
+	{
+		DamageEffectParams.KnockbackForce = KnockbackDirection * DamageEffectParams.KnockbackForceMagnitude;
+	}
+	else
+	{
+		DamageEffectParams.KnockbackForce = KnockbackDirection * Magnitude;
+
+	}
+}
+
+void UTopDownRPGAbilitySystemLibrary::SetDeathImpulseDirection(UPARAM(ref)FDamageEffectParams& DamageEffectParams, FVector ImpulseDirection, float Magnitude)
+{
+	ImpulseDirection.Normalize();
+	if (Magnitude == 0.f)
+	{
+		DamageEffectParams.DeathImpulse = ImpulseDirection * DamageEffectParams.DeathImpulseMagnitude;
+
+	}
+	else
+	{
+		DamageEffectParams.DeathImpulse = ImpulseDirection * Magnitude;
+
+	}
+}
+
+void UTopDownRPGAbilitySystemLibrary::SetTargetEffectParamsASC(UPARAM(ref)FDamageEffectParams& DamageEffectParams, UAbilitySystemComponent* InTargetASC)
+{
+	DamageEffectParams.TargetAbilitySystemComponent = InTargetASC;
+}
