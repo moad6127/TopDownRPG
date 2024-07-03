@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class AURA_API UMVVM_LoadScreen : public UMVVMViewModelBase
 {
 	GENERATED_BODY()
