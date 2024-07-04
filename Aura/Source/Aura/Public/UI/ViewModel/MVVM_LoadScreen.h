@@ -25,6 +25,15 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UMVVM_LoadSlot> LoadSlotViewModelClass;
 
+	UFUNCTION(BlueprintCallable)
+	void NewSlotButtonPressed(int32 Slot, const FString& EnterName);
+
+	UFUNCTION(BlueprintCallable)
+	void NewGameButtonPressed(int32 Slot);
+
+	UFUNCTION(BlueprintCallable)
+	void SelectSlotButtonPressed(int32 Slot);
+
 private:
 	UPROPERTY()
 	TMap<int32, UMVVM_LoadSlot*> LoadSlots;
