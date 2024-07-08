@@ -41,6 +41,14 @@ void ATopDownRPGGameModeBase::DeleteSlot(const FString& SlotName, int32 SlotInde
 	}
 }
 
+void ATopDownRPGGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)
+{
+	const FString SlotName = Slot->LoadSlotName;
+	const int32 SlotInde = Slot->SlotIndex;
+
+	UGameplayStatics::OpenLevelBySoftObjectPtr(Slot, Maps.FindChecked(Slot->GetMapName()));
+}
+
 void ATopDownRPGGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();

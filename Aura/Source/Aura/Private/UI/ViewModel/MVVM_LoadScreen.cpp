@@ -74,6 +74,16 @@ void UMVVM_LoadScreen::DeleteButtonPressed()
 	}
 }
 
+void UMVVM_LoadScreen::PlayButtonPressed()
+{
+	ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (IsValid(SelectedSlot))
+	{
+		GameMode->TravelToMap(SelectedSlot);
+	}
+	
+}
+
 void UMVVM_LoadScreen::LoadData()
 {
 	ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
