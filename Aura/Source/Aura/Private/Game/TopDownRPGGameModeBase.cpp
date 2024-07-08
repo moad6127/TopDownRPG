@@ -11,7 +11,7 @@ void ATopDownRPGGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotI
 	DeleteSlot(LoadSlot->LoadSlotName, SlotIndex);
 	USaveGame* SaveGameObject = UGameplayStatics::CreateSaveGameObject(LoadScreenSaveGameClass);
 	ULoadScreenSaveGame* LoadScreenSaveGame = Cast<ULoadScreenSaveGame>(SaveGameObject);
-	LoadScreenSaveGame->PlayerName = LoadSlot->PlayerName;
+	LoadScreenSaveGame->PlayerName = LoadSlot->GetPlayerName();
 	LoadScreenSaveGame->SaveSlotStatus = Taken;
 
 	UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, LoadSlot->LoadSlotName, SlotIndex);
@@ -38,4 +38,11 @@ void ATopDownRPGGameModeBase::DeleteSlot(const FString& SlotName, int32 SlotInde
 	{
 		UGameplayStatics::DeleteGameInSlot(SlotName, SlotIndex);
 	}
+}
+
+void ATopDownRPGGameModeBase::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Maps.Add(DefaultMapName, DefaultMap);
 }

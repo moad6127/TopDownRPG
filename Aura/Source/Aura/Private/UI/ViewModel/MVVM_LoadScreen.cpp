@@ -32,6 +32,8 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnterName
 {
 	ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
 
+
+	LoadSlots[Slot]->SetMapName(GameMode->DefaultMapName);
 	LoadSlots[Slot]->SetPlayerName(EnterName);
 	LoadSlots[Slot]->SlotStatus = Taken;
 
