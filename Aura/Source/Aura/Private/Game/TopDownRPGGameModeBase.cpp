@@ -6,6 +6,7 @@
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 #include "Game/LoadScreenSaveGame.h"
 #include "GameFramework/PlayerStart.h"
+#include "Game/TopDownRPGGameInstance.h"
 
 void ATopDownRPGGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
@@ -52,6 +53,9 @@ void ATopDownRPGGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)
 
 AActor* ATopDownRPGGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
 {
+	UTopDownRPGGameInstance* GameInstance = Cast<UTopDownRPGGameInstance>(GetGameInstance());
+
+
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(),Actors);
 	if (Actors.Num() > 0)
@@ -61,7 +65,7 @@ AActor* ATopDownRPGGameModeBase::ChoosePlayerStart_Implementation(AController* P
 		{
 			if (APlayerStart* PlayerStart = Cast<APlayerStart>(Actor))
 			{
-				if (PlayerStart->PlayerStartTag == FName("TheTag"))
+				if (PlayerStart->PlayerStartTag == GameInstance->PlayerStartTag)
 				{
 					SelectedActor = PlayerStart;
 					break;

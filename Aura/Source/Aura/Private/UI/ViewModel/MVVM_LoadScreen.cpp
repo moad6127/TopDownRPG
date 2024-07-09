@@ -5,6 +5,7 @@
 #include "UI/ViewModel/MVVM_LoadSlot.h"
 #include "Game/TopDownRPGGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Game/TopDownRPGGameInstance.h"
 
 void UMVVM_LoadScreen::InitializeLoadSlots()
 {
@@ -39,6 +40,12 @@ void UMVVM_LoadScreen::NewSlotButtonPressed(int32 Slot, const FString& EnterName
 
 	GameMode->SaveSlotData(LoadSlots[Slot], Slot);
 	LoadSlots[Slot]->InitializeSlot();
+
+	UTopDownRPGGameInstance* GameInstance = Cast<UTopDownRPGGameInstance>(GameMode->GetGameInstance());
+	GameInstance->LoadSlotName = LoadSlots[Slot]->LoadSlotName;
+	GameInstance->LoadSlotIndex = LoadSlots[Slot]->SlotIndex;
+	GameInstance->PlayerStartTag = GameMode->DefaultPlayerStartTag;
+
 }
 
 void UMVVM_LoadScreen::NewGameButtonPressed(int32 Slot)
