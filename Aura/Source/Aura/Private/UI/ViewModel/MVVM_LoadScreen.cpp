@@ -87,6 +87,8 @@ void UMVVM_LoadScreen::PlayButtonPressed()
 	ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
 	UTopDownRPGGameInstance* GameInstance = Cast<UTopDownRPGGameInstance>(GameMode->GetGameInstance());
 	GameInstance->PlayerStartTag = SelectedSlot->PlayerStartTag;
+	GameInstance->LoadSlotName = SelectedSlot->LoadSlotName;
+	GameInstance->LoadSlotIndex = SelectedSlot->SlotIndex;
 
 	if (IsValid(SelectedSlot))
 	{

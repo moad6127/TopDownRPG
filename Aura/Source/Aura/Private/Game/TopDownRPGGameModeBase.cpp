@@ -44,6 +44,27 @@ void ATopDownRPGGameModeBase::DeleteSlot(const FString& SlotName, int32 SlotInde
 	}
 }
 
+ULoadScreenSaveGame* ATopDownRPGGameModeBase::RetrieveInGameSaveData()
+{
+	UTopDownRPGGameInstance* GameInstance = Cast<UTopDownRPGGameInstance>(GetGameInstance());
+
+	const FString InGameLoadSlotName = GameInstance->LoadSlotName;
+	const int32 InGameLoadSlotIndex = GameInstance->LoadSlotIndex;
+
+	return GetSaveSlotData(InGameLoadSlotName, InGameLoadSlotIndex);
+}
+
+void ATopDownRPGGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveObject)
+{
+	UTopDownRPGGameInstance* GameInstance = Cast<UTopDownRPGGameInstance>(GetGameInstance());
+
+	const FString InGameLoadSlotName = GameInstance->LoadSlotName;
+	const int32 InGameLoadSlotIndex = GameInstance->LoadSlotIndex;
+	GameInstance->PlayerStartTag = SaveObject->PlayerStartTag;
+
+	UGameplayStatics::SaveGameToSlot(SaveObject, InGameLoadSlotName, InGameLoadSlotIndex);
+}
+
 void ATopDownRPGGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)
 {
 	const FString SlotName = Slot->LoadSlotName;

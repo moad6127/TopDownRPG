@@ -13,6 +13,10 @@
 #include "Camera/CameraComponent.h"
 #include "TopDownRPGGameplayTags.h"
 #include "AbilitySystem/Debuff/DebuffNiagaraComponent.h"
+#include "Game/TopDownRPGGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "Game/LoadScreenSaveGame.h"
+
 
 
 ATopDownRPGCharacter::ATopDownRPGCharacter()
@@ -167,6 +171,23 @@ void ATopDownRPGCharacter::HideMagicCircle_Implementation()
 	{
 		TopDownPlayerController->HideMagicCircle();
 		TopDownPlayerController->bShowMouseCursor = true;
+	}
+}
+
+void ATopDownRPGCharacter::SaveProgress_Implementation(const FName& CheckpointTag)
+{
+	ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (GameMode)
+	{
+		ULoadScreenSaveGame* SaveData = GameMode->RetrieveInGameSaveData();
+		if (SaveData == nullptr)
+		{
+			return;
+		}
+		SaveData->PlayerStartTag = CheckpointTag;
+
+		GameMode->SaveInGameProgressData(SaveData);
+
 	}
 }
 
