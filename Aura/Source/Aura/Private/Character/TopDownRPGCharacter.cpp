@@ -8,6 +8,7 @@
 #include "Player/TopDownRPGPlayerController.h"
 #include "UI/HUD/TopDownRPGHUD.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
+#include "AbilitySystem/TopDownRPGAttributeSet.h"
 #include "NiagaraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -52,8 +53,32 @@ void ATopDownRPGCharacter::PossessedBy(AController* NewController)
 
 	//Init Ability Actor info for the server
 	InitAbilityActorInfo();
+	LoadProgress();
+
+	//TODO : Load int Abilities from disk
 	AddCharacterAbilities();
 }
+
+void ATopDownRPGCharacter::LoadProgress()
+{
+	ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
+	if (GameMode)
+	{
+		ULoadScreenSaveGame* SaveData = GameMode->RetrieveInGameSaveData();
+		if (SaveData == nullptr)
+		{
+			return;
+		}
+		if (ATopDownRPGPlayerState* TopDownPlayerState = Cast<ATopDownRPGPlayerState>(GetPlayerState()))
+		{
+			TopDownPlayerState->SetLevel(SaveData->PlayerLevel);
+			TopDownPlayerState->SetXP(SaveData->XP);
+			TopDownPlayerState->SetAttributePoint(SaveData->AttributePoint);
+			TopDownPlayerState->SetSpellPoint(SaveData->SpellPoint);
+		}
+	}
+}
+
 
 void ATopDownRPGCharacter::OnRep_PlayerState()
 {
@@ -185,9 +210,18 @@ void ATopDownRPGCharacter::SaveProgress_Implementation(const FName& CheckpointTa
 			return;
 		}
 		SaveData->PlayerStartTag = CheckpointTag;
-
+		if (ATopDownRPGPlayerState* TopDownPlayerState = Cast<ATopDownRPGPlayerState>(GetPlayerState()))
+		{
+			SaveData->PlayerLevel = TopDownPlayerState->GetPlayerLevel();
+			SaveData->XP = TopDownPlayerState->GetXP();
+			SaveData->SpellPoint = TopDownPlayerState->GetSpellPoints();
+			SaveData->AttributePoint = TopDownPlayerState->GetAttributePoints();
+		}
+		SaveData->Strength = UTopDownRPGAttributeSet::GetStrengthAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->Intelligence = UTopDownRPGAttributeSet::GetIntelligenceAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->Resilience = UTopDownRPGAttributeSet::GetResilienceAttribute().GetNumericValue(GetAttributeSet());
+		SaveData->Vigor = UTopDownRPGAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
 		GameMode->SaveInGameProgressData(SaveData);
-
 	}
 }
 
@@ -234,6 +268,7 @@ void ATopDownRPGCharacter::OnRep_Burned()
 	}
 }
 
+
 void ATopDownRPGCharacter::InitAbilityActorInfo()
 {
 	ATopDownRPGPlayerState* TopDownRPGPlayerState = GetPlayerState<ATopDownRPGPlayerState>();
@@ -252,8 +287,6 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 			TopDownHUD->InitOverlay(TopDownPlayerController, TopDownRPGPlayerState, AbilitySystemComponent, AttributesSet);
 		}
 	}
-
-	InitializeDefaultAttributes();
 }
 
 

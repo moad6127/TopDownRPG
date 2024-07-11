@@ -45,6 +45,18 @@ void ATopDownRPGPlayerState::SetLevel(int32 InLevel)
 	OnLevelChangedDelegate.Broadcast(Level);
 }
 
+void ATopDownRPGPlayerState::SetAttributePoint(int32 InPoint)
+{
+	AttributePoint = InPoint;
+	OnAttributePointsChangedDelegate.Broadcast(AttributePoint);
+}
+
+void ATopDownRPGPlayerState::SetSpellPoint(int32 InPoint)
+{
+	SpellPoint = InPoint;
+	OnSpellPointsChangedDelegate.Broadcast(SpellPoint);
+}
+
 void ATopDownRPGPlayerState::AddToXP(int32 AddXP)
 {
 	XP += AddXP;
