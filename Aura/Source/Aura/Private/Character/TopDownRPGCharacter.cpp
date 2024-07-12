@@ -10,6 +10,7 @@
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
 #include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 #include "NiagaraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -234,6 +235,31 @@ void ATopDownRPGCharacter::SaveProgress_Implementation(const FName& CheckpointTa
 		SaveData->Vigor = UTopDownRPGAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
 		
 		SaveData->bFirstTimeLoadIn = false;
+
+		if (!HasAuthority())
+		{
+			return;
+		}
+		UTopDownRPGAbilitySystemComponent* TopDownASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent);
+		FForEachAbility SaveAbilityDelegate;
+		SaveAbilityDelegate.BindLambda([this, TopDownASC, &SaveData](const FGameplayAbilitySpec& AbilitySpec)
+			{
+				const FGameplayTag AbilityTag = TopDownASC->GetAbilityTagFromSpec(AbilitySpec);
+				UAbilityInfo* AbilityInfo = UTopDownRPGAbilitySystemLibrary::GetAbilityInfo(this);
+				FTopDownRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+
+				FSavedAbility SavedAbility;
+				SavedAbility.GameplayAbility = Info.Ability;
+				SavedAbility.AbilityLevel = AbilitySpec.Level;
+				SavedAbility.AbilitySlot = TopDownASC->GetSlotFromAbilityTag(AbilityTag);
+				SavedAbility.AbilityStatus = TopDownASC->GetStatusFormAbilityTag(AbilityTag);
+				SavedAbility.AbilityTag = AbilityTag;
+				SavedAbility.AbilityType = Info.AbilityType;
+
+				SaveData->SavedAbiliteis.Add(SavedAbility);
+			});
+		TopDownASC->ForEachAbility(SaveAbilityDelegate);
+
 		GameMode->SaveInGameProgressData(SaveData);
 	}
 }
