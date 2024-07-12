@@ -23,9 +23,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {
 	GetTopDownRPGPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
 	GetTopDownRPGPS()->OnLevelChangedDelegate.AddLambda(
-		[this](int32 NewLevel) 
+		[this](int32 NewLevel,bool bLevelUp) 
 		{
-			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+			OnPlayerLevelChangedDelegate.Broadcast(NewLevel,bLevelUp);
 		}
 	);
 

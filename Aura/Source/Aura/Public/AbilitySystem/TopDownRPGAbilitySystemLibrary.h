@@ -15,6 +15,7 @@ class UAbilitySystemComponent;
 class USpellMenuWidgetController;
 struct FWidgetControllerParams;
 class ATopDownRPGHUD;
+class ULoadScreenSaveGame;
 /**
  * 
  */
@@ -37,10 +38,13 @@ public:
 	UFUNCTION(BlueprintPure, Category = "TopDownRPGAbilitySystemLibrary | WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static USpellMenuWidgetController* GetSpellMenuController(const UObject* WorldContextObject);
 
-	//~ AbiiltySystem ClassDefaults
+	//~ AbiiltySystem Class Defaults
 
 	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary | CharacterClassDefaults")
 	static void InitializeDefaultsAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
+
+	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary | CharacterClassDefaults")
+	static void InitializeDefaultsAttributesFromSaveData(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ULoadScreenSaveGame* SaveGame);
 
 	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary | CharacterClassDefaults")
 	static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass);

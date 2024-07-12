@@ -42,8 +42,9 @@ void ATopDownRPGPlayerState::SetXP(int32 InXP)
 void ATopDownRPGPlayerState::SetLevel(int32 InLevel)
 {
 	Level = InLevel;
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level,false);
 }
+
 
 void ATopDownRPGPlayerState::SetAttributePoint(int32 InPoint)
 {
@@ -66,7 +67,7 @@ void ATopDownRPGPlayerState::AddToXP(int32 AddXP)
 void ATopDownRPGPlayerState::AddToLevel(int32 AddLevel)
 {
 	Level += AddLevel;
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level,true);
 }
 
 void ATopDownRPGPlayerState::AddToAttributePoints(int32 AddAttributePoint)
@@ -83,7 +84,7 @@ void ATopDownRPGPlayerState::AddToSpellPoints(int32 AddSpellPoint)
 
 void ATopDownRPGPlayerState::OnRep_Level(int32 OldLevel)
 {
-	OnLevelChangedDelegate.Broadcast(Level);
+	OnLevelChangedDelegate.Broadcast(Level, true);
 }
 
 void ATopDownRPGPlayerState::OnRep_XP(int32 OldXP)

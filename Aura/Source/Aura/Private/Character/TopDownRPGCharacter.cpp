@@ -9,6 +9,7 @@
 #include "UI/HUD/TopDownRPGHUD.h"
 #include "AbilitySystem/Data/LevelUpInfo.h"
 #include "AbilitySystem/TopDownRPGAttributeSet.h"
+#include "AbilitySystem/TopDownRPGAbilitySystemLibrary.h"
 #include "NiagaraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -55,8 +56,6 @@ void ATopDownRPGCharacter::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 	LoadProgress();
 
-	//TODO : Load int Abilities from disk
-	AddCharacterAbilities();
 }
 
 void ATopDownRPGCharacter::LoadProgress()
@@ -69,12 +68,24 @@ void ATopDownRPGCharacter::LoadProgress()
 		{
 			return;
 		}
-		if (ATopDownRPGPlayerState* TopDownPlayerState = Cast<ATopDownRPGPlayerState>(GetPlayerState()))
+
+		if (SaveData->bFirstTimeLoadIn)
 		{
-			TopDownPlayerState->SetLevel(SaveData->PlayerLevel);
-			TopDownPlayerState->SetXP(SaveData->XP);
-			TopDownPlayerState->SetAttributePoint(SaveData->AttributePoint);
-			TopDownPlayerState->SetSpellPoint(SaveData->SpellPoint);
+			InitializeDefaultAttributes();
+			AddCharacterAbilities();
+		}
+		else
+		{
+			//TODO : Load int Abilities from disk
+
+			if (ATopDownRPGPlayerState* TopDownPlayerState = Cast<ATopDownRPGPlayerState>(GetPlayerState()))
+			{
+				TopDownPlayerState->SetLevel(SaveData->PlayerLevel);
+				TopDownPlayerState->SetXP(SaveData->XP);
+				TopDownPlayerState->SetAttributePoint(SaveData->AttributePoint);
+				TopDownPlayerState->SetSpellPoint(SaveData->SpellPoint);
+			}
+			UTopDownRPGAbilitySystemLibrary::InitializeDefaultsAttributesFromSaveData(this, AbilitySystemComponent, SaveData);
 		}
 	}
 }
@@ -221,6 +232,8 @@ void ATopDownRPGCharacter::SaveProgress_Implementation(const FName& CheckpointTa
 		SaveData->Intelligence = UTopDownRPGAttributeSet::GetIntelligenceAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Resilience = UTopDownRPGAttributeSet::GetResilienceAttribute().GetNumericValue(GetAttributeSet());
 		SaveData->Vigor = UTopDownRPGAttributeSet::GetVigorAttribute().GetNumericValue(GetAttributeSet());
+		
+		SaveData->bFirstTimeLoadIn = false;
 		GameMode->SaveInGameProgressData(SaveData);
 	}
 }
