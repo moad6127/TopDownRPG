@@ -3,6 +3,7 @@
 #include "AbilitySystem/TopDownRPGAbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "Interaction/CombatInterface.h"
+#include "TopDownRPGGameplayTags.h"
 
 
 UPassiveNiagaraComponent::UPassiveNiagaraComponent()
@@ -17,6 +18,7 @@ void UPassiveNiagaraComponent::BeginPlay()
 	if (UTopDownRPGAbilitySystemComponent* ASC = Cast<UTopDownRPGAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
 	{
 		ASC->ActivatePassiveEffect.AddUObject(this, &UPassiveNiagaraComponent::OnPassiveActivate);
+		ActivateIfEquipped(ASC);
 	}
 	else if(ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetOwner()))
 	{
@@ -25,6 +27,7 @@ void UPassiveNiagaraComponent::BeginPlay()
 				if (UTopDownRPGAbilitySystemComponent* TopDownRPGASC = Cast<UTopDownRPGAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwner())))
 				{
 					TopDownRPGASC->ActivatePassiveEffect.AddUObject(this, &UPassiveNiagaraComponent::OnPassiveActivate);
+					ActivateIfEquipped(TopDownRPGASC);
 				}
 			});
 	}
@@ -41,6 +44,17 @@ void UPassiveNiagaraComponent::OnPassiveActivate(const FGameplayTag& AbilityTag,
 		else
 		{
 			Deactivate();
+		}
+	}
+}
+
+void UPassiveNiagaraComponent::ActivateIfEquipped(UTopDownRPGAbilitySystemComponent* ASC)
+{
+	if (ASC->bStartupAbilitiesGiven)
+	{
+		if (ASC->GetStatusFormAbilityTag(PassivSpellTag) == FTopDownRPGGameplayTags::Get().Abilities_Status_Equipped)
+		{
+			Activate();
 		}
 	}
 }

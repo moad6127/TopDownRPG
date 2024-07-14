@@ -17,6 +17,8 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FActivatePassiveEffect, const FGameplayTag&
 /**
  * 
  */
+class ULoadScreenSaveGame;
+
 UCLASS()
 class AURA_API UTopDownRPGAbilitySystemComponent : public UAbilitySystemComponent
 {
@@ -31,6 +33,7 @@ public:
 	FDeactivatePassvieAbility DeactivatePassvieAbility;
 	FActivatePassiveEffect ActivatePassiveEffect;
 
+	void AddCharacterAbilitiesFromSaveData(ULoadScreenSaveGame* SaveData);
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartAbilities);
 	void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartPassiveAbilities);
 	bool bStartupAbilitiesGiven = false;

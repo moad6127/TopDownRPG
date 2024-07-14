@@ -77,7 +77,11 @@ void ATopDownRPGCharacter::LoadProgress()
 		}
 		else
 		{
-			//TODO : Load int Abilities from disk
+			if (UTopDownRPGAbilitySystemComponent* TopDownASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent))
+			{
+				TopDownASC->AddCharacterAbilitiesFromSaveData(SaveData);
+			}
+
 
 			if (ATopDownRPGPlayerState* TopDownPlayerState = Cast<ATopDownRPGPlayerState>(GetPlayerState()))
 			{
@@ -242,6 +246,7 @@ void ATopDownRPGCharacter::SaveProgress_Implementation(const FName& CheckpointTa
 		}
 		UTopDownRPGAbilitySystemComponent* TopDownASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent);
 		FForEachAbility SaveAbilityDelegate;
+		SaveData->SavedAbiliteis.Empty();
 		SaveAbilityDelegate.BindLambda([this, TopDownASC, &SaveData](const FGameplayAbilitySpec& AbilitySpec)
 			{
 				const FGameplayTag AbilityTag = TopDownASC->GetAbilityTagFromSpec(AbilitySpec);
@@ -256,7 +261,7 @@ void ATopDownRPGCharacter::SaveProgress_Implementation(const FName& CheckpointTa
 				SavedAbility.AbilityTag = AbilityTag;
 				SavedAbility.AbilityType = Info.AbilityType;
 
-				SaveData->SavedAbiliteis.Add(SavedAbility);
+				SaveData->SavedAbiliteis.AddUnique(SavedAbility);
 			});
 		TopDownASC->ForEachAbility(SaveAbilityDelegate);
 
