@@ -20,7 +20,6 @@ void UTopDownRPGAbilitySystemComponent::AbilityActorInfoSet()
 
 void UTopDownRPGAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadScreenSaveGame* SaveData)
 {
-	UE_LOG(LogTemp, Warning, TEXT("AddCharacterAbilitiesFromSaveDataIn"));
 	for (const FSavedAbility& Data : SaveData->SavedAbiliteis)
 	{
 		const TSubclassOf<UGameplayAbility> LoadedAbilityClass = Data.GameplayAbility;
@@ -32,7 +31,6 @@ void UTopDownRPGAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadS
 		if (Data.AbilityType == FTopDownRPGGameplayTags::Get().Abilities_Type_Offensive)
 		{
 			GiveAbility(LoadedAbilitySpec);
-			UE_LOG(LogTemp, Warning, TEXT("DataIn %s"), *Data.AbilityTag.GetTagName().ToString());
 		}
 		else if(Data.AbilityType == FTopDownRPGGameplayTags::Get().Abilities_Type_Passive)
 		{
@@ -44,8 +42,6 @@ void UTopDownRPGAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadS
 			{
 				GiveAbility(LoadedAbilitySpec);
 			}
-
-			UE_LOG(LogTemp, Warning, TEXT("DataIn %s"), *Data.AbilityTag.GetTagName().ToString());
 		}
 	}
 	bStartupAbilitiesGiven = true;
