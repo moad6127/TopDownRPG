@@ -10,6 +10,7 @@
 #include "EngineUtils.h"
 #include "Interaction/SaveInterface.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
+#include "Aura/TopDownRPGLogChannels.h"
 
 void ATopDownRPGGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
@@ -68,7 +69,7 @@ void ATopDownRPGGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveOb
 	UGameplayStatics::SaveGameToSlot(SaveObject, InGameLoadSlotName, InGameLoadSlotIndex);
 }
 
-void ATopDownRPGGameModeBase::SaveWorldState(UWorld* World)
+void ATopDownRPGGameModeBase::SaveWorldState(UWorld* World) const
 {
 	FString WorldName = World->GetMapName();
 	WorldName.RemoveFromStart(World->StreamingLevelsPrefix);
@@ -116,6 +117,53 @@ void ATopDownRPGGameModeBase::SaveWorldState(UWorld* World)
 		UGameplayStatics::SaveGameToSlot(SaveGame, TopDownGI->LoadSlotName, TopDownGI->LoadSlotIndex);
 	}
 
+}
+
+void ATopDownRPGGameModeBase::LoadWorldState(UWorld* World) const
+{
+	FString WorldName = World->GetMapName();
+	WorldName.RemoveFromStart(World->StreamingLevelsPrefix);
+
+	UTopDownRPGGameInstance* TopDownGI = Cast<UTopDownRPGGameInstance>(GetGameInstance());
+	check(TopDownGI);
+
+	if (UGameplayStatics::DoesSaveGameExist(TopDownGI->LoadSlotName, TopDownGI->LoadSlotIndex))
+	{
+		ULoadScreenSaveGame* SaveGame = Cast<ULoadScreenSaveGame>(UGameplayStatics::LoadGameFromSlot(TopDownGI->LoadSlotName, TopDownGI->LoadSlotIndex));
+		if (SaveGame == nullptr)
+		{
+			UE_LOG(LogTopDownRPG, Error, TEXT("Failed To Load slot"));
+			return;
+		}
+
+		for (FActorIterator It(World); It; ++It)
+		{
+			AActor* Actor = *It;
+
+			if (!Actor->Implements<USaveInterface>())
+			{
+				continue;
+			}
+			for (FSavedActor SavedActor : SaveGame->GetSavedMapWithMapName(WorldName).SavedActor)
+			{
+				if (SavedActor.ActorName == Actor->GetFName())
+				{
+					if (ISaveInterface::Execute_ShouldLoadTransform(Actor))
+					{
+						Actor->SetActorTransform(SavedActor.Transform);
+					}
+					FMemoryReader MemoryReader(SavedActor.Bytes);
+
+					FObjectAndNameAsStringProxyArchive Archive(MemoryReader, true);
+					Archive.ArIsSaveGame = true;
+
+					Actor->Serialize(Archive); // converts binary bytes back into variables
+
+					ISaveInterface::Execute_LoadActor(Actor);
+				}
+			}
+		}
+	}
 }
 
 void ATopDownRPGGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)

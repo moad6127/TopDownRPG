@@ -57,6 +57,11 @@ void ATopDownRPGCharacter::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 	LoadProgress();
 
+	if (ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this)))
+	{
+		GameMode->LoadWorldState(GetWorld());
+	}
+
 }
 
 void ATopDownRPGCharacter::LoadProgress()
