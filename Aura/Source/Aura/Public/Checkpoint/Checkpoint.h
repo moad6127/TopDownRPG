@@ -34,10 +34,12 @@ protected:
 	void CheckpointReached(UMaterialInstanceDynamic* DynamicMaterialInstance);
 
 	void HandleGlowEffects();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
 private:
 
-	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> CheckpointMesh;
+
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
