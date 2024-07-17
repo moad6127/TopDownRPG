@@ -22,6 +22,14 @@ class UDamageTextComponent;
 class UNiagaraSystem;
 class AMagicCircle;
 
+
+enum class ETargetingStatus : uint8
+{
+	TargetingEnemy,
+	TargetingNonEnemy,
+	NotTargeting
+};
+
 UCLASS()
 class AURA_API ATopDownRPGPlayerController : public APlayerController
 {
@@ -58,8 +66,8 @@ private:
 	TObjectPtr<UInputAction> ShiftAction;
 	bool bShiftKeyDown = false;
 
-	IHighlightInterface* LastActor;
-	IHighlightInterface* ThisActor;
+	TObjectPtr<AActor> LastActor;
+	TObjectPtr<AActor> ThisActor;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UTopDownRPGInputConfig> InputConfig;
@@ -81,7 +89,7 @@ private:
 	float FollowTime = 0.f;
 	float ShortPressThreshold = 0.5f;
 	bool bAutoRunning = false;
-	bool bTargeting = false;
+	ETargetingStatus TargetingStatus = ETargetingStatus::NotTargeting;
 
 	UPROPERTY(EditDefaultsOnly)
 	float AutoRunAcceptanceRadius = 50.f;
@@ -100,6 +108,9 @@ private:
 	void ShiftReleased() { bShiftKeyDown = false; }
 
 	void CursorTrace();
+	static void HighlightActor(AActor* InActor);
+	static void UnHighlightActor(AActor* InActor);
+
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
