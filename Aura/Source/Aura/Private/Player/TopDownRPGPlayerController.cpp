@@ -17,6 +17,7 @@
 #include "Actor/MagicCircle.h"
 #include "Components/DecalComponent.h"
 #include "Aura/Aura.h"
+#include "Interaction/HighlightInterface.h"
 
 
 ATopDownRPGPlayerController::ATopDownRPGPlayerController()
@@ -98,7 +99,7 @@ void ATopDownRPGPlayerController::CursorTrace()
 	}	
 
 	LastActor = ThisActor;
-	ThisActor = Cast<IEnemyInterface>(CursorHit.GetActor());
+	ThisActor = Cast<IHighlightInterface>(CursorHit.GetActor());
 
 	if (LastActor != ThisActor)
 	{

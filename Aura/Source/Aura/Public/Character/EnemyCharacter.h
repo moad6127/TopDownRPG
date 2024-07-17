@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Character/TopDownRPGCharacterBase.h"
 #include "Interaction/EnemyInterface.h"
+#include "Interaction/HighlightInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "EnemyCharacter.generated.h"
 
@@ -17,7 +18,7 @@ class ATopDownRPGAIController;
  * 
  */
 UCLASS()
-class AURA_API AEnemyCharacter : public ATopDownRPGCharacterBase , public IEnemyInterface
+class AURA_API AEnemyCharacter : public ATopDownRPGCharacterBase , public IEnemyInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 	
@@ -26,9 +27,12 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 
-	//~ Enemy Interface
+	//~ Highlight Interface
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	//~ Highlight Interface
+	
+	//~ Enemy Interface
 	virtual void SetCombatTarget_Implementation(AActor* InCombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() const override;
 	//~ Enemy Interface

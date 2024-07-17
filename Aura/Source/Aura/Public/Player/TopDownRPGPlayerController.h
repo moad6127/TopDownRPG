@@ -14,7 +14,7 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
-class IEnemyInterface;
+class IHighlightInterface;
 class UTopDownRPGInputConfig;
 class UTopDownRPGAbilitySystemComponent;
 class USplineComponent;
@@ -58,8 +58,8 @@ private:
 	TObjectPtr<UInputAction> ShiftAction;
 	bool bShiftKeyDown = false;
 
-	IEnemyInterface* LastActor;
-	IEnemyInterface* ThisActor;
+	IHighlightInterface* LastActor;
+	IHighlightInterface* ThisActor;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UTopDownRPGInputConfig> InputConfig;
