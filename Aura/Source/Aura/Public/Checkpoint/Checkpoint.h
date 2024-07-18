@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Aura/Aura.h"
 #include "GameFramework/PlayerStart.h"
 #include "Interaction/SaveInterface.h"
+#include "Interaction/HighlightInterface.h"
 #include "Checkpoint.generated.h"
 
 class USphereComponent;
@@ -12,7 +14,7 @@ class USphereComponent;
  * 
  */
 UCLASS()
-class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface
+class AURA_API ACheckpoint : public APlayerStart, public ISaveInterface, public IHighlightInterface
 {
 	GENERATED_BODY()
 public:
@@ -21,7 +23,8 @@ public:
 	//~ SaveInterface
 	virtual bool ShouldLoadTransform_Implementation() override { return false; }
 	virtual void LoadActor_Implementation() override;
- 
+	//~ SaveInterface
+
 	UPROPERTY(BlueprintReadOnly, SaveGame)
 	bool bReached = false;
 protected:
@@ -29,6 +32,18 @@ protected:
 	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappingComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	virtual void BeginPlay() override;
+
+	//~ HighlightInterface
+	virtual void SetMoveToLocation_Implementation(FVector& OutDestination) override;
+	virtual void HighlightActor_Implementation() override;
+	virtual void UnHighlightActor_Implementation() override;
+	//~ HighlightInterface
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USceneComponent> MoveToComp;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 CustomDepthStencilOverride = CUSTOM_DEPTH_TAN;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void CheckpointReached(UMaterialInstanceDynamic* DynamicMaterialInstance);

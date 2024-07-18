@@ -36,6 +36,12 @@ AEnemyCharacter::AEnemyCharacter()
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	
 	BaseWalkSpeed = 250.f;
+
+	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+	GetMesh()->MarkRenderStateDirty();
+	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
+	Weapon->MarkRenderStateDirty();
+
 }
 
 void AEnemyCharacter::PossessedBy(AController* NewController)
@@ -57,15 +63,18 @@ void AEnemyCharacter::PossessedBy(AController* NewController)
 void AEnemyCharacter::HighlightActor_Implementation()
 {
 	GetMesh()->SetRenderCustomDepth(true);
-	GetMesh()->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 	Weapon->SetRenderCustomDepth(true);
-	Weapon->SetCustomDepthStencilValue(CUSTOM_DEPTH_RED);
 }
 
 void AEnemyCharacter::UnHighlightActor_Implementation()
 {
 	GetMesh()->SetRenderCustomDepth(false);
 	Weapon->SetRenderCustomDepth(false);
+}
+
+void AEnemyCharacter::SetMoveToLocation_Implementation(FVector& OutDestination)
+{
+	// Do Not Change Out Destination;
 }
 
 void AEnemyCharacter::SetCombatTarget_Implementation(AActor* InCombatTarget)
