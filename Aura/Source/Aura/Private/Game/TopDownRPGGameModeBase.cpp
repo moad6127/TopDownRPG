@@ -69,7 +69,7 @@ void ATopDownRPGGameModeBase::SaveInGameProgressData(ULoadScreenSaveGame* SaveOb
 	UGameplayStatics::SaveGameToSlot(SaveObject, InGameLoadSlotName, InGameLoadSlotIndex);
 }
 
-void ATopDownRPGGameModeBase::SaveWorldState(UWorld* World) const
+void ATopDownRPGGameModeBase::SaveWorldState(UWorld* World, const FString& DestinationMapAssetName) const
 {
 	FString WorldName = World->GetMapName();
 	WorldName.RemoveFromStart(World->StreamingLevelsPrefix);
@@ -79,6 +79,11 @@ void ATopDownRPGGameModeBase::SaveWorldState(UWorld* World) const
 
 	if (ULoadScreenSaveGame* SaveGame = GetSaveSlotData(TopDownGI->LoadSlotName, TopDownGI->LoadSlotIndex))
 	{
+		if (DestinationMapAssetName != FString(""))
+		{
+			SaveGame->MapAssetName = DestinationMapAssetName;
+			SaveGame->MapName = GetMapNameFromMapAssetName(DestinationMapAssetName);
+		}
 		if (!SaveGame->HasMap(WorldName))
 		{
 			FSavedMap NewSavedMap;
@@ -172,6 +177,18 @@ void ATopDownRPGGameModeBase::TravelToMap(UMVVM_LoadSlot* Slot)
 	const int32 SlotInde = Slot->SlotIndex;
 
 	UGameplayStatics::OpenLevelBySoftObjectPtr(Slot, Maps.FindChecked(Slot->GetMapName()));
+}
+
+FString ATopDownRPGGameModeBase::GetMapNameFromMapAssetName(const FString& MapAssetName) const
+{
+	for (auto& Map : Maps)
+	{
+		if (Map.Value.ToSoftObjectPath().GetAssetName() == MapAssetName)
+		{
+			return Map.Key;
+		}
+	}
+	return FString();
 }
 
 AActor* ATopDownRPGGameModeBase::ChoosePlayerStart_Implementation(AController* Player)
