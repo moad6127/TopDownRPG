@@ -6,11 +6,14 @@
 #include "Game/TopDownRPGGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/SphereComponent.h"
+#include "Components/CapsuleComponent.h"
 
 AMapEntrance::AMapEntrance(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	Sphere->SetupAttachment(MoveToComp);
+	UCapsuleComponent* CapComp = GetCapsuleComponent();
+	CapComp->bDrawOnlyIfSelected = false;
 }
 
 void AMapEntrance::HighlightActor_Implementation()
