@@ -282,6 +282,23 @@ int32 ATopDownRPGCharacter::GetPlayerLevel_Implementation()
 	return TopDownRPGPlayerState->GetPlayerLevel();
 }
 
+void ATopDownRPGCharacter::Die(const FVector& DeathImpulse)
+{
+	Super::Die(DeathImpulse);
+
+	FTimerDelegate DeathTimerDelegate;
+	DeathTimerDelegate.BindLambda([this]()
+		{
+			ATopDownRPGGameModeBase* GameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
+			if (GameMode)
+			{
+				GameMode->PlayerDied(this);
+			}
+		});
+	GetWorldTimerManager().SetTimer(DeathTimer, DeathTimerDelegate, DeathTime, false);
+	TopDownCameraComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+}
+
 void ATopDownRPGCharacter::OnRep_Stunned()
 {
 	if (UTopDownRPGAbilitySystemComponent* ASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent))

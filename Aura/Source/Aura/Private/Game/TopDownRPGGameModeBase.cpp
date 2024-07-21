@@ -11,6 +11,7 @@
 #include "Interaction/SaveInterface.h"
 #include "Serialization/ObjectAndNameAsStringProxyArchive.h"
 #include "Aura/TopDownRPGLogChannels.h"
+#include "GameFramework/Character.h"
 
 void ATopDownRPGGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotIndex)
 {
@@ -21,6 +22,7 @@ void ATopDownRPGGameModeBase::SaveSlotData(UMVVM_LoadSlot* LoadSlot, int32 SlotI
 	LoadScreenSaveGame->SaveSlotStatus = Taken;
 	LoadScreenSaveGame->MapName = LoadSlot->GetMapName();
 	LoadScreenSaveGame->PlayerStartTag = LoadSlot->PlayerStartTag;
+	LoadScreenSaveGame->MapAssetName = LoadSlot->MapAssetName;
 
 	UGameplayStatics::SaveGameToSlot(LoadScreenSaveGame, LoadSlot->LoadSlotName, SlotIndex);
 }
@@ -215,6 +217,16 @@ AActor* ATopDownRPGGameModeBase::ChoosePlayerStart_Implementation(AController* P
 		return SelectedActor;
 	}
 	return nullptr;
+}
+
+void ATopDownRPGGameModeBase::PlayerDied(ACharacter* DeadCharacter)
+{
+	ULoadScreenSaveGame* SaveGame = RetrieveInGameSaveData();
+	if (!IsValid(SaveGame))
+	{
+		return;
+	}
+	UGameplayStatics::OpenLevel(DeadCharacter, FName(SaveGame->MapAssetName));
 }
 
 void ATopDownRPGGameModeBase::BeginPlay()
