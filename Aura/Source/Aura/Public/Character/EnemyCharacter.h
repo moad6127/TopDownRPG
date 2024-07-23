@@ -82,4 +82,6 @@ protected:
 	UPROPERTY()
 	TObjectPtr<ATopDownRPGAIController> TopDownRPGAIController;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnLoot();
 };

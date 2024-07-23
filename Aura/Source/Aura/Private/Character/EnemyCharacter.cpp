@@ -99,6 +99,7 @@ void AEnemyCharacter::Die(const FVector& DeathImpulse)
 	{
 		TopDownRPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	}
+	SpawnLoot();
 	Super::Die(DeathImpulse);
 }
 

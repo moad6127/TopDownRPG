@@ -186,6 +186,16 @@ UAbilityInfo* UTopDownRPGAbilitySystemLibrary::GetAbilityInfo(const UObject* Wor
 	return TopDownRPGGameMode->AbilityInfo;
 }
 
+ULootTiers* UTopDownRPGAbilitySystemLibrary::GetLootTiers(const UObject* WorldContextObject)
+{
+	const ATopDownRPGGameModeBase* TopDownRPGGameMode = Cast<ATopDownRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (TopDownRPGGameMode == nullptr)
+	{
+		return nullptr;
+	}
+	return TopDownRPGGameMode->LootTiers;
+}
+
 bool UTopDownRPGAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
 {
 	if (const FTopDownRPGGameplayEffectContext* TopDownRPGEffectContext = static_cast<const FTopDownRPGGameplayEffectContext*>(EffectContextHandle.Get()))

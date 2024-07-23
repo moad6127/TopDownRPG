@@ -16,6 +16,7 @@ class USpellMenuWidgetController;
 struct FWidgetControllerParams;
 class ATopDownRPGHUD;
 class ULoadScreenSaveGame;
+class ULootTiers;
 /**
  * 
  */
@@ -54,6 +55,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary | CharacterClassDefaults")
 	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "TopDownRPGAbilitySystemLibrary | CharacterClassDefaults")
+	static ULootTiers* GetLootTiers(const UObject* WorldContextObject);
 
 	//~ Effect Context Getter
 
