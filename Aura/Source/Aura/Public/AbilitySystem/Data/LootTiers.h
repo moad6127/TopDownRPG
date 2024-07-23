@@ -14,10 +14,10 @@ struct FLootItem
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category  = "LootTiers|Spawning")
 	TSubclassOf<AActor> LootClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LootTiers|Spawning")
+	UPROPERTY(EditAnywhere, Category = "LootTiers|Spawning")
 	float ChanceToSpawn = 0.f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LootTiers|Spawning")
+	UPROPERTY(EditAnywhere, Category = "LootTiers|Spawning")
 	int32 MaxNumberToSpawn = 1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "LootTiers|Spawning")
@@ -32,9 +32,9 @@ class AURA_API ULootTiers : public UDataAsset
 	GENERATED_BODY()
 	
 public:
-
+	UFUNCTION(BlueprintCallable)
 	TArray<FLootItem> GetLootItems();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "LootTiers|Spawning")
+	UPROPERTY(EditDefaultsOnly, Category = "LootTiers|Spawning")
 	TArray<FLootItem> LootItems;
 };
