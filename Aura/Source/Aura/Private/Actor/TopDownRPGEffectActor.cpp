@@ -4,19 +4,62 @@
 #include "Actor/TopDownRPGEffectActor.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 ATopDownRPGEffectActor::ATopDownRPGEffectActor()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
+}
+
+void ATopDownRPGEffectActor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	RunningTime += DeltaTime;
+	const float SinePeriod = 2 * PI / SinePeriodConstant;
+	if (RunningTime > SinePeriod)
+	{
+		RunningTime = 0.f;
+	}
+	ItemMovement(DeltaTime);
+}
+
+void ATopDownRPGEffectActor::ItemMovement(float DeltaTime)
+{
+	if (bRotates)
+	{
+		const FRotator DeltaRotaion(0.f, DeltaTime * RotationRate, 0.f);
+		CalculatedRotaion = UKismetMathLibrary::ComposeRotators(CalculatedRotaion, DeltaRotaion);
+	}
+	if (bSinusoidalMovement)
+	{
+		const float Sine = SineAmplitude * FMath::Sin(RunningTime * SinePeriodConstant);
+		CalculatedLocation = InitialLocation + FVector(0.f, 0.f, Sine);
+	}
 }
 
 
 void ATopDownRPGEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
+	InitialLocation = GetActorLocation();
+	CalculatedLocation = InitialLocation;
+	CalculatedRotaion = GetActorRotation();
+}
+
+void ATopDownRPGEffectActor::StartSinusoidalMovement()
+{
+	bSinusoidalMovement = true;
+	InitialLocation = GetActorLocation();
+	CalculatedLocation = InitialLocation;
+}
+
+void ATopDownRPGEffectActor::StartRotation()
+{
+	bRotates = true;
+	CalculatedRotaion = GetActorRotation();
 }
 
 void ATopDownRPGEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
@@ -111,5 +154,6 @@ void ATopDownRPGEffectActor::OnEndOverlap(AActor* TargetActor)
 		}
 	}
 }
+
 
 

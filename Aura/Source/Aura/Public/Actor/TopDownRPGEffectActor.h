@@ -34,8 +34,43 @@ class AURA_API ATopDownRPGEffectActor : public AActor
 public:	
 	ATopDownRPGEffectActor();
 
+	virtual void Tick(float DeltaTime) override;
+
 protected:
 	virtual void BeginPlay() override;
+
+
+	//~ LootTier Movement
+	UPROPERTY(BlueprintReadOnly)
+	FVector CalculatedLocation;
+
+	UPROPERTY(BlueprintReadOnly)
+	FRotator CalculatedRotaion;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bRotates = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float RotationRate = 45.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	bool bSinusoidalMovement = false;
+
+	UFUNCTION(BlueprintCallable)
+	void StartSinusoidalMovement();
+
+	UFUNCTION(BlueprintCallable)
+	void StartRotation();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SineAmplitude = 1.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	float SinePeriodConstant = 1.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup Movement")
+	FVector InitialLocation;
+	//~ LootTier Movement
 
 	UFUNCTION(BlueprintCallable)
 	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
@@ -77,4 +112,14 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Applied Effects")
 	float ActorLevel = 1.f;
+
+private:
+
+	//~ LootTier Movement
+
+	float RunningTime = 0.f;
+
+	void ItemMovement(float DeltaTime);
+	//~ LootTier Movement
+
 };
