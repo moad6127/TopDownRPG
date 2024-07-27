@@ -23,8 +23,7 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
   - [AbilitySystemComponent](#AbilitySystemComponent)
   - [AttributeSet](#AttributeSet)
   - [GameplayAbility](#GameplayAbility)
-  - [MVC 모델]
-  - [MVVM 모델]
+  - [UI](#UI)
   
 </p>
 </details>
@@ -75,6 +74,8 @@ GameplayAbiliy는 비동기식으로 AbilityTask를 통해 실행할수 있다.
 > GameplayTag는 GAS시스템에서만 사용하는게 아닌 GAS프로젝트가 아닌 다른 프로젝트에서도 사용할수 있지만 프로젝트에 필요한 것들을 식별하는데 매우 유용하며 자주 사용된다.
 
 ---------------------------------------------------------------------------------------------
+
+# *UI*
 
 
 
