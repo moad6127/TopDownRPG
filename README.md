@@ -15,6 +15,8 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
 속성을 통해 수학적으로 계산하며 사용할수 있도록 만들었다.
 >
 
+![Main](https://github.com/user-attachments/assets/85c72097-9694-4a92-a32d-e2517885a467)
+
 
 ## 목차
 <details><summary> 열기/ 닫기</summary>
@@ -32,9 +34,20 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
 # *AbilitySystemComponent*
 
 
->AbilitySystemComponent로 액터에 추가할수 있는 컴포넌트로
-GAS의 능력들을 사용하는데 필요한 모든 기능들을 담당하는 컴포넌트 이다
-즉, GAS기능을 사용하기 원하는 Character이면 AbilitySystemComponent가 추가되어야 한다.
+- [헤더파일 주소](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/AbilitySystem/TopDownRPGAbilitySystemComponent.h)
+- [CPP파일 주소](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/AbilitySystem/TopDownRPGAbilitySystemComponent.cpp)
+
+
+> AbilitySystemComponent로 액터에 추가할수 있는 컴포넌트로 GAS의 능력들을 사용하는데 필요한 모든 기능들을 담당하는 컴포넌트 이다 즉, GAS기능을 사용하기 원하는 액터라면 AbilitySystemComponent가 추가되어야 한다.
+대표적으로 GAS기능을 사용할 Character들에게 Ability와 Attribute를 적용하고 장착하는 기능들을 가지고 있다.
+
+
+>현재 프로젝트에서 Player가 Control하는 Character의 경우 PlayerState에 AbilitySystemComponet와 AttributeSet이 들어있으며 Enemy의 경우 Character클래스에 바로 포함되어 존재한다.
+
+![Aura_AbilitySystemComponent_AddAbility](https://github.com/user-attachments/assets/d9d3798e-5891-4dab-92e0-cefb9eea7752)
+
+> 위의 스크린샷처럼 Ability를 부여할수 있고 GameplayEffect로 Attribute를 추가해서 Attribute를 ApplyGameplayEffectSpecToTarget함수를 통해 부여할수 있다.
+
 
 ----------------------------------------------------------------------------------------------------
 
