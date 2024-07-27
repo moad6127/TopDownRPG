@@ -80,8 +80,8 @@ void UTopDownRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimePropert
 void UTopDownRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
-
 }
+
 void UTopDownRPGAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
 	//  Source = Causer of the effect, Target = Target of the effect(Owner of this AS)
@@ -150,6 +150,7 @@ void UTopDownRPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 		HandleIncomingXP(Props);
 	}
 }
+
 void UTopDownRPGAttributeSet::HandleIncomingDamage(const FEffectProperties& Props)
 {
 	//Damage
