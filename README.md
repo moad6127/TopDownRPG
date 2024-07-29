@@ -2,18 +2,12 @@
 
 *GAS(GameplayAbilitySystem)을 사용해서 RPG게임을 만들어보기*
 
->GAS(GameAbilitySystem)은 언리얼엔진에서 만든 프레임 워크로 매우 유연하다.
-캐릭터가 사용할 액션이나 패시브능력, 상태효과를 구축할수있고
-이러한 효과의 결과로 다양한 속성들이 생기거나 닳게 만들수 있다
-또한 이러한 효과를 조절하는 쿨타임과 능력에 필요한 리소스비용들을 설정해 능력을 사용할때마다 리소스를 사용하게 만들수 있다.(RPG게임의 Mana와 Cooldown같이)
-각각의 능력들에 레벨을 넣거나 입자나 사운드같은 효과를 활성화 하는 작업도 편리하게 사용할수 있게 만들었다.
-
 <br/> <br>
 
->공부한 프로젝트는 기본적인 RPG게임을 Unreal의 GAS로 만든 프로젝트로
+>이 프로젝트는 기본적인 RPG게임을 Unreal의 GAS를 활용해서 만든 프로젝트로
 GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하고 능력에 필요한 리소스들과 능력의 Damage들을
 속성을 통해 수학적으로 계산하며 사용할수 있도록 만들었다.
->
+
 
 ![Main](https://github.com/user-attachments/assets/85c72097-9694-4a92-a32d-e2517885a467)
 
@@ -22,16 +16,27 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
 <details><summary> 열기/ 닫기</summary>
 <p>
   
-  - [AbilitySystemComponent](#AbilitySystemComponent)
-  - [AttributeSet](#AttributeSet)
-  - [GameplayAbility](#GameplayAbility)
-  - [UI](#UI)
+  * [AbilitySystem](#AbilitySystem)
+    * [AbilitySystemComponent](#AbilitySystemComponent)
+    * [AttributeSet](#AttributeSet)
+    * [GameplayAbility](#GameplayAbility)
+  * [UI](#UI)
+  * [GameSave](#GameSave) 
   
 </p>
 </details>
 <br/> <br>
 
-# *AbilitySystemComponent*
+# *AbilitySystem*
+
+>GAS(GameAbilitySystem)은 언리얼엔진에서 만든 프레임 워크로 매우 유연하다.
+캐릭터가 사용할 액션이나 패시브능력, 상태효과를 구축할수있고
+이러한 효과의 결과로 다양한 속성들이 생기거나 닳게 만들수 있다
+또한 이러한 효과를 조절하는 쿨타임과 능력에 필요한 리소스비용들을 설정해 능력을 사용할때마다 리소스를 사용하게 만들수 있다.(RPG게임의 Mana와 Cooldown같이)
+각각의 능력들에 레벨을 넣거나 입자나 사운드같은 효과를 활성화 하는 작업도 편리하게 사용할수 있게 만들었다.
+
+
+## *AbilitySystemComponent*
 
 
 - [헤더파일 주소](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/AbilitySystem/TopDownRPGAbilitySystemComponent.h)
@@ -52,8 +57,10 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
 ----------------------------------------------------------------------------------------------------
 
 
-# *AttributeSet*
+## *AttributeSet*
 
+- [헤더파일 주소](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/AbilitySystem/TopDownRPGAttributeSet.h)
+- [CPP파일 주소](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/AbilitySystem/TopDownRPGAttributeSet.cpp)
 
 >게임에 주어진 개체나 캐릭터가 가지고있는 속성들로
 게임에서 사용되는 체력이나 마나뿐아니라,
@@ -61,7 +68,7 @@ RPG에서 주로 사용되는 힘,민,체 같은 것들도 AttributeSet을 통�
 
 ----------------------------------------------------------------------------------------------------
 
-# *GameplayAbility*
+## *GameplayAbility*
 
 
 > GameplayAbility는 어떤기능들을 캡슐화하여 사용하는 클래스로
