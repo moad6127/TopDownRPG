@@ -66,6 +66,31 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
 게임에서 사용되는 체력이나 마나뿐아니라,
 RPG에서 주로 사용되는 힘,민,체 같은 것들도 AttributeSet을 통해 Character에게 부여할수 있다.
 
+![Aura_AttributeSet_Accessors](https://github.com/user-attachments/assets/2c44419b-7279-4b23-a47f-13527330995d)
+![Aura_AttributeSet_PrimaryAttributes](https://github.com/user-attachments/assets/681fe2fb-e6ee-489e-ab12-070032ac199d)
+
+>Accessors 메크로를 사용해서 Getter,Setter등을 한번에 만들어서 C++코드를 통해 사용할수 있다.
+
+<br/> <br>
+
+
+![Aura_AttributeSet_PostGameplayEffectExecute](https://github.com/user-attachments/assets/a41b4bc8-b4dc-4cf2-81c2-4e3b0a2e980d)
+
+>AttributeSet의 내부의 함수를 통해 Data가 들어오면 Attribute를 비교해서 해당 Attribute의 값을 변경시킬수 있다.
+현재 프로젝트는 GameplayEffect를 통해서 Attribute를 부여하기 때문에 PostGameplayEffectExecute함수를 통해서 Data를 받고 Attribute의 값을 조절한다.
+
+<br/> <br>
+
+
+![Aura_AttributeSet_Pramary](https://github.com/user-attachments/assets/6f5dd4cc-11f0-4313-a251-a55d44f39a31)
+![Aura_AttributeSet_Secndary](https://github.com/user-attachments/assets/02ec81b9-eb11-4071-911f-85d3f81a2a3b)
+
+>에디터로 GameplayEffect를 만들고 Modfiers를 통해 Attribute의 값을 설정한다.
+필수적인Strength, Intelligence, Resilience, Vigor는 변수를 직접 넣어서 값을 정하며
+SecondaryAttribute는 필수변수인 4가지를 Attribute Based로 계산을 통해 값을 정해서 사용하게 만들었다.
+
+<br/> <br>
+
 ----------------------------------------------------------------------------------------------------
 
 ## *GameplayAbility*
