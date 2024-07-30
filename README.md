@@ -20,6 +20,7 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
     * [AbilitySystemComponent](#AbilitySystemComponent)
     * [AttributeSet](#AttributeSet)
     * [GameplayAbility](#GameplayAbility)
+  * [GameplayTag](#GameplayTag)
   * [UI](#UI)
   * [GameSave](#GameSave) 
   
@@ -66,10 +67,14 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
 게임에서 사용되는 체력이나 마나뿐아니라,
 RPG에서 주로 사용되는 힘,민,체 같은 것들도 AttributeSet을 통해 Character에게 부여할수 있다.
 
-![Aura_AttributeSet_Accessors](https://github.com/user-attachments/assets/2c44419b-7279-4b23-a47f-13527330995d)
-![Aura_AttributeSet_PrimaryAttributes](https://github.com/user-attachments/assets/681fe2fb-e6ee-489e-ab12-070032ac199d)
+<img src="https://github.com/user-attachments/assets/2c44419b-7279-4b23-a47f-13527330995d" width=50% height=50%>
+<img src="https://github.com/user-attachments/assets/681fe2fb-e6ee-489e-ab12-070032ac199d" width=70% height=70%>
 
->Accessors 메크로를 사용해서 Getter,Setter등을 한번에 만들어서 C++코드를 통해 사용할수 있다.
+>Accessors 메크로를 사용해서 Getter,Setter등을 한번에 만들어서 C++코드를 통해 사용할수 있게 만들수 있다.
+
+
+>PrimaryAttribute 4종류의 변수를 코드로 나타내면 이런식이 된다.
+
 
 <br/> <br>
 
@@ -77,7 +82,10 @@ RPG에서 주로 사용되는 힘,민,체 같은 것들도 AttributeSet을 통�
 ![Aura_AttributeSet_PostGameplayEffectExecute](https://github.com/user-attachments/assets/a41b4bc8-b4dc-4cf2-81c2-4e3b0a2e980d)
 
 >AttributeSet의 내부의 함수를 통해 Data가 들어오면 Attribute를 비교해서 해당 Attribute의 값을 변경시킬수 있다.
-현재 프로젝트는 GameplayEffect를 통해서 Attribute를 부여하기 때문에 PostGameplayEffectExecute함수를 통해서 Data를 받고 Attribute의 값을 조절한다.
+현재 프로젝트는 GameplayEffect를 통해서 Attribute의 부여와 변경을 하기 때문에 PostGameplayEffectExecute함수를 통해서 Data를 받고 Attribute의 값을 조절한다.
+
+> PostGameplayEffectExecute함수 말고도 AttributeChange함수를 통해서 Attribute가 변경될때의 시점을 확인해서 값을 변경시킬 수 있다.
+> 
 
 <br/> <br>
 
@@ -122,6 +130,10 @@ GameplayAbiliy는 비동기식으로 AbilityTask를 통해 실행할수 있다.
 
 # *UI*
 
+---------------------------------------------------------------------------------------------
 
+# *GameSave*
+
+---------------------------------------------------------------------------------------------
 
 
