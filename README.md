@@ -82,20 +82,25 @@ RPG에서 주로 사용되는 힘,민,체 같은 것들도 AttributeSet을 통�
 ![Aura_AttributeSet_PostGameplayEffectExecute](https://github.com/user-attachments/assets/a41b4bc8-b4dc-4cf2-81c2-4e3b0a2e980d)
 
 >AttributeSet의 내부의 함수를 통해 Data가 들어오면 Attribute를 비교해서 해당 Attribute의 값을 변경시킬수 있다.
-현재 프로젝트는 GameplayEffect를 통해서 Attribute의 부여와 변경을 하기 때문에 PostGameplayEffectExecute함수를 통해서 Data를 받고 Attribute의 값을 조절한다.
+위의 스크린샷은 GameplayEffect를 통해서 Attribute의 변경을 위한 함수인PostGameplayEffectExecute함수로 Data를 받고 Attribute의 값을 조절한다.
 
-> PostGameplayEffectExecute함수 말고도 AttributeChange함수를 통해서 Attribute가 변경될때의 시점을 확인해서 값을 변경시킬 수 있다.
-> 
+> GameplayEffectExecute함수 말고도 AttributeChange함수를 통해서 Attribute가 변경될때의 시점을 확인해서 값을 변경시킬 수 있다.
+각각의 함수들은 Post와 Pre의 함수들이 있으며 이름에 맞게 들어오기 전과 후의 값을 변경시킬수 있는 함수들이다.
+
 
 <br/> <br>
 
 
 ![Aura_AttributeSet_Pramary](https://github.com/user-attachments/assets/6f5dd4cc-11f0-4313-a251-a55d44f39a31)
 ![Aura_AttributeSet_Secndary](https://github.com/user-attachments/assets/02ec81b9-eb11-4071-911f-85d3f81a2a3b)
+<img src="https://github.com/user-attachments/assets/c4319aa4-b1c2-47fd-8b17-6baa1591eb97" width=70% height=70%>
 
->에디터로 GameplayEffect를 만들고 Modfiers를 통해 Attribute의 값을 설정한다.
-필수적인Strength, Intelligence, Resilience, Vigor는 변수를 직접 넣어서 값을 정하며
-SecondaryAttribute는 필수변수인 4가지를 Attribute Based로 계산을 통해 값을 정해서 사용하게 만들었다.
+
+> 에디터를 통해 GameplayEffect를 만들고 Modifire를 통해서 Attribute의 값을 정할수 있다.
+필수적인Strength, Intelligence, Resilience, Vigor는 변수를 에디터에서 직접 넣어서 값을 정하며
+SecondaryAttribute는 필수변수인 4가지를 Attribute Based로 에디터에서 계산을 통해 값을 정해서 사용하게 만들었다.
+또한 MMC(ModMagnitudeCalculation)를 사용해서 Player의 Attribute가 아닌값을 참조해서 Attribute의 값을 정할수도 있게 만들수 있다.
+
 
 <br/> <br>
 
