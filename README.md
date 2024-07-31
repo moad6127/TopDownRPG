@@ -91,20 +91,31 @@ RPG에서 주로 사용되는 힘,민,체 같은 것들도 AttributeSet을 통�
 <br/> <br>
 
 
-![Aura_AttributeSet_Pramary](https://github.com/user-attachments/assets/6f5dd4cc-11f0-4313-a251-a55d44f39a31)
-![Aura_AttributeSet_Secndary](https://github.com/user-attachments/assets/02ec81b9-eb11-4071-911f-85d3f81a2a3b)
-<img src="https://github.com/user-attachments/assets/c4319aa4-b1c2-47fd-8b17-6baa1591eb97" width=70% height=70%>
 
-
-> 에디터를 통해 GameplayEffect를 만들고 Modifire를 통해서 Attribute의 값을 정할수 있다.
-필수적인Strength, Intelligence, Resilience, Vigor는 변수를 에디터에서 직접 넣어서 값을 정하며
-SecondaryAttribute는 필수변수인 4가지를 Attribute Based로 에디터에서 계산을 통해 값을 정해서 사용하게 만들었다.
-또한 MMC(ModMagnitudeCalculation)를 사용해서 Player의 Attribute가 아닌값을 참조해서 Attribute의 값을 정할수도 있게 만들수 있다.
-
-
-<br/> <br>
 
 ----------------------------------------------------------------------------------------------------
+## *GameplayEffec*
+
+> GameplayEffect는 Attribute의 값들을 변경할때 사용되는 클래스 이다.
+Modifre를 통해서 Attribute의 값들을 변경할수 있으며 종류로 Add, Multiply, Divide, Override가 있으며
+>  Modifre Magnitude에 따라서 Scalable Float, Attribute Based, Custom Calculation Class(MMC), SetByCaller가 있다.
+
+<br/> <br>
+<br/> <br>
+
+![Aura_AttributeSet_Pramary](https://github.com/user-attachments/assets/6f5dd4cc-11f0-4313-a251-a55d44f39a31)
+> 위의 스크린샷처럼 필수적인Strength, Intelligence, Resilience, Vigor는 변수는  Modifre Magnitude의 Scalable Float을 사용해서 값을 직접넣거나 DataTable의 값을 지정해서 넣을수 있다.
+
+<br/> <br>
+![Aura_AttributeSet_Secndary](https://github.com/user-attachments/assets/02ec81b9-eb11-4071-911f-85d3f81a2a3b)
+> SecondaryAttribute는 필수변수인 4가지의 Attribute를 Attribute Based방식으로 에디터에서 계산을 통해 값을 정해서 사용하게 만들었다.
+
+<br/> <br>
+<img src="https://github.com/user-attachments/assets/c4319aa4-b1c2-47fd-8b17-6baa1591eb97" width=70% height=70%>
+> MaxHealth와 MaxMana는 Player의 Attribute뿐아니라 PlayerLevel도 값을 정하는데 추가하기 위해 MMC(ModMagnitudeCalculation)를 사용해서 Attribute의 값을 만들었다.
+
+-----------------------------------------------------------------------------------------------------
+
 
 ## *GameplayAbility*
 
@@ -115,12 +126,7 @@ GameplayAbiliy는 비동기식으로 AbilityTask를 통해 실행할수 있다.
 
 ------------------------------------------------------------------------------------------------------
 
-## *GameplayEffec*
 
-> GameplayEffect는 실행되면 속성의 값들을 변경하는데 사용되는 능력으로 속성과 관련된 반응들을 담당한다.
-
-
------------------------------------------------------------------------------------------------------
 
 ## *GameplayCue*
 
