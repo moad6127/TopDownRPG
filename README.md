@@ -21,7 +21,6 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
     * [AttributeSet](#AttributeSet)
     * [GameplayAbility](#GameplayAbility)
   * [GameplayTag](#GameplayTag)
-  * [UI](#UI)
   * [GameSave](#GameSave) 
   
 </p>
@@ -118,8 +117,8 @@ Modifre를 통해서 Attribute의 값들을 변경할수 있으며 종류로 Add
 
 ## *GameplayAbility*
 
-[헤더 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Public/AbilitySystem/Abilities)
-[CPP 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Private/AbilitySystem/Abilities)
+- [헤더 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Public/AbilitySystem/Abilities)
+- [CPP 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Private/AbilitySystem/Abilities)
 
 > GameplayAbility는 GAS를 사용하는 Actor가 프로젝트에서 수행할수 있는 행동이나 기술을 모두 포함하는 능력이다.
 비동기적으로 사용되며 특정한 시점에서 활성화되면 Task를 진행하며 필요한 작업을 하게 된다.
@@ -141,16 +140,19 @@ Player들은 Offensive능력과 Passive능력을 가지고 있으며 Enemy를 �
 이것들 또한 GameplayEffect를 사용해서 GameplayAbility에 등록시키고 GameplayAbility내부의 Commit함수를 사용해 Cooldown과 cost를 지불하게 만든다.
 
 
-<img src="https://github.com/user-attachments/assets/befaa399-e9a2-401d-a602-158805fea8f2">
->능력을 사용하면 정해준 Cooldown시간이 있으며 시간동안에 능력을 다시 사용할수 없게 만든다.
+<p align="center"><img src="https://github.com/user-attachments/assets/befaa399-e9a2-401d-a602-158805fea8f2">
 
+>능력을 사용하면 정해준 Cooldown시간이 있으며 시간동안에 능력을 다시 사용할수 없게 만든다.
 
 
 ------------------------------------------------------------------------------------------------------
 
 
-
 ## *GameplayCue*
+
+> GameplayCue는 능력에 사용되는 Sound나 VFX등의 연출을 화면에 보여주게 만들어주는 기능으로 기본적으로 Replicate를 지원하기 때문에 멀티플레이를 사용할때 Client의 화면에도 보여줄수 있다.
+
+> GameplayCue를 사용할때 필요한 Parameter를 Input으로 넣어주면 Cue의 동작에 필요한 것들을 획득할수 있으며 이러한 Parameter를 활용해서 어느위치에 어떤 효과를 사용할지 만들수 있다.
 
 ----------------------------------------------------------------------------------------------------
 
@@ -161,9 +163,6 @@ Player들은 Offensive능력과 Passive능력을 가지고 있으며 Enemy를 �
 
 ---------------------------------------------------------------------------------------------
 
-# *UI*
-
----------------------------------------------------------------------------------------------
 
 # *GameSave*
 
