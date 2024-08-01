@@ -116,13 +116,35 @@ Modifre를 통해서 Attribute의 값들을 변경할수 있으며 종류로 Add
 
 -----------------------------------------------------------------------------------------------------
 
-
 ## *GameplayAbility*
 
+[헤더 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Public/AbilitySystem/Abilities)
+[CPP 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Private/AbilitySystem/Abilities)
 
-> GameplayAbility는 어떤기능들을 캡슐화하여 사용하는 클래스로
-간단히 말해서 게임에서 플레이어나 Enemy등이 사용하는 능력들을 모두 GameplayAbility로 만들어진다.
-GameplayAbiliy는 비동기식으로 AbilityTask를 통해 실행할수 있다.
+> GameplayAbility는 GAS를 사용하는 Actor가 프로젝트에서 수행할수 있는 행동이나 기술을 모두 포함하는 능력이다.
+비동기적으로 사용되며 특정한 시점에서 활성화되면 Task를 진행하며 필요한 작업을 하게 된다.
+GAS에서는 능력에 필요한 리소스를 사용하게하는 Cost와 Cooldown이 포함되어 있어서 비교적 쉽게 이것들을 사용할수 있게 만들수 있다.
+
+> Ability를 사용하기 위해서는 AbilitySystemComponen에 해당 Ability를 부여한다음 활성화 단계를 거쳐야 하며 현재 프로젝트는 부여를 하자마자 바로 활성화 하는 Passive능력이 있으며 특정 시점에 사용할수 있는 Offensive능력이 있다. 또한 Damage를 주거나 받는 Ability와 XP를 획득하는 Non타입의 Ability도 존재한다.
+
+### ProjectAbiliteis
+
+> 현재 프로젝트에서는 Player가 사용하는 능력들과 Enemy들이 사용하는 공격 능력등이 있다.
+Player들은 Offensive능력과 Passive능력을 가지고 있으며 Enemy를 처리할때 획득할 XP를 증가시키는 Ability도 존재한다.
+ 
+![ArcaneShardAbility](https://github.com/user-attachments/assets/4be4f35a-4256-4ff6-b2c8-31902bfef880)
+> Player의 Ability중 하나인 ArcaneShard공격이다.
+
+## Cooldown && Cost
+
+> GameplayAbility는 Cooldown과 게임에서 리소스로 사용할것을 지불하는 Cost능력이 기본적으로 존재한다.
+이것들 또한 GameplayEffect를 사용해서 GameplayAbility에 등록시키고 GameplayAbility내부의 Commit함수를 사용해 Cooldown과 cost를 지불하게 만든다.
+
+
+<img src="https://github.com/user-attachments/assets/befaa399-e9a2-401d-a602-158805fea8f2">
+>능력을 사용하면 정해준 Cooldown시간이 있으며 시간동안에 능력을 다시 사용할수 없게 만든다.
+
+
 
 ------------------------------------------------------------------------------------------------------
 
