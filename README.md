@@ -166,11 +166,15 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 즉, AbilitySystemComponent에는 Tag를 부여하거나 확인할수 있는 Interface가 기본적으로 존재하며 해당 Interface함수를 사용해서 Tag를 확인하거나 가져올수 있다.   
 프로젝트에 존재하는 Input, Ability, Attribute, DamageType, Buff/Debuff등등 모든 것들을 Tag로 만들어서 필요할때 사용가능하게 만들었다.   
 
+- [헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/TopDownRPGGameplayTags.h)
+- [C++ 파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/TopDownRPGGameplayTags.cpp)
+
+<img src="https://github.com/user-attachments/assets/b1f49723-6abe-4f70-971d-66cb7e90d9a9" width=70% height=70%>
+
 > GameplayTag는 에디터의 프로젝트 세팅이나, DataTable등을 사용해서 만들수 있지만, 이번 프로젝트에서는 Native방식으로 C++의 코드에서 사용이 가능하도록 Singleton방식으로 만들었다.
 
-[헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/TopDownRPGGameplayTags.h)
-[C++ 파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/TopDownRPGGameplayTags.cpp)
-
+![AssetManager_Init](https://github.com/user-attachments/assets/1b82e5f5-fc6d-45aa-9ae6-6b71c11092cd)
+>AssetManager를 사용해서 GaemplayTag의 초기화를 사용하면 C++뿐 아니라 에디터에서도 사용이 가능해진다.
 
 ---------------------------------------------------------------------------------------------
 
