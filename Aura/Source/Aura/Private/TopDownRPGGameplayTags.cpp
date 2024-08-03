@@ -9,7 +9,6 @@ FTopDownRPGGameplayTags FTopDownRPGGameplayTags::GameplayTags;
 void FTopDownRPGGameplayTags::InitializeNativeGameplayTags()
 {
 	//~ Primary Attributes
-
 	GameplayTags.Attributes_Primary_Strength = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.Primary.Strength"),
 		FString("Increases physical damage")
