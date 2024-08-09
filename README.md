@@ -126,6 +126,9 @@ GAS에서는 능력에 필요한 리소스를 사용하게하는 Cost와 Cooldow
 
 > Ability를 사용하기 위해서는 AbilitySystemComponen에 해당 Ability를 부여한다음 활성화 단계를 거쳐야 하며 현재 프로젝트는 부여를 하자마자 바로 활성화 하는 Passive능력이 있으며 특정 시점에 사용할수 있는 Offensive능력이 있다. 또한 Damage를 주거나 받는 Ability와 XP를 획득하는 Non타입의 Ability도 존재한다.
 
+> Ability에는 Tag가 존재하며 Tag가 들어오면 Tag를 확인하여 해당 Tag에 맞는 Ability를 실행 시킬수 있으며,
+Tag를 통해 현재 Ability가 어떤 Tag를 가지고 있고 Sorce와 Target에 Tag를 부여할수도 있으며 특정 Tag가 존재할경우 해당능력을 사용하지 못하게 할 수도 있다.
+
 ### ProjectAbiliteis
 
 > 현재 프로젝트에서는 Player가 사용하는 능력들과 Enemy들이 사용하는 공격 능력등이 있다.
@@ -134,15 +137,39 @@ Player들은 Offensive능력과 Passive능력을 가지고 있으며 Enemy를 �
 ![ArcaneShardAbility](https://github.com/user-attachments/assets/4be4f35a-4256-4ff6-b2c8-31902bfef880)
 > Player의 Ability중 하나인 ArcaneShard공격이다.
 
-## Cooldown && Cost
+## AbilityCost
 
 > GameplayAbility는 Cooldown과 게임에서 리소스로 사용할것을 지불하는 Cost능력이 기본적으로 존재한다.
 이것들 또한 GameplayEffect를 사용해서 GameplayAbility에 등록시키고 GameplayAbility내부의 Commit함수를 사용해 Cooldown과 cost를 지불하게 만든다.
 
+![GameplayAbility_CooldownAndCost](https://github.com/user-attachments/assets/a64b350e-3741-4551-b47c-3bcf4a2acaef)
 
-<p align="center"><img src="https://github.com/user-attachments/assets/befaa399-e9a2-401d-a602-158805fea8f2">
+> GameplayAbility의 블루프린트에서 Commit함수를 사용하는 모습이다. CommitAbility를 사용하면 Cost와 Cooldown을 모두 사용하며 각각 따로 사용하는 CommitAbilityCooldown과 CommitAbilityCost함수가 존재한다.
 
+
+<img src="https://github.com/user-attachments/assets/befaa399-e9a2-401d-a602-158805fea8f2">
+  
 >능력을 사용하면 정해준 Cooldown시간이 있으며 시간동안에 능력을 다시 사용할수 없게 만든다.
+
+
+![GameplayAbility_CostEffect](https://github.com/user-attachments/assets/21beea95-7f30-4129-a2a1-12da124b62df)
+
+> Cost를 사용하기위해 GameplayEffect를 만들고 Effect를 설정한 모습이다. Cost도 결국 프로젝트의 Attribute의 Mana를 사용하기때문에 Effect를 만들고 사용하게 된다.
+
+## AbilityCooldown
+![GameplayAbility_CooldownTag](https://github.com/user-attachments/assets/8f0f05d8-018b-4ca1-ab50-671d09464f7b)
+
+> Cooldown을 사용하기 위해서는 CooldownTag가 존재해야 하며 CooldownEffect블루프린트에서 Tag를 설정해야 한다.
+
+![GameplayAbility_CooldownEffect](https://github.com/user-attachments/assets/294c261a-fe93-4959-a1fd-18f6fd2e5a8a)
+
+> Cooldown의 Effect설정이다.
+> Has Duration으로 설정하며 Cooldown시간만큼 Float을 설정해서 사용한다.
+
+![GameplayAbility_SetCooldownAndCost](https://github.com/user-attachments/assets/27578c17-329d-4aa1-bae1-8913a9375704)
+
+> 에디터의 GameplayAbility의 블루프린트에서 CooldownEffect와 CostEffect를 설정한 모습이다.
+> Cooldown과 cost를 설정한후 Commit함수를 사용하면 간단하게 Cooldown과 cost기능을 사용할수 있게 된다.
 
 
 ------------------------------------------------------------------------------------------------------
