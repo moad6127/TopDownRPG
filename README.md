@@ -137,7 +137,7 @@ Player들은 Offensive능력과 Passive능력을 가지고 있으며 Enemy를 �
 ![ArcaneShardAbility](https://github.com/user-attachments/assets/4be4f35a-4256-4ff6-b2c8-31902bfef880)
 > Player의 Ability중 하나인 ArcaneShard공격이다.
 
-## Cooldown && Cost
+## AbilityCost
 
 > GameplayAbility는 Cooldown과 게임에서 리소스로 사용할것을 지불하는 Cost능력이 기본적으로 존재한다.
 이것들 또한 GameplayEffect를 사용해서 GameplayAbility에 등록시키고 GameplayAbility내부의 Commit함수를 사용해 Cooldown과 cost를 지불하게 만든다.
@@ -156,9 +156,20 @@ Player들은 Offensive능력과 Passive능력을 가지고 있으며 Enemy를 �
 
 > Cost를 사용하기위해 GameplayEffect를 만들고 Effect를 설정한 모습이다. Cost도 결국 프로젝트의 Attribute의 Mana를 사용하기때문에 Effect를 만들고 사용하게 된다.
 
+## AbilityCooldown
 ![GameplayAbility_CooldownTag](https://github.com/user-attachments/assets/8f0f05d8-018b-4ca1-ab50-671d09464f7b)
 
 > Cooldown을 사용하기 위해서는 CooldownTag가 존재해야 하며 CooldownEffect블루프린트에서 Tag를 설정해야 한다.
+
+![GameplayAbility_CooldownEffect](https://github.com/user-attachments/assets/294c261a-fe93-4959-a1fd-18f6fd2e5a8a)
+
+> Cooldown의 Effect설정이다.
+> Has Duration으로 설정하며 Cooldown시간만큼 Float을 설정해서 사용한다.
+
+![GameplayAbility_SetCooldownAndCost](https://github.com/user-attachments/assets/27578c17-329d-4aa1-bae1-8913a9375704)
+
+> 에디터의 GameplayAbility의 블루프린트에서 CooldownEffect와 CostEffect를 설정한 모습이다.
+> Cooldown과 cost를 설정한후 Commit함수를 사용하면 간단하게 Cooldown과 cost기능을 사용할수 있게 된다.
 
 
 ------------------------------------------------------------------------------------------------------
