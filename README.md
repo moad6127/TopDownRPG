@@ -205,8 +205,50 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 ---------------------------------------------------------------------------------------------
 
+# *UI*
+
+![UI_main](https://github.com/user-attachments/assets/35513ddd-d330-4e5a-884b-e7daae95fa52)
+
+- [UI헤더 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Public/UI)
+- [UI C++ 파일들](https://github.com/moad6127/TopDownRPG/tree/master/Aura/Source/Aura/Private/UI)
+
+> 해당 프로젝트의 UI는 GAS를 사용하여 데이터를 주고받아야 하기때문에 화면에 보여지는 View와 GAS의 Data를 한번에 연결하지 않고, View와 Data사이에 Controller를 두는 MVC아키텍쳐 모델을 사용한다
+
+- [HUD 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/HUD/TopDownRPGHUD.h)
+- [HUD C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/HUD/TopDownRPGHUD.cpp)
+
+## *Widget*
+
+- [헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/Widget/TopDownRPGUserWidget.h)
+- [C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/Widget/TopDownRPGUserWidget.cpp)
+
+
+## Overlay 
+
+<img src="https://github.com/user-attachments/assets/71395aa9-31ba-4820-bc81-7b43493663e5" width=70% height=70%>
+
+- [헤더 파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/WidgetController/OverlayWidgetController.h)
+- [C++ 파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/WidgetController/OverlayWidgetController.cpp)
+
+> HUD를 통해서 Player의 화면에 보여주는 UI로 기본적인 HealthGlobe, ManaGlobe가 있으며 Player가 SpellAbility를 장착할경우 화면에 표시되게 만든다.
+> AttributeMenu와 SpellMenu가 존재하여 해당 버튼을 클릭할경우 Attribute와 SpellMenu를 화면에 표시할수 있다.
+
+
+## AttributeMenu
+
+
+
+
+## SpellMenu
+
+
+
+
+---------------------------------------------------------------------------------------------
 
 # *GameSave*
+
+
 
 ---------------------------------------------------------------------------------------------
 
