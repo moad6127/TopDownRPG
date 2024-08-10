@@ -222,6 +222,14 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 - [헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/Widget/TopDownRPGUserWidget.h)
 - [C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/Widget/TopDownRPGUserWidget.cpp)
 
+> 이번 프로젝트에서 Overlay와 AttributeMenu,SpellMenu에 사용된 Widget은 전부 해당 Widget클래스를 부모로 블루프린트로 만들어져서 사용된다.
+
+<img src="https://github.com/user-attachments/assets/47e23b1a-8aa5-4462-8c30-3a08d7fa5e64" width=70% height=70%>
+<img src="https://github.com/user-attachments/assets/1eeb326e-dd3c-4957-b7d1-3717896f0160" width=70% height=70%>
+
+> 해당 클래스는 Controller변수만 담고있고, Setter를 사용해서 Widget에 사용되는 Controller를 설정하는 기능만 존재하며,
+> BlueprintImplementableEvent UFUNCTION을 사용해서 WidgetController가 Set되면 블루프린트 이벤트가 호출되도록 만들었다.
+
 
 ## Overlay 
 
@@ -232,6 +240,7 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 > HUD를 통해서 Player의 화면에 보여주는 UI로 기본적인 HealthGlobe, ManaGlobe가 있으며 Player가 SpellAbility를 장착할경우 화면에 표시되게 만든다.
 > AttributeMenu와 SpellMenu가 존재하여 해당 버튼을 클릭할경우 Attribute와 SpellMenu를 화면에 표시할수 있다.
+
 
 
 ## AttributeMenu
