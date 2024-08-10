@@ -344,7 +344,7 @@ void ATopDownRPGCharacter::InitAbilityActorInfo()
 	AbilitySystemComponent = TopDownRPGPlayerState->GetAbilitySystemComponent();
 	AttributesSet = TopDownRPGPlayerState->GetAttributeSet();
 	OnASCRegisterd.Broadcast(AbilitySystemComponent);
-	AbilitySystemComponent->RegisterGameplayTagEvent(FTopDownRPGGameplayTags::Get().Debuff_Stun, EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ATopDownRPGCharacter::StunTagChanged);
+	AbilitySystemComponent->RegisterGameplayTagEvent(FTopDownRPGGameplayTags::Get().Debuff_Stun,EGameplayTagEventType::NewOrRemoved).AddUObject(this, &ATopDownRPGCharacter::StunTagChanged);
 
 	if (ATopDownRPGPlayerController* TopDownPlayerController = Cast<ATopDownRPGPlayerController>(GetController()))
 	{
