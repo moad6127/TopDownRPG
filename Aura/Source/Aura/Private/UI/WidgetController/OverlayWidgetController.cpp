@@ -11,8 +11,6 @@
 
 void UOverlayWidgetController::BroadcastInitialValue()
 {
-
-
 	OnHealthChanged.Broadcast(GetTopDownRPGAS()->GetHealth());
 	OnMaxHealthChanged.Broadcast(GetTopDownRPGAS()->GetMaxHealth());
 	OnManaChanged.Broadcast(GetTopDownRPGAS()->GetMana());
