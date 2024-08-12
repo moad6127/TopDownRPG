@@ -235,13 +235,35 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 <img src="https://github.com/user-attachments/assets/71395aa9-31ba-4820-bc81-7b43493663e5" width=70% height=70%>
 
-- [헤더 파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/WidgetController/OverlayWidgetController.h)
-- [C++ 파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/WidgetController/OverlayWidgetController.cpp)
+- [OverlayController 헤더](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/WidgetController/OverlayWidgetController.h)
+- [OverlayController C++](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/WidgetController/OverlayWidgetController.cpp)
 
-> HUD를 통해서 Player의 화면에 보여주는 UI로 기본적인 HealthGlobe, ManaGlobe가 있으며 Player가 SpellAbility를 장착할경우 화면에 표시되게 만든다.
+> HUD를 통해서 Player의 화면에 보여주는 UI로 기본적인 HealthGlobe, ManaGlobe 그리고 XP와 PlayerLevel도 표시하며 Player가 SpellAbility를 장착할경우 화면에 표시되게 만든다.
 > AttributeMenu와 SpellMenu가 존재하여 해당 버튼을 클릭할경우 Attribute와 SpellMenu를 화면에 표시할수 있다.
 
+![UI_Overlay_Delegates](https://github.com/user-attachments/assets/4447361d-a67d-4620-8ed3-216c2ef16641)
 
+> 델리게이트를 통해서 변화가 감지되면 Overlay에 필요한 정보들을 최신화 한다.
+> Health와 Mana, XP,PlayerLevel등의 델리게이트가 있으며 값이 변하면 델리게이트를 통해서 Overlay에 표시하게 된다.
+
+
+<br/> <br>
+
+![UI_Character_Init](https://github.com/user-attachments/assets/263e8d77-2e30-42a9-ba12-2b2da221fcaf)
+![UI_HUD_InitOverlay](https://github.com/user-attachments/assets/60a7c735-084f-484f-b256-99a0ff5fbbba)
+
+> Character클래스에서 필요한 정보들(GAS의 정보들)을 HUD클래스에 넘겨주면서 초기화 한후 화면에 표시한다.
+
+![UI_Overlay_WidgetControllerSet](https://github.com/user-attachments/assets/e1e1a5c3-14d2-4e9e-bf86-060fbfb65521)
+![UI_Overlay_SetController](https://github.com/user-attachments/assets/8474b087-7093-4d5b-92cf-04edb9456068)
+
+> 블루프린트에서 WidgetControllerSet이벤트를 발생시켜서 해당 이벤트가 실행될때 실행되는 작업들이다.
+> Overlay의 SubWidget에 각각 WidgetController를 부착시켜준후 필요한 정보들을 넘겨준다.
+
+![UI_Overlay_construct](https://github.com/user-attachments/assets/b3a8af86-02eb-4d95-bc72-c57d3f21176e)
+
+> OverlayWidget의 블루프린트에서 Construct이벤트가 진행될때 AttributeMenu버튼과 SpellMenu버튼을 각각 AttributeMenu와 SpellMenu가 열리도록 설정해둔다.
+ 
 
 ## AttributeMenu
 
