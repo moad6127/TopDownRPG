@@ -268,6 +268,26 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 ## AttributeMenu
 
 
+![UI_AttributreMenu](https://github.com/user-attachments/assets/b2c4edb3-1adf-42ad-b33d-20cefad1f21a)
+
+- [AttributeMenuWidgetController 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/WidgetController/AttributeMenuWidgetController.h)
+- [AttributeMenuWidgetController  C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/WidgetController/AttributeMenuWidgetController.cpp)
+
+> Player의 Level이 증가할때 일정한 수의 Point를 주어서 Player의 Attribute를 올릴수 있게 만든것으로 각각의 SubWidget들을 모아서 하나의 AttributeMenu를 만들었다.
+> Point가 존재할경우 +버튼을 누르면 Attribute가 증가하도록 만들고 PrimaryAttribute가 증가하면 SecondaryAttribute도 증가하게 되어있어 자동으로 표시한다.
+
+
+![UI_AttributeMenu_Const](https://github.com/user-attachments/assets/3788f389-e9ea-4949-9dfe-735c6b58ad24)
+<img src="https://github.com/user-attachments/assets/fdc24c0b-3baf-4681-9a9a-1621f6bfd57c" width=70% height=70%>
+<img src="https://github.com/user-attachments/assets/91d93a60-4fd5-4020-930e-f1617863b959" width=70% height=70%>
+
+
+> AttributeMenu를 열면 각각의 필요한 작업들(Controller세팅, Tag지정)등을 한후 Attribute의 값에 대한 초기화를 진행한다.
+
+<img src="https://github.com/user-attachments/assets/d1c788ce-9b5b-42dd-b996-77fe9ca8024e" width=70% height=50%>
+<img src="https://github.com/user-attachments/assets/bc2aa57e-3b90-4dea-874c-289f274db8e2" width=70% height=50%>
+
+> 각각의 행들에 AttributeTag를 지정한후 해당 값에 대해 초기화가 진행된다.
 
 
 ## SpellMenu
