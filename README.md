@@ -21,6 +21,7 @@ GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하
     * [AttributeSet](#AttributeSet)
     * [GameplayAbility](#GameplayAbility)
   * [GameplayTag](#GameplayTag)
+  * [UI](#UI)
   * [GameSave](#GameSave) 
   
 </p>
@@ -277,6 +278,8 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > Point가 존재할경우 +버튼을 누르면 Attribute가 증가하도록 만들고 PrimaryAttribute가 증가하면 SecondaryAttribute도 증가하게 되어있어 자동으로 표시한다.
 
 
+### *Init*
+
 ![UI_AttributeMenu_Const](https://github.com/user-attachments/assets/3788f389-e9ea-4949-9dfe-735c6b58ad24)
 <img src="https://github.com/user-attachments/assets/fdc24c0b-3baf-4681-9a9a-1621f6bfd57c" width=70% height=70%>
 <img src="https://github.com/user-attachments/assets/91d93a60-4fd5-4020-930e-f1617863b959" width=70% height=70%>
@@ -288,6 +291,10 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 <img src="https://github.com/user-attachments/assets/bc2aa57e-3b90-4dea-874c-289f274db8e2" width=70% height=50%>
 
 > 각각의 행들에 AttributeTag를 지정한후 해당 값에 대해 초기화가 진행된다.
+
+### *UPGRADE*
+
+
 
 
 ## SpellMenu
