@@ -294,7 +294,12 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 ### *UPGRADE*
 
+![UI_AttributeMenu_Upgrade](https://github.com/user-attachments/assets/ca85ed4e-413b-464b-8913-1facc079058c)
+![UI_AbilitySystem_ServerUpgrade](https://github.com/user-attachments/assets/3fd7dee5-bcf9-4598-9baa-0b4c798a3791)
 
+> Player의 XP가 차서 Levelup을 하게되면 일정량의 Point를 얻게 된다. 해당 포인트를 사용해서 PrimaryAttribute의 값을 증가시킬수 있다.
+> AttributeMenu의 버튼을 누르면 Upgrade함수가 호출되고 AbilitySystem의 UpgradeAttribute가 호출되며 ServerRPC함수를 통해 값을 증가시킨다.
+> ServerRPC에서 SendGameplayEventToActor함수를 통해 올리려는 AttributeTag와 Event를 보내 GameplayEffect를 사용해 Attribute의 값이 증가된다.
 
 
 ## SpellMenu
