@@ -19,7 +19,7 @@ void UAttributeMenuWidgetController::BroadcastInitialValue()
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
 
-	AttributePointsChangedDelegate.Broadcast(GetTopDownRPGPS()->GetAttributePoints());;
+	AttributePointsChangedDelegate.Broadcast(GetTopDownRPGPS()->GetAttributePoints());
 }
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
