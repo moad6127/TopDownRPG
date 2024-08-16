@@ -305,6 +305,61 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 ## SpellMenu
 
 
+  ![UI_SpellMenu](https://github.com/user-attachments/assets/9c1d3b8b-d058-47f3-a5c4-b1785303e43f)
+
+
+- [SpellMenuController 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/WidgetController/SpellMenuWidgetController.h)
+- [SpellMenuController C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/WidgetController/SpellMenuWidgetController.cpp)
+
+> Player의 SpellAbility를 관리하는 SpellMenu이다. Offensive와 Passive tree로 나눠져 있으며,
+>  Ability의 Damage,Cooldown,Cost등을 설명하는 Description창과 Spell을 장착하기 위한 Equipped창으로 구별되어 있다.
+> OffensiveTree와 PassiveTree의 Globe에서는 각각 하나의 능력들이 Tag를 통해 연결되어 있으며, Player의 Level이 능력해제에 필요한 레벨에 도달하면 Point를 사용해 능력을 해제시킬수 있다.
+
+
+### *UPGRADE*
+
+![UI_SpellMenu_SpendPoint](https://github.com/user-attachments/assets/1f654005-8f4d-4bbb-9c93-f0464b689d96)
+![UI_ASC_ServerSpendPoint](https://github.com/user-attachments/assets/f6329e0e-adac-41dd-a1e8-3dc955e5bfab)
+
+> SpellPoint가 존재할 경우 SpellMenu의 SpendPoint버튼을 눌러 Ability를 해제하거나 레벨을 올릴수 있다.
+> AbilitySystemComponent의 ServerPRC함수를 호출해 능력을 Upgrade할수 있으며, Ability의 Status에 따라서 Ability를 해금하거나, 레벨을 올린다.
+
+![UI_SpellMenu_Status](https://github.com/user-attachments/assets/b98deba8-3fd9-4202-adeb-fb15b55d0a22)
+> Ability들의 Status로 각각 Lock,Eligible,UnLock,Equip상태가 있다.
+
+> Player의 Ability를 Upgarde한후 Status를 Update해주면 AbilityUpgrade가 끝이 난다.
+
+### *EQUIPPED*
+
+![UI_SpellMenu_GlobeSelect](https://github.com/user-attachments/assets/f807d73c-5f35-4da7-ad67-73c1713999de)
+![UI_SpellMenu_GlobeSelect_2](https://github.com/user-attachments/assets/8158072b-bb37-4ee4-92fa-836fbe0018f6)
+
+> Ability가 저장되어 있는 Globe를 클릭하게 되면 해당 함수가 호출되며 Description창 표시와 Equip버튼 활성화가 진행된다.
+
+![UI_SpellMenu_ShouldEnableButton](https://github.com/user-attachments/assets/a27187e6-59cf-499e-bf3d-eb2902ab45a4)
+
+> 만약 해당 Ability의 Status가 이상없고 SpellPoint가 존재하면 Equip버튼을 클릭할수 있게 된다.
+
+![UI_EquipAnim](https://github.com/user-attachments/assets/ec9ef7a4-6555-413d-9e68-672283878afa)
+
+> Equip버튼을 클릭하게 되면 WBP의 Animation이 작동하며 EquipSpellRow의 Offensive, Passive중 하나의 Globe를 선택해서 클릭할수 있게 된다.
+
+![UI_SpellMenu_SpellRowGlobePress](https://github.com/user-attachments/assets/2c53a72d-0349-4e06-b87e-7330045a2f27)
+
+> EquipSpellRow의 Globe를 클릭하게되면 해당 Ability의 Type이 맞는지 확인한후 AbilitySystemComponent의 ServerRPC함수인 EquipAbility함수를 호출하게 된다.
+
+ 
+![UI_ServerEquip_1](https://github.com/user-attachments/assets/43963506-3f7d-44bb-87e7-953778f2ed93)
+![UI_ServerEquip_2](https://github.com/user-attachments/assets/ceb7a4b7-2b08-4e25-a555-43f0525fee09)
+![UI_ServerEquip_3](https://github.com/user-attachments/assets/132c6468-58f2-4b24-835d-d78a92a08be6)
+
+> EquipSpellRow에 Ability를 장착하게 되면 Passive의 경우 바로 Ability 바로 활성화를 진행되며 Offensive의 경우 해당 Globe에 장착하게 된다.
+
+![UI_SpellMenu_OnEquip](https://github.com/user-attachments/assets/a8ff5e2c-ddb8-4310-bd1b-8d1b7899e4cc)
+![UI_Overlay_OnEquip](https://github.com/user-attachments/assets/2509054e-c8c4-4a48-bd88-74791a4927a0)
+
+> Ability를 장착하게 되면 SpellMenu의 EquipRow창과 Overlay의 Ability창에 최신화를 위해 해당 함수들이 델리게이트를 통해서 호출되며 각각의 창에 Ability들이 장착된다.
+
 
 
 ---------------------------------------------------------------------------------------------
