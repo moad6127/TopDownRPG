@@ -342,7 +342,8 @@ void UTopDownRPGAbilitySystemComponent::ServerSpendSpellPoint_Implementation(con
 			AbilitySpec->DynamicAbilityTags.AddTag(GameplayTag.Abilities_Status_UnLocked);
 			Status = GetStatusFromSpec(*AbilitySpec);
 		}
-		else if (Status.MatchesTagExact(GameplayTag.Abilities_Status_Equipped) || Status.MatchesTagExact(GameplayTag.Abilities_Status_UnLocked))
+		else if (Status.MatchesTagExact(GameplayTag.Abilities_Status_Equipped) ||
+			Status.MatchesTagExact(GameplayTag.Abilities_Status_UnLocked))
 		{
 			AbilitySpec->Level += 1;
 		}
@@ -359,7 +360,9 @@ void UTopDownRPGAbilitySystemComponent::ServerEquipAbility_Implementation(const 
 		const FGameplayTag& PrevSlot = GetInputTagFromSpec(*AbilitySpec);
 		const FGameplayTag& Status = GetStatusFromSpec(*AbilitySpec);
 
-		const bool bStatusValid = Status == GameplayTag.Abilities_Status_Equipped || Status == GameplayTag.Abilities_Status_UnLocked;
+		const bool bStatusValid = Status == GameplayTag.Abilities_Status_Equipped
+			|| Status == GameplayTag.Abilities_Status_UnLocked;
+
 		if (bStatusValid)
 		{
 			// Handle Activation/deactivation for passive ability

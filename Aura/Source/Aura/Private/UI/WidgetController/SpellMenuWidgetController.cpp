@@ -64,12 +64,9 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 		StopWaitForEquipDelegate.Broadcast(SelectedAbiltyType);
 		bWaitingForEquipSelection = false;
 	}
-
-
 	const FTopDownRPGGameplayTags GameplayTag = FTopDownRPGGameplayTags::Get();
 	const int32 SpellPoints = GetTopDownRPGPS()->GetSpellPoints();
 	FGameplayTag AbilityStatus;
-
 	const bool bTagValied = AbilityTag.IsValid();
 	const bool bTagNone = AbilityTag.MatchesTag(GameplayTag.Abilities_None);
 	FGameplayAbilitySpec* AbilitySpec = GetTopDownRPGASC()->GetSpecFromAbilityTag(AbilityTag);
@@ -172,7 +169,6 @@ void USpellMenuWidgetController::ShouldEnableButton(const FGameplayTag& AbilityS
 	
 	bShouldEnableSpellPointsButton = false;
 	bShouldEnableEquipButton = false;
-
 	if (AbilityStatus.MatchesTagExact(GameplayTag.Abilities_Status_Equipped))
 	{
 		bShouldEnableEquipButton = true;
