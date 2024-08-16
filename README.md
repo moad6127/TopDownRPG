@@ -329,6 +329,8 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 > Player의 Ability를 Upgarde한후 Status를 Update해주면 AbilityUpgrade가 끝이 난다.
 
+<br/> <br>
+
 ### *EQUIPPED*
 
 ![UI_SpellMenu_GlobeSelect](https://github.com/user-attachments/assets/f807d73c-5f35-4da7-ad67-73c1713999de)
@@ -348,6 +350,7 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 > EquipSpellRow의 Globe를 클릭하게되면 해당 Ability의 Type이 맞는지 확인한후 AbilitySystemComponent의 ServerRPC함수인 EquipAbility함수를 호출하게 된다.
 
+<br/> <br>
  
 ![UI_ServerEquip_1](https://github.com/user-attachments/assets/43963506-3f7d-44bb-87e7-953778f2ed93)
 ![UI_ServerEquip_2](https://github.com/user-attachments/assets/ceb7a4b7-2b08-4e25-a555-43f0525fee09)
@@ -355,8 +358,10 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 > EquipSpellRow에 Ability를 장착하게 되면 Passive의 경우 바로 Ability 바로 활성화를 진행되며 Offensive의 경우 해당 Globe에 장착하게 된다.
 
-![UI_SpellMenu_OnEquip](https://github.com/user-attachments/assets/a8ff5e2c-ddb8-4310-bd1b-8d1b7899e4cc)
-![UI_Overlay_OnEquip](https://github.com/user-attachments/assets/2509054e-c8c4-4a48-bd88-74791a4927a0)
+<br/> <br>
+
+<img src="https://github.com/user-attachments/assets/a8ff5e2c-ddb8-4310-bd1b-8d1b7899e4cc" width=70% height=50%>
+<img src="https://github.com/user-attachments/assets/2509054e-c8c4-4a48-bd88-74791a4927a0" width=70% height=50%>
 
 > Ability를 장착하게 되면 SpellMenu의 EquipRow창과 Overlay의 Ability창에 최신화를 위해 해당 함수들이 델리게이트를 통해서 호출되며 각각의 창에 Ability들이 장착된다.
 
