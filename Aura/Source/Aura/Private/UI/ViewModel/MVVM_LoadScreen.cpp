@@ -25,7 +25,6 @@ void UMVVM_LoadScreen::InitializeLoadSlots()
 
 UMVVM_LoadSlot* UMVVM_LoadScreen::GetLoadSlotViewModelByIndex(int32 Index) const
 {
-	
 	return LoadSlots.FindChecked(Index);
 }
 
