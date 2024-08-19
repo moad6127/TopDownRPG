@@ -371,7 +371,30 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 # *GameSave*
 
+![Gamesave_LoadMenu](https://github.com/user-attachments/assets/74972981-7d2c-4e0d-a168-4525c72d522f)
 
+> Player가 진행한 진행상황들을 Save하기 위해 SaveGame클래스를 사용해서 Game을 Save하는 기능을 사용한다.
+> 이때 UI를 구성한 방법인 MVC모델이 아닌 MVVM아키텍쳐 모델을 사용해서 LoadMenu를 구성하였으며 SaveGame을 통해 Player의 레벨, XP, Attribute, Spell등을 저장하고 불러올수 있도록 만들었다.
+> 또한 Map의 상태도 저장하여 Map의 진행상황도 알수 있게 하였다.
+
+ ### *MVVM모델*
+
+<img src="https://github.com/user-attachments/assets/e9f6f625-551b-4f81-8f36-882ac3dc4b75" width=70% height=70%>
+
+- [LoadSlot 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/ViewModel/MVVM_LoadSlot.h)
+- [LoadSlot C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/ViewModel/MVVM_LoadSlot.cpp)
+<br/> <br>
+- [LoadSlot 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/ViewModel/MVVM_LoadScreen.h)
+- [LoadScreen C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/ViewModel/MVVM_LoadScreen.cpp)
+  
+
+
+> Unreal엔진의 ViewModel플러그인을 사용해서 MVVM모델을 사용할수 있게 된다. 아직 베타 버전이기 때문에 보완할점은 많이 있다.
+> 하지만 MVVM플러그인을 사용하면 엔진에서 바인딩을 통해서 간단하게 Widget변수의 값들을 변경할수 있게 된다.
+
+
+
+ 
 
 ---------------------------------------------------------------------------------------------
 
