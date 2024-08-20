@@ -387,10 +387,19 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 - [LoadSlot 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/UI/ViewModel/MVVM_LoadScreen.h)
 - [LoadScreen C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/UI/ViewModel/MVVM_LoadScreen.cpp)
   
-
-
 > Unreal엔진의 ViewModel플러그인을 사용해서 MVVM모델을 사용할수 있게 된다. 아직 베타 버전이기 때문에 보완할점은 많이 있다.
 > 하지만 MVVM플러그인을 사용하면 엔진에서 바인딩을 통해서 간단하게 Widget변수의 값들을 변경할수 있게 된다.
+
+
+
+![GameSave_MVVM_FieldNotify](https://github.com/user-attachments/assets/68b24faf-d44e-4047-a90b-44a556c97c54)
+![GameSave_MVVM_Cpp](https://github.com/user-attachments/assets/75a8bf32-2e7b-4710-9f48-c88c7f04681a)
+<img src="https://github.com/user-attachments/assets/4fa0557c-6f4c-4a57-8e17-b116c5244c46" width=70% height=70%>
+
+> MVVM모델에서 SourceCode로 FieldNotify를 하게되면 Source코드를 통해 값이 변경될때 에디터에서 쉽게 바인딩하여 화면의 값을 변경시킬수 있게 된다.
+
+
+### *GameSave*
 
 
 
