@@ -399,7 +399,17 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > MVVM모델에서 SourceCode로 FieldNotify를 하게되면 Source코드를 통해 값이 변경될때 에디터에서 쉽게 바인딩하여 화면의 값을 변경시킬수 있게 된다.
 
 
-### *GameSave*
+### *Save*
+
+- [SaveGame 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/Game/LoadScreenSaveGame.h)
+- [SaveGame C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/Game/LoadScreenSaveGame.cpp)
+
+> Unreal의 SaveGame클래스를 사용해서 Player의 상태와 Attribute등을 저장한다.
+
+![GameSave_SaveClassPlayer](https://github.com/user-attachments/assets/f0b10669-f3f8-492d-add3-e205e3450368)  ![GameSave_SaveClass_GAS](https://github.com/user-attachments/assets/1b78db8c-11ae-43ad-8d3e-6927a4145c44)
+
+
+> SaveGame클래스에 Player의 저장할 정보들을 변수로 선언을 해둔다음 저장이 필요할때 해당 변수들의 값을 채워서 저장하게 된다.
 
 
 
