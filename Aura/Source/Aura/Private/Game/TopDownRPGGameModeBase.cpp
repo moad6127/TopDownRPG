@@ -123,7 +123,6 @@ void ATopDownRPGGameModeBase::SaveWorldState(UWorld* World, const FString& Desti
 		}
 		UGameplayStatics::SaveGameToSlot(SaveGame, TopDownGI->LoadSlotName, TopDownGI->LoadSlotIndex);
 	}
-
 }
 
 void ATopDownRPGGameModeBase::LoadWorldState(UWorld* World) const
