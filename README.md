@@ -401,19 +401,32 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 ### *Save*
 
+![GameSave_CheckPoint](https://github.com/user-attachments/assets/8a630367-e2ba-4c95-ae9c-5b1304715f07)
+
+
 - [SaveGame 헤더파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Public/Game/LoadScreenSaveGame.h)
 - [SaveGame C++파일](https://github.com/moad6127/TopDownRPG/blob/master/Aura/Source/Aura/Private/Game/LoadScreenSaveGame.cpp)
 
 > Unreal의 SaveGame클래스를 사용해서 Player의 상태와 Attribute등을 저장한다.
 
-![GameSave_SaveClassPlayer](https://github.com/user-attachments/assets/f0b10669-f3f8-492d-add3-e205e3450368)  ![GameSave_SaveClass_GAS](https://github.com/user-attachments/assets/1b78db8c-11ae-43ad-8d3e-6927a4145c44)
 
+<p align="center"> 
+  <img src="https://github.com/user-attachments/assets/064247a9-f284-40e0-af9e-b9eda83df4c1" align="center" width="32%">
+  <img src="https://github.com/user-attachments/assets/f0b10669-f3f8-492d-add3-e205e3450368" align="center" width="32%">
+  <img src="https://github.com/user-attachments/assets/1b78db8c-11ae-43ad-8d3e-6927a4145c44" align="center" width="32%">
+<figcaption align="center"></figcaption></p>
 
 > SaveGame클래스에 Player의 저장할 정보들을 변수로 선언을 해둔다음 저장이 필요할때 해당 변수들의 값을 채워서 저장하게 된다.
+> 현재 프로젝트는 3개의 Slot을 사용하여 게임을 저장하고 불러올수 있으며 LoadMenu에서 해당Slot을 선택해서 불러올수 있다.
 
+![GameSave_Checkpoint_Overlap](https://github.com/user-attachments/assets/d09211f5-29ce-4ebe-af3c-1174348ab766)
+![GameSave_Character_SaveProgress1](https://github.com/user-attachments/assets/f0d387fb-b51c-41d3-a859-052dfd213e0f)
+![GameSave_Character_SaveProgress2](https://github.com/user-attachments/assets/e45f9e46-8f73-45c4-89f4-eb4ebf0e5534)
 
+> Character가 CheckpointActor에 Overlap하게되면 SaveProgress가 작동하게 되며 게임이 처음에 지정한 Slot에 저장되게 된다.
+> Character가 Load될 위치인 PlayrStartTag가 저장되며 Player의 Level,XP,Point들이 저장되고 Attribute중 PramaryAttribute가 저장된다.
+> 이후 Player가 포인트를 사용한 Ability들이 Save파일에 저장이 된다.
 
- 
 
 ---------------------------------------------------------------------------------------------
 
