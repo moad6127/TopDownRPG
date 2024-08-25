@@ -427,6 +427,23 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > Character가 Load될 위치인 PlayrStartTag가 저장되며 Player의 Level,XP,Point들이 저장되고 Attribute중 PramaryAttribute가 저장된다.
 > 이후 Player가 포인트를 사용한 Ability들이 Save파일에 저장이 된다.
 
+### *WorldSave*
+
+
+![GameSave_Checkpoint_Overlap](https://github.com/user-attachments/assets/0b176b59-93a4-4cc8-bdbc-99fa41c522d0)
+
+> Checkpoint가 저장하게 될때 Player의 데이터뿐 아니라 World의 저장할 필요가 있는 Actor들도 저장하게 된다.
+> GameMode의 SaveWorldState함수를 통해서 World에 저장이 필요한 액터들이 저장이 된다.
+
+![GameSave_GameMode_SaveWorld](https://github.com/user-attachments/assets/89b9dedb-e8c6-4457-a7df-bc015c651c1a)
+![GameSave_GameMode_SaveWorld2](https://github.com/user-attachments/assets/405499fa-79ed-401e-9c68-3c87fcf0ca5c)
+
+> GameInstance를 통해 저장될 SlotName과 Index를 얻은후 SaveClass에 저장할 Map의 이름과 Map을 저장한다.
+> 다음으로 해당 World에 있는 모든 Actor들을 확인하여 Save가 필요한 Actor일때 FMemoryWriter를 통해 Byte형식으로 만든후
+> Serialize를 통해 SaveClass에 저장하게 된다.
+
+
+
 
 ---------------------------------------------------------------------------------------------
 
