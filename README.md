@@ -399,7 +399,7 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > MVVM모델에서 SourceCode로 FieldNotify를 하게되면 Source코드를 통해 값이 변경될때 에디터에서 쉽게 바인딩하여 화면의 값을 변경시킬수 있게 된다.
 
 
-### *Save*
+### *PlayerSave*
 
 ![GameSave_CheckPoint](https://github.com/user-attachments/assets/8a630367-e2ba-4c95-ae9c-5b1304715f07)
 
@@ -442,8 +442,26 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > 다음으로 해당 World에 있는 모든 Actor들을 확인하여 Save가 필요한 Actor일때 FMemoryWriter를 통해 Byte형식으로 만든후
 > Serialize를 통해 SaveClass에 저장하게 된다.
 
+### *PlayerLoad*
 
+![GameSave_Character_LoadProgress](https://github.com/user-attachments/assets/e1b1638f-583c-40ab-a717-007ac37d5785)
+![GameSave_Character_LoadProgress2](https://github.com/user-attachments/assets/76543c0d-72e7-4d57-b9a0-680e05d28e93)
 
+> Player는 저장된 Data를 Load하여 이전에 Play한 Data를 사용할수 있다.
+> 처음 Character를 만들었는지, 저장된 Data를 사용해야 하는지는 SaveGameClass의 bFirstTimeLoadIn변수를 통해서 결정되며 이전에 한번이라도 Save를 진행한 Data는 해당 변수가 True로 설정된다.
+> SaveGameClass에 저장된 Ability, Level,XP,Point 그리고 Attribute를 Player에게 Load하게 된다.
+
+![GameSave_CharacterAbilityLoad](https://github.com/user-attachments/assets/4d86992c-91fb-4133-b203-c62b5e84ef2c)
+
+> SaveGame에 저장된 Ability들을 Load하는 함수이다.
+> 단순히 저장된 Ability들을 Spec으로 만들고 Type에 따라서 바로 Active하는지와 단순히 Give를 하는지 판단하여 Ability를 Player에게 부여한다.
+
+![GameSave_Character_AttributeLoad](https://github.com/user-attachments/assets/3f752345-cc08-4c25-9643-ab3eac4e3ad5)
+![GameSave_Character_AttributeLoad2](https://github.com/user-attachments/assets/b986cc0a-ea0a-4c35-87b2-b9423e6ebf60)
+
+> SaveGame에 저장된 Attribute를 Load하는 함수이다.
+> SaveGame에 저장되는 Attirbute는 PrimaryAttribute 4종류만 저장되며 저장된 Attribute들을 SetByCaller형식으로 Playe에게 부여하게 된다.
+> 부여된 PriamryAttribute를 바탕으로 SecondaryAttribute와 VitalAttribute를 수학적으로 계산해서 Character에게 적용하면 Attribute의 Load는 끝이 난다.
 
 ---------------------------------------------------------------------------------------------
 
