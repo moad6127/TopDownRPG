@@ -23,7 +23,6 @@ void UTopDownRPGAbilitySystemComponent::AddCharacterAbilitiesFromSaveData(ULoadS
 	for (const FSavedAbility& Data : SaveData->SavedAbiliteis)
 	{
 		const TSubclassOf<UGameplayAbility> LoadedAbilityClass = Data.GameplayAbility;
-
 		FGameplayAbilitySpec LoadedAbilitySpec = FGameplayAbilitySpec(LoadedAbilityClass, Data.AbilityLevel);
 		
 		LoadedAbilitySpec.DynamicAbilityTags.AddTag(Data.AbilitySlot);

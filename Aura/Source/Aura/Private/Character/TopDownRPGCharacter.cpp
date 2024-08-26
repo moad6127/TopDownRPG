@@ -75,19 +75,17 @@ void ATopDownRPGCharacter::LoadProgress()
 			return;
 		}
 
-		if (SaveData->bFirstTimeLoadIn)
+		if (SaveData->bFirstTimeLoadIn) //When first made a character
 		{
 			InitializeDefaultAttributes();
 			AddCharacterAbilities();
 		}
-		else
+		else // When loading the saved
 		{
 			if (UTopDownRPGAbilitySystemComponent* TopDownASC = Cast<UTopDownRPGAbilitySystemComponent>(AbilitySystemComponent))
 			{
 				TopDownASC->AddCharacterAbilitiesFromSaveData(SaveData);
 			}
-
-
 			if (ATopDownRPGPlayerState* TopDownPlayerState = Cast<ATopDownRPGPlayerState>(GetPlayerState()))
 			{
 				TopDownPlayerState->SetLevel(SaveData->PlayerLevel);

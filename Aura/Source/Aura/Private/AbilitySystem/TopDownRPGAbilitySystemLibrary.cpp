@@ -117,14 +117,12 @@ void UTopDownRPGAbilitySystemLibrary::InitializeDefaultsAttributesFromSaveData(c
 
 	const FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->PrimaryAttributes_SetByCaller, 1.f, EffectContextHandle);
 
-
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle,GameplayTag.Attributes_Primary_Strength, SaveGame->Strength);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTag.Attributes_Primary_Intelligence, SaveGame->Intelligence);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTag.Attributes_Primary_Resilience, SaveGame->Resilience);
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTag.Attributes_Primary_Vigor, SaveGame->Vigor);
 
 	ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data);
-
 
 	FGameplayEffectContextHandle SecondaryAttributeContextHandle = ASC->MakeEffectContext();
 	SecondaryAttributeContextHandle.AddSourceObject(SourceAvatarActor);
