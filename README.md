@@ -467,4 +467,6 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 ### *World State Load*
 
+> Game에서 Player가 이미 찍은 CheckPoint와 Player의 진행상황들을 알려주는 Beacon등의 Actor를 저장한후 Load하는 방법이다.
+> 저장과 비슷하게 Byte로 저장된 것을 Serialize를 통해서 Load하며 필요한 경우 Location을 지정 하기도 한다.
 
