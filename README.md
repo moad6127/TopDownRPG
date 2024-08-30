@@ -444,6 +444,11 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 ### *PlayerLoad*
 
+
+![GameSave_Character_PossessedBy](https://github.com/user-attachments/assets/dac04a16-7145-4edc-be9a-cc629df0281d)
+> Character클래스의 PossessedBy 함수에서 Load함수가 호출이 된다.
+
+
 ![GameSave_Character_LoadProgress](https://github.com/user-attachments/assets/e1b1638f-583c-40ab-a717-007ac37d5785)
 ![GameSave_Character_LoadProgress2](https://github.com/user-attachments/assets/76543c0d-72e7-4d57-b9a0-680e05d28e93)
 
@@ -469,4 +474,17 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 > Game에서 Player가 이미 찍은 CheckPoint와 Player의 진행상황들을 알려주는 Beacon등의 Actor를 저장한후 Load하는 방법이다.
 > 저장과 비슷하게 Byte로 저장된 것을 Serialize를 통해서 Load하며 필요한 경우 Location을 지정 하기도 한다.
+
+![GameSave_Character_PossessedBy](https://github.com/user-attachments/assets/8b91c2f5-c019-42a1-8b3d-380330579f73)
+
+> PlayerLoad와 같이 PossessedBy함수에서 GameMode클래스의 WorldLoad함수가 호출이 된다.
+
+
+![GameSave_WorldLoad](https://github.com/user-attachments/assets/334b16da-6f6b-4946-88e6-c8a12dff351b)
+![GameSave_WorldLoad2](https://github.com/user-attachments/assets/290406cc-5975-4edb-ac36-b7c2b50b210d)
+
+> SaveGame에서 저장된 Map과 Map에 존재하는 Actor들을 전부 확인하며 해당 Actor가 Load를 해야하는 Actor인지 판별한후 ActorName으로 LoadActor를 구별하게 된다.
+> WorldSave와 비슷하게 진행되며 FMemoryReader를 통해 MemoryReader를 만들고 Byte로 저장된 World의 Actor들을 다시 Serialize화 해서 Load하게 된다.
+> 만약 위치를 조정할 필요가 있다고 판단되면 SaveGame클래스에 저장된 Transform을 사용해서 Actor의 위치를 조정하게 된다.
+
 
