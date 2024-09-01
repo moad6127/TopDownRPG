@@ -468,7 +468,6 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > SaveGame에 저장되는 Attirbute는 PrimaryAttribute 4종류만 저장되며 저장된 Attribute들을 SetByCaller형식으로 Playe에게 부여하게 된다.
 > 부여된 PriamryAttribute를 바탕으로 SecondaryAttribute와 VitalAttribute를 수학적으로 계산해서 Character에게 적용하면 Attribute의 Load는 끝이 난다.
 
----------------------------------------------------------------------------------------------
 
 ### *World State Load*
 
@@ -487,4 +486,7 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > WorldSave와 비슷하게 진행되며 FMemoryReader를 통해 MemoryReader를 만들고 Byte로 저장된 World의 Actor들을 다시 Serialize화 해서 Load하게 된다.
 > 만약 위치를 조정할 필요가 있다고 판단되면 SaveGame클래스에 저장된 Transform을 사용해서 Actor의 위치를 조정하게 된다.
 
+### *WorldTravel*
+
+> 게임의 Map을 이동하는 담당하는 Actor를 만들어서 World를 이동 하기.
 
