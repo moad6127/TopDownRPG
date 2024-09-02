@@ -4,12 +4,29 @@
 
 <br/> <br>
 
->이 프로젝트는 기본적인 RPG게임을 Unreal의 GAS를 활용해서 만든 프로젝트로
-GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하고 능력에 필요한 리소스들과 능력의 Damage들을
-속성을 통해 수학적으로 계산하며 사용할수 있도록 만들었다.
-
-
 ![Main](https://github.com/user-attachments/assets/85c72097-9694-4a92-a32d-e2517885a467)
+
+> GAS를 사용하여 기본적인 RPG게임을 만드는 프로젝트로
+
+> Enemy를 제거하면 경험치를 얻어 LevelUp이 되는 LEVELUPSystem과 LevelUp이 진행되면 획득하는 Point를 사용해 능력치를 올릴수 있는 AttributeSystem
+
+> Point를 사용해 Skill를 얻고 Skill을 Levelup하는 SkillTreeSystem이 존재하며
+
+> Character의 진행상황과 Level,Attribute,Skill등을 저장할수 있는 SaveSystem이 존재하며
+
+> 이러한 System들을 GAS를 사용해서 만드는 과정들을 순차적으로 배우게 됩니다.
+
+<br/> <br>
+
+> 해당 프로젝트는 유데미 사이트의 Stephen Ulibarri 강사의 Create a multiplayer RPG with Unreal Engine's Gameplay Ability System (GAS) 강의를 보고 만들었으며
+
+> 나오는 모든 리소스는 해당 강좌에서 나온 리소스 입니다.
+
+
+
+
+
+
 
 
 ## 목차
@@ -488,5 +505,17 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 ### *WorldTravel*
 
-> 게임의 Map을 이동하는 담당하는 Actor를 만들어서 World를 이동 하기.
+
+![ScreenShot00013](https://github.com/user-attachments/assets/03c1fc15-3e89-4bd7-9b6f-88a8700f337e)
+
+> 게임의 Map을 이동하는 담당하는 Actor를 만들어서 Character가 들어가면 Map을 이동하게 만들기.
+
+![GameSave_WorldTarvel](https://github.com/user-attachments/assets/a1d5599f-e5bb-4c53-93c7-f0b907f5c60e)
+![GameSave_WorldTravel_OnSp](https://github.com/user-attachments/assets/0c227cc1-942e-48ba-9853-8eeee19a01be)
+
+> Map이동을 담당하는 Actor클래스에 이동할 Map과 PlayerStartTag를 만들고, 지정된 위치에 Character가 이동하면 SaveProgress가 진행되며,
+> Map을 이동하게 만들기.
+
+
+-------------------------------------------------------------------------------------------------------------------
 
