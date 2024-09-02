@@ -4,12 +4,29 @@
 
 <br/> <br>
 
->이 프로젝트는 기본적인 RPG게임을 Unreal의 GAS를 활용해서 만든 프로젝트로
-GAS를 사용해 Character의 속성(Attributes)과 능력(Ability)을 설정하고 능력에 필요한 리소스들과 능력의 Damage들을
-속성을 통해 수학적으로 계산하며 사용할수 있도록 만들었다.
-
-
 ![Main](https://github.com/user-attachments/assets/85c72097-9694-4a92-a32d-e2517885a467)
+
+> GAS를 사용하여 기본적인 RPG게임을 만드는 프로젝트로
+
+> Enemy를 제거하면 경험치를 얻어 LevelUp이 되는 LEVELUPSystem과 LevelUp이 진행되면 획득하는 Point를 사용해 능력치를 올릴수 있는 AttributeSystem
+
+> Point를 사용해 Skill를 얻고 Skill을 Levelup하는 SkillTreeSystem이 존재하며
+
+> Character의 진행상황과 Level,Attribute,Skill등을 저장할수 있는 SaveSystem이 존재하며
+
+> 이러한 System들을 GAS를 사용해서 만드는 과정들을 순차적으로 배우게 됩니다.
+
+<br/> <br>
+
+> 해당 프로젝트는 유데미 사이트의 Stephen Ulibarri 강사의 Create a multiplayer RPG with Unreal Engine's Gameplay Ability System (GAS) 강의를 보고 만들었으며
+
+> 나오는 모든 리소스는 해당 강좌에서 나온 리소스 입니다.
+
+
+
+
+
+
 
 
 ## 목차
@@ -444,6 +461,11 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 
 ### *PlayerLoad*
 
+
+![GameSave_Character_PossessedBy](https://github.com/user-attachments/assets/dac04a16-7145-4edc-be9a-cc629df0281d)
+> Character클래스의 PossessedBy 함수에서 Load함수가 호출이 된다.
+
+
 ![GameSave_Character_LoadProgress](https://github.com/user-attachments/assets/e1b1638f-583c-40ab-a717-007ac37d5785)
 ![GameSave_Character_LoadProgress2](https://github.com/user-attachments/assets/76543c0d-72e7-4d57-b9a0-680e05d28e93)
 
@@ -463,10 +485,37 @@ GAS에서는 거의 모든 클래스에서 GameplayTag가 사용되며 액터에
 > SaveGame에 저장되는 Attirbute는 PrimaryAttribute 4종류만 저장되며 저장된 Attribute들을 SetByCaller형식으로 Playe에게 부여하게 된다.
 > 부여된 PriamryAttribute를 바탕으로 SecondaryAttribute와 VitalAttribute를 수학적으로 계산해서 Character에게 적용하면 Attribute의 Load는 끝이 난다.
 
----------------------------------------------------------------------------------------------
 
 ### *World State Load*
 
 > Game에서 Player가 이미 찍은 CheckPoint와 Player의 진행상황들을 알려주는 Beacon등의 Actor를 저장한후 Load하는 방법이다.
 > 저장과 비슷하게 Byte로 저장된 것을 Serialize를 통해서 Load하며 필요한 경우 Location을 지정 하기도 한다.
+
+![GameSave_Character_PossessedBy](https://github.com/user-attachments/assets/8b91c2f5-c019-42a1-8b3d-380330579f73)
+
+> PlayerLoad와 같이 PossessedBy함수에서 GameMode클래스의 WorldLoad함수가 호출이 된다.
+
+
+![GameSave_WorldLoad](https://github.com/user-attachments/assets/334b16da-6f6b-4946-88e6-c8a12dff351b)
+![GameSave_WorldLoad2](https://github.com/user-attachments/assets/290406cc-5975-4edb-ac36-b7c2b50b210d)
+
+> SaveGame에서 저장된 Map과 Map에 존재하는 Actor들을 전부 확인하며 해당 Actor가 Load를 해야하는 Actor인지 판별한후 ActorName으로 LoadActor를 구별하게 된다.
+> WorldSave와 비슷하게 진행되며 FMemoryReader를 통해 MemoryReader를 만들고 Byte로 저장된 World의 Actor들을 다시 Serialize화 해서 Load하게 된다.
+> 만약 위치를 조정할 필요가 있다고 판단되면 SaveGame클래스에 저장된 Transform을 사용해서 Actor의 위치를 조정하게 된다.
+
+### *WorldTravel*
+
+
+![ScreenShot00013](https://github.com/user-attachments/assets/03c1fc15-3e89-4bd7-9b6f-88a8700f337e)
+
+> 게임의 Map을 이동하는 담당하는 Actor를 만들어서 Character가 들어가면 Map을 이동하게 만들기.
+
+![GameSave_WorldTarvel](https://github.com/user-attachments/assets/a1d5599f-e5bb-4c53-93c7-f0b907f5c60e)
+![GameSave_WorldTravel_OnSp](https://github.com/user-attachments/assets/0c227cc1-942e-48ba-9853-8eeee19a01be)
+
+> Map이동을 담당하는 Actor클래스에 이동할 Map과 PlayerStartTag를 만들고, 지정된 위치에 Character가 이동하면 SaveProgress가 진행되며,
+> Map을 이동하게 만들기.
+
+
+-------------------------------------------------------------------------------------------------------------------
 
